@@ -3,8 +3,8 @@ Contributors: codepopular, shamimtpi
 Tags: max upload file size, increase upload limit, increase file size limit, upload limit, post max size, upload file size, upload_max_filesize
 Requires at least: 3.0
 Requires PHP: 5.6
-Tested up to: 5.6
-Stable tag: 1.0.3
+Tested up to: 5.7
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,11 @@ Or if needed, install manually;
 
 
 == Changelog ==
+
+1.0.4
+-------------
+* System Status Added.
+* WordPress latest version 5.7 compatibility checked.
 
 1.0.3
 -------------

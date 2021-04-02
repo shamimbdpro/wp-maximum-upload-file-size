@@ -11,7 +11,7 @@
 * Requires at least: 4.0
 * Tested up to: 5.7
 * Requires PHP: 5.6
-* @coypright: -2020 CodePopular (support: support@codepopular.com)
+* @coypright: -2021 CodePopular (support: support@codepopular.com)
 */
 
 define('WMUFS_PLUGIN_FILE', __FILE__);
