@@ -136,94 +136,94 @@ $wmufs_check_dom_extension_status = wmufs_check_dom_extension() != '1' ? 0 : '1'
 $system_status = array(
 
     array(
-        'title'   => esc_html__( 'PHP Version', 'wp-maximum-upload-file-size' ),
-        'version' => esc_html__('Current Version:  ', 'wp-maximum-upload-file-size') . $wmufs_current_php_version,
-        'status'  => $wmufs_php_version_status,
+        'title'           => esc_html__( 'PHP Version', 'wp-maximum-upload-file-size' ),
+        'version'         => esc_html__('Current Version :  ', 'wp-maximum-upload-file-size') . $wmufs_current_php_version,
+        'status'          => $wmufs_php_version_status,
         'success_message' => esc_html__( '- ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required Version: ', 'wp-maximum-upload-file-size' ) . $wmufs_minimum_php_version,//phpcs:ignore
+        'error_message' => esc_html__( 'Recommend Version : ', 'wp-maximum-upload-file-size' ) . $wmufs_minimum_php_version,//phpcs:ignore
     ),
 
     array(
-        'title'   => esc_html__( 'WordPress Version', 'wp-maximum-upload-file-size' ),
-        'version' => $wmufs_wp_current_version,
-        'status'  => $wmufs_wp_version_status,
+        'title'           => esc_html__( 'WordPress Version', 'wp-maximum-upload-file-size' ),
+        'version'         => $wmufs_wp_current_version,
+        'status'          => $wmufs_wp_version_status,
         'success_message' => esc_html__( '- ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required: ', 'wp-maximum-upload-file-size') . $wmufs_minimum_wp_version , //phpcs:ignore
+        'error_message' => esc_html__( 'Recommend : ', 'wp-maximum-upload-file-size') . $wmufs_minimum_wp_version , //phpcs:ignore
     ),
 
     array(
-        'title'   => esc_html__( 'Woocommerce Version', 'wp-maximum-upload-file-size' ),
-        'version' => $wmufs_wc_current_version,
-        'status'  => $wmufs_wc_status,
+        'title'           => esc_html__( 'Woocommerce Version', 'wp-maximum-upload-file-size' ),
+        'version'         => $wmufs_wc_current_version,
+        'status'          => $wmufs_wc_status,
         'success_message' => esc_html__( '- ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required: ', 'wp-maximum-upload-file-size') . $wmufs_minimum_wc_version, //phpcs:ignore
+        'error_message' => esc_html__( 'Recommend : ', 'wp-maximum-upload-file-size') . $wmufs_minimum_wc_version, //phpcs:ignore
     ),
 
     array(
-        'title'   => esc_html__( 'WordPress Upload Limit', 'wp-maximum-upload-file-size' ),
-        'version' => wmufs_wp_minimum_upload_file_size(),
-        'status'  => $wmufs_wp_upload_size_status,
+        'title'           => esc_html__( 'Maximum Upload Limit set by WordPress', 'wp-maximum-upload-file-size' ),
+        'version'         => wmufs_wp_minimum_upload_file_size(),
+        'status'          => $wmufs_wp_upload_size_status,
         'success_message' => esc_html__( '- ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required:', 'wp-maximum-upload-file-size' ) . $wmufs_wp_minimum_upload_file_size,	//phpcs:ignore
+        'error_message' => esc_html__( 'Recommend : ', 'wp-maximum-upload-file-size' ) . $wmufs_wp_minimum_upload_file_size,	//phpcs:ignore
     ),
 
     array(
-        'title'   => esc_html__( 'WordPress Upload Limit Set By Hosting Provider', 'wp-maximum-upload-file-size' ),
-        'version' => wmufs_wp_upload_size_by_from_hosting(),
-        'status'  => $wmufs_wp_upload_size_status_from_hosting,
+        'title'           => esc_html__( 'Maximum Upload Limit Set By Hosting Provider', 'wp-maximum-upload-file-size' ),
+        'version'         => wmufs_wp_upload_size_by_from_hosting(),
+        'status'          => $wmufs_wp_upload_size_status_from_hosting,
         'success_message' => esc_html__( '- ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required:', 'wp-maximum-upload-file-size' ) . $wmufs_wp_minimum_upload_file_size, //phpcs:ignore
+        'error_message' => esc_html__( 'Recommend :  ', 'wp-maximum-upload-file-size' ) . $wmufs_wp_minimum_upload_file_size, //phpcs:ignore
     ),
 
     array(
-        'title'   => esc_html__( 'PHP Limit Time', 'wp-maximum-upload-file-size' ),
-        'version' => esc_html__('Current Limit Time: ', 'wp-maximum-upload-file-size') . $wmufs_php_current_limit_time,
-        'status'  => $wmufs_php_limit_time_status,
+        'title'           => esc_html__( 'PHP Limit Time', 'wp-maximum-upload-file-size' ),
+        'version'         => esc_html__('Current Limit Time: ', 'wp-maximum-upload-file-size') . $wmufs_php_current_limit_time,
+        'status'          => $wmufs_php_limit_time_status,
         'success_message' => esc_html__( '- Ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Required:', 'wp-maximum-upload-file-size' ) . $wmufs_php_minimum_limit_time,	//phpcs:ignore
+        'error_message' => esc_html__( 'Recommend : ', 'wp-maximum-upload-file-size' ) . $wmufs_php_minimum_limit_time,	//phpcs:ignore
     ),
 
 
     array(
-        'title'   => esc_html__( 'WordPress Upload Directory Writable Permission', 'wp-maximum-upload-file-size' ),
-        'version' => '',
-        'status'  => $wmufs_uplaod_folder_writable_status,
+        'title'           => esc_html__( 'WordPress Upload Directory Writable Permission', 'wp-maximum-upload-file-size' ),
+        'version'         => '',
+        'status'          => $wmufs_uplaod_folder_writable_status,
         'success_message' => esc_html__( 'Writable - Ok', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Upload folder not writable permission', 'wp-maximum-upload-file-size' ),
+        'error_message'   => esc_html__( 'Upload folder not writable permission', 'wp-maximum-upload-file-size' ),
     ),
 
     array(
-        'title'   => esc_html__( 'WordPress Debug Mode', 'wp-maximum-upload-file-size' ),
-        'version' => '',
-        'status'  => $wmufs_wp_debug_status,
+        'title'           => esc_html__( 'WordPress Debug Mode', 'wp-maximum-upload-file-size' ),
+        'version'         => '',
+        'status'          => $wmufs_wp_debug_status,
         'success_message' => esc_html__( 'WordPress Debug Mode is On', 'wp-maximum-upload-file-size' ),
-        'error_message' => __( '<b>WP_DEBUG_LOG</b> is false. Plugin can not write error logs if WP_DEBUG_LOG is set to false. You can learn more about debugging in WordPress from <a target="_blank" href="https://wordpress.org/support/article/debugging-in-wordpress/">here</a>', 'wp-maximum-upload-file-size' ),
+        'error_message'   => __( '<b>WP_DEBUG_LOG</b> is false. Plugin can not write error logs if WP_DEBUG_LOG is set to false. You can learn more about debugging in WordPress from <a target="_blank" href="https://wordpress.org/support/article/debugging-in-wordpress/">here</a>', 'wp-maximum-upload-file-size' ),
     ),
 
     array(
-        'title'   => esc_html__( 'zipArchive Extension', 'wp-maximum-upload-file-size' ),
-        'version' => '',
-        'status'  => $wmufs_check_zip_extension_status,
+        'title'           => esc_html__( 'zipArchive Extension', 'wp-maximum-upload-file-size' ),
+        'version'         => '',
+        'status'          => $wmufs_check_zip_extension_status,
         'success_message' => esc_html__( 'Enable', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Please enable zip extension from hosting.', 'wp-maximum-upload-file-size' ),
+        'error_message'   => esc_html__( 'Please enable zip extension from hosting.', 'wp-maximum-upload-file-size' ),
     ),
 
     array(
-        'title'   => esc_html__( 'MBString extension', 'wp-maximum-upload-file-size' ),
-        'version' => '',
-        'status'  => $wmufs_check_mbstring_extension_status,
+        'title'           => esc_html__( 'MBString extension', 'wp-maximum-upload-file-size' ),
+        'version'         => '',
+        'status'          => $wmufs_check_mbstring_extension_status,
         'success_message' => esc_html__( 'Enable', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Please enable MBString extension from hosting.', 'wp-maximum-upload-file-size' ),
+        'error_message'   => esc_html__( 'Please enable MBString extension from hosting.', 'wp-maximum-upload-file-size' ),
     ),
 
     array(
-        'title'   => esc_html__( 'Dom extension', 'wp-maximum-upload-file-size' ),
-        'version' => '',
-        'status'  => $wmufs_check_dom_extension_status,
+        'title'           => esc_html__( 'Dom extension', 'wp-maximum-upload-file-size' ),
+        'version'         => '',
+        'status'          => $wmufs_check_dom_extension_status,
         'success_message' => esc_html__( 'Enable', 'wp-maximum-upload-file-size' ),
-        'error_message' => esc_html__( 'Dom extension is not enable from hosting.', 'wp-maximum-upload-file-size' ),
+        'error_message'   => esc_html__( 'Dom extension is not enable from hosting.', 'wp-maximum-upload-file-size' ),
     ),
 );
-?>
+
 
 
