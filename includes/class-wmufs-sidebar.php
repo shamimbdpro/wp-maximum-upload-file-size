@@ -37,9 +37,9 @@
 <div class="wmufs_card_mini">
     <div class="wmufs-title">
         <div class="wmufs-recommended-content">
-            <div class="wmufs-btn wmufs_support_btn">
-                <span class="dashicons dashicons-money"></span><a target="_blank" href="<?php echo esc_url_raw('https://codepopular.com/contact/');?>"><?php esc_html_e('Contact with us', 'wp-maximum-upload-file-size'); ?></a>
-            </div>
+            <a target="_blank" href="<?php echo esc_url_raw('https://codepopular.com/contact/');?>"> <div class="wmufs-btn wmufs_support_btn">
+                <span class="dashicons dashicons-money"></span> <?php esc_html_e(' Get Help', 'wp-maximum-upload-file-size'); ?>
+            </div></a>
         </div>
     </div>
 </div>
