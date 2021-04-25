@@ -5,7 +5,7 @@
 * Author: CodePopular
 * Author URI: https://profiles.wordpress.org/codepopular/
 * Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
-* Version: 1.0.4
+* Version: 1.0.5
 * License: GPL2
 * Text Domain: wp-maximum-upload-file-size
 * Requires at least: 4.0
@@ -18,7 +18,7 @@ define('WMUFS_PLUGIN_FILE', __FILE__);
 define('WMUFS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('WMUFS_PLUGIN_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('WMUFS_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
-define('WMUFS_PLUGIN_VERSION', '1.0.4');
+define('WMUFS_PLUGIN_VERSION', '1.0.5');
 
 /**
  * Class Codepopular_WMUFS
@@ -29,21 +29,25 @@ class Codepopular_WMUFS
     if ( is_admin() ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'wmufs_style_and_script' ));
       add_action('admin_menu', array( __CLASS__, 'upload_max_file_size_add_pages' ));
-      add_filter('install_plugins_table_api_args_featured', array( __CLASS__, 'featured_plugins_tab' ));
       add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( __CLASS__, 'plugin_action_links' ));
       add_filter('plugin_row_meta', array( __CLASS__, 'plugin_meta_links' ), 10, 2);
       add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
 
-      if ( isset($_POST['upload_max_file_size_field'])
-          && wp_verify_nonce($_POST['upload_max_file_size_nonce'], 'upload_max_file_size_action')
-          && is_numeric($_POST['upload_max_file_size_field']) ) {
+      if ( isset($_POST['upload_max_file_size_field']) ) {
+            $retrieved_nonce = isset( $_POST['upload_max_file_size_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['upload_max_file_size_nonce'] ) ) : '';
+            if ( ! wp_verify_nonce( $retrieved_nonce, 'upload_max_file_size_action' ) ) {
+                die( 'Failed security check' );
+            }
           $max_size = (int) $_POST['upload_max_file_size_field'] * 1024 * 1024;
+          $max_execution_time = isset( $_POST['wmufs_maximum_execution_time']) ? sanitize_text_field(wp_unslash( (int) $_POST['wmufs_maximum_execution_time'])) : '';
+          update_option('wmufs_maximum_execution_time', $max_execution_time);
           update_option('max_file_size', $max_size);
           wp_safe_redirect(admin_url('?page=upload_max_file_size&max-size-updated=true'));
       }
     }
 
     add_filter('upload_size_limit', array( __CLASS__, 'upload_max_increase_upload' ));
+
   }
 
     /**
@@ -52,7 +56,7 @@ class Codepopular_WMUFS
      */
 
    static function wmufs_style_and_script(){
-       wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css');
+       wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', null, WMUFS_PLUGIN_VERSION);
    }
 
 
@@ -105,8 +109,7 @@ class Codepopular_WMUFS
       return $text;
     }
 
-    $text = '<i>Wp Maximum Upload File Size v' . self::get_plugin_version() . ' by <a href="https://www.codepopular.com/" title="Visit our site to get more great plugins" target="_blank">CodePopular</a>.</i> ' . $text;
-
+    $text = '<span id="footer-thankyou">If you like <strong><ins>WP Maximum Upload File Size</ins></strong> please leave us a <a target="_blank" style="color:#f9b918" href="https://wordpress.org/support/view/plugin-reviews/wp-maximum-upload-file-size?rate=5#postform">★★★★★</a> rating. A huge thank you in advance!</span>';
     return $text;
   } // admin_footer_text
 
@@ -149,7 +152,6 @@ class Codepopular_WMUFS
       include_once WMUFS_PLUGIN_PATH. 'includes/class-wmufs-template.php';
   }
 
-
   /**
    * Filter to increase max_file_size
    *
@@ -167,76 +169,23 @@ class Codepopular_WMUFS
       return $max_size;
   } // upload_max_increase_upload
 
-
-    /**
-     * helper function for adding plugins to fav list.
-     * @param $args
-     * @return mixed
-     */
-  static function featured_plugins_tab( $args ) {
-    add_filter('plugins_api_result', array( __CLASS__, 'plugins_api_result' ), 10, 3);
-
-    return $args;
-  }
-
-
-    /**
-     * add our plugins to recommended list
-     * @param $res
-     * @param $action
-     * @param $args
-     * @return mixed
-     */
-    static function plugins_api_result( $res, $action, $args ) {
-        remove_filter('plugins_api_result', array( __CLASS__, 'plugins_api_result' ), 10, 3);
-        $res = self::add_plugin_favs('unlimited-theme-addons', $res);
-        return $res;
-    } // plugins_api_result
-
-
-    /**
-     * add single plugin to list of favs
-     * @param $plugin_slug
-     * @param $res
-     * @return mixed
-     */
-  static function add_plugin_favs( $plugin_slug, $res ) {
-    if ( ! empty( $res->plugins ) && is_array( $res->plugins ) ) {
-      foreach ( $res->plugins as $plugin ) {
-        if ( is_object($plugin) && ! empty($plugin->slug) && $plugin->slug == $plugin_slug ) {
-          return $res;
-        }
-      }
-    }
-
-    if ( $plugin_info = get_transient('wf-plugin-info-' . $plugin_slug) ) {
-      array_unshift($res->plugins, $plugin_info);
-    } else {
-      $plugin_info = plugins_api('plugin_information', array(
-		  'slug'   => $plugin_slug,
-		  'is_ssl' => is_ssl(),
-		  'fields' => array(
-			  'banners'           => true,
-			  'reviews'           => true,
-			  'downloaded'        => true,
-			  'active_installs'   => true,
-			  'icons'             => true,
-			  'short_description' => true,
-		  ),
-      ));
-      if ( ! is_wp_error($plugin_info) ) {
-        $res->plugins[] = $plugin_info;
-        set_transient('wf-plugin-info-' . $plugin_slug, $plugin_info, DAY_IN_SECONDS * 7);
-      }
-    }
-
-    return $res;
-  }
-
-
 }
 
 /**
  * Instance of the class  // Codepopular_WMUFS
  */
 add_action('init', array( 'Codepopular_WMUFS', 'init' ));
+
+include_once(dirname( __FILE__ ). '/includes/class-wmufs.php');
+include_once(dirname( __FILE__ ). '/includes/codepopular-promotion.php');
+
+
+/**
+ * Increase maximum execution time.
+ * Default 600.
+ */
+
+$wmufs_get_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
+set_time_limit($wmufs_get_max_execution_time);
+
+

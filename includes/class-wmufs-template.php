@@ -2,7 +2,7 @@
 
 include_once WMUFS_PLUGIN_PATH . 'includes/class-wmufs-helper.php';
 
-if (isset($_GET['max-size-updated'])) { ?>
+if ( isset($_GET['max-size-updated']) ) { ?>
     <div class="notice-success notice is-dismissible">
         <p><?php echo esc_html('Maximum Upload File Size Saved Changed!', 'wp-maximum-upload-file-size');?></p>
     </div>
@@ -15,6 +15,8 @@ if ( ! $max_size ) {
 $max_size = $max_size / 1024 / 1024;
 $upload_sizes = array( 16, 32, 64, 128, 256, 512, 1024 );
 $current_max_size = self::get_closest($max_size, $upload_sizes);
+$wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
+
 
 ?>
 
@@ -27,7 +29,6 @@ $current_max_size = self::get_closest($max_size, $upload_sizes);
             <!-- Start Content Area -->
             <div class="wmufs_admin_left wmufs_card wmufs-col-8">
                 <form method="post">
-                   <?php settings_fields("header_section"); ?>
                     <table class="form-table">
                         <tbody>
                         <tr>
@@ -35,11 +36,20 @@ $current_max_size = self::get_closest($max_size, $upload_sizes);
                             <td>
                                 <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
                                     foreach ( $upload_sizes as $size ) {
-                                    echo '<option value="' . $size . '" ' . ($size == $current_max_size ? 'selected' : '') . '>' . ($size == 1024 ? '1GB' : $size . 'MB') . '</option>';
+                                    echo '<option value="' . esc_attr($size) . '" ' . ($size == $current_max_size ? 'selected' : '') . '>' . ($size == 1024 ? '1GB' : $size . 'MB') . '</option>';
                                     } ?>
                                 </select>
                             </td>
                         </tr>
+
+                        <tr>
+                            <th scope="row"><label for="upload_max_file_size_field">Maximum Execution Time</label></th>
+                            <td>
+                                <input name="wmufs_maximum_execution_time" type="number" value="<?php echo esc_html($wpufs_max_execution_time);?>">
+                                <br><small>Example: 300, 600, 1800, 3600</small>
+                            </td>
+                        </tr>
+
                         </tbody>
                     </table>
                     <?php wp_nonce_field('upload_max_file_size_action', 'upload_max_file_size_nonce'); ?>
