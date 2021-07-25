@@ -3,13 +3,13 @@
 * Plugin Name: Wp Maximum Upload File Size
 * Description: Wp Maximum Upload File Size will increase upload limit with one click. you can easily increase upload file size according to your need.
 * Author: CodePopular
-* Author URI: https://profiles.wordpress.org/codepopular/
+* Author URI: https://codepopular.com
 * Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
-* Version: 1.0.5
+* Version: 1.0.6
 * License: GPL2
 * Text Domain: wp-maximum-upload-file-size
 * Requires at least: 4.0
-* Tested up to: 5.7
+* Tested up to: 5.8
 * Requires PHP: 5.6
 * @coypright: -2021 CodePopular (support: support@codepopular.com)
 */
@@ -18,7 +18,7 @@ define('WMUFS_PLUGIN_FILE', __FILE__);
 define('WMUFS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('WMUFS_PLUGIN_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('WMUFS_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
-define('WMUFS_PLUGIN_VERSION', '1.0.5');
+define('WMUFS_PLUGIN_VERSION', '1.0.6');
 
 /**
  * Class Codepopular_WMUFS
