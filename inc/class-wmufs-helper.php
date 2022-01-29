@@ -52,9 +52,8 @@ function convertToBytes( string $from ): ?int {
 function wmufs_upload_filter_is_writable() {
     $upload_dir                   = wp_upload_dir();
     $base_dir                     = $upload_dir['basedir'];
-    $wpifw_invoice_dir            = $base_dir . "/WOO-INVOICE";
     $upload_dir_permission_status = '';
-    $upload_dir_permission_status = ! file_exists( $wpifw_invoice_dir ) && ! is_writable( $wpifw_invoice_dir ) && ! is_writable( $base_dir ) ? 0 : '1';
+    $upload_dir_permission_status = is_writable( $base_dir ) ? 0 : '1';
 
     return $upload_dir_permission_status;
 }
@@ -224,6 +223,4 @@ $system_status = array(
         'error_message'   => esc_html__( 'Dom extension is not enable from hosting.', 'wp-maximum-upload-file-size' ),
     ),
 );
-
-
 

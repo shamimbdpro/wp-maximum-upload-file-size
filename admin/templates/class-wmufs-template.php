@@ -1,7 +1,5 @@
 <?php
 
-include_once WMUFS_PLUGIN_PATH . 'includes/class-wmufs-helper.php';
-
 if ( isset($_GET['max-size-updated']) ) { ?>
     <div class="notice-success notice is-dismissible">
         <p><?php echo esc_html('Maximum Upload File Size Saved Changed!', 'wp-maximum-upload-file-size');?></p>
@@ -13,7 +11,7 @@ if ( ! $max_size ) {
     $max_size = 64 * 1024 * 1024;
 }
 $max_size = $max_size / 1024 / 1024;
-$upload_sizes = array( 16, 32, 64, 128, 256, 512, 1024 );
+$upload_sizes = array( 16, 32, 64, 128, 256, 512, 1024, 2048 );
 $current_max_size = self::get_closest($max_size, $upload_sizes);
 $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
 
@@ -24,7 +22,7 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
     <h1><span class="dashicons dashicons-upload" style="font-size: inherit; line-height: unset;"></span><?php echo esc_html_e( 'Wp Maximum Upload File Size', 'wp-maximum-upload-file-size' ); ?></h1><br>
     <div class="wmufs_admin_deashboard">
         <!-- Row -->
-        <div class="wmufs_row">
+        <div class="wmufs_row" id="poststuff">
 
             <!-- Start Content Area -->
             <div class="wmufs_admin_left wmufs_card wmufs-col-8">
@@ -36,7 +34,7 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                             <td>
                                 <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
                                     foreach ( $upload_sizes as $size ) {
-                                    echo '<option value="' . esc_attr($size) . '" ' . ($size == $current_max_size ? 'selected' : '') . '>' . ($size == 1024 ? '1GB' : $size . 'MB') . '</option>';
+                                    echo '<option value="' . esc_attr($size) . '" ' . ($size == $current_max_size ? 'selected' : '') . '>' . ( $size . 'MB') . '</option>';
                                     } ?>
                                 </select>
                             </td>
@@ -103,7 +101,7 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
 
             <!-- Start Sidebar Area -->
             <div class="wmufs_admin_right_sidebar wmufs_card wmufs-col-4">
-                <?php include_once WMUFS_PLUGIN_PATH . 'includes/class-wmufs-sidebar.php'; ?>
+                <?php include_once WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-sidebar.php'; ?>
             </div>
             <!-- End Sidebar area-->
 

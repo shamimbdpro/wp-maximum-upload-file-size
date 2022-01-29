@@ -3,8 +3,8 @@ Contributors: codepopular, shamimtpi
 Tags: max upload file size, increase upload limit, increase file size limit, upload limit, post max size, upload file size, upload_max_filesize, Increase Maximum Execution Time
 Requires at least: 3.0
 Requires PHP: 5.6
-Tested up to: 5.8
-Stable tag: 1.0.6
+Tested up to: 5.9
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,9 @@ Plugin automatically detects upload limits set by WordPress and by the server / 
 Access plugin's settings from the main WP admin menu.
 
 You can easily increase maximum upload file size. And also you can increase WordPress maximum execution time. some time extended maximum execution time when upload any attachment. From now with this plugin you can simply avoid this problem.
+
+### **Where to find Option to Increase Upload Limit.**
+Ok, After install the plugin then activate it. After activate the plugin go to your dashboard and go to media> Increase Upload Limit.
 
 ### **Increase Maximum Execution Time.**
 Some time WordPress user can't upload new file with media due to extended execution time. With this plugin you can increase the execution time to avoid these issue. You need to set the execution time in input filed to set your own execution time according to your need.
@@ -37,7 +40,7 @@ Or if needed, install manually;
 1. Download the plugin.
 2. Unzip it and upload to _/wp-content/plugins/_
 3. Open WordPress admin - Plugins and click "Activate" next to the plugin
-4. Activate & open plugin's settings page located in the main admin menu
+4. Activate & open plugin's settings from Media>Increae Upload Size.
 
 
 == Screenshots ==
@@ -45,6 +48,11 @@ Or if needed, install manually;
 
 
 == Changelog ==
+
+1.0.7
+-------------
+* WordPress latest versoin 5.9 compatibility added.
+* New value added in dropdown to upload maximum 2GB.
 
 1.0.6
 -------------
