@@ -13,6 +13,7 @@ class Codepopular_WMUFS
             add_filter('plugin_action_links_' . WMUFS_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ));
             add_filter('plugin_row_meta', array( __CLASS__, 'plugin_meta_links' ), 10, 2);
             add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
+            add_action( 'wp_ajax_wmufs_admin_notice_ajax_object_save', __CLASS__, 'wmufs_admin_notice_ajax_object_callback' );
 
             if ( isset($_POST['upload_max_file_size_field']) ) {
                 $retrieved_nonce = isset($_POST['upload_max_file_size_nonce']) ? sanitize_text_field(wp_unslash($_POST['upload_max_file_size_nonce'])) : '';
@@ -157,6 +158,34 @@ class Codepopular_WMUFS
 
         return $max_size;
     } // upload_max_increase_upload
+
+
+
+/**
+ * Save option after clicking hide button in WP dashboard.
+ *
+ * @return void
+ */
+function wmufs_admin_notice_ajax_object_callback() {
+   
+
+	$data = isset($_POST['data']) ? sanitize_text_field(wp_unslash($_POST['data'])) : array();
+	if ( $data ) {
+		
+		// Check valid request form user.
+		check_ajax_referer('wmufs_notice_status');
+	
+		update_option('wmufs_notice', $data);  
+		update_option('wmufs_notice_disable_time', time());  
+
+		$response['message'] = 'sucess';
+		wp_send_json_success($response);
+	}
+
+	wp_die();
+
+}
+
 
 }
 
