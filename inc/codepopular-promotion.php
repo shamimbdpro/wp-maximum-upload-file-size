@@ -59,7 +59,7 @@ if ( ! function_exists( 'codepopular_dashboard_widget_render' ) ) {
 
 
 
-if ( 1 != get_option('wmufs_notice') ) {
+if ( time() > get_option('wmufs_notice_disable_time') ) {
 	add_action(
 		'load-index.php',
 		function () {
@@ -75,7 +75,7 @@ if ( ! function_exists('codepopular_wmufs_promotions') ) {
 	 * Function to get dashboard widget data.
 	 */
 	function codepopular_wmufs_promotions() { ?>
-		<div class="notice notice-success is-dismissible hideThemeNotice">
+		<div class="notice notice-success is-dismissible hideWmufsNotice">
 			<div class="codepopular_notice">
 				<h4>Thank you for using our Plugin to Increase Upload Size!</h4>
 				<p>We are glad that you are using our plugin and we hope you are satisfied with it. If you want, you can support us in the development of the plugin by buying us a coffee and adding a plugin review. This is very important and gives us the opportunity to create even better tools for you. Thank you to everyone. </p>
@@ -85,8 +85,8 @@ if ( ! function_exists('codepopular_wmufs_promotions') ) {
 					<a href="https://wordpress.org/support/plugin/wp-maximum-upload-file-size/reviews/#new-post" target="_blank" class="codepopular__button btn__yellow dashicons-star-filled">
 						Add a Plugin review </a>
 
-					<a href="https://codepopular.com/contact" target="_blank" class="codepopular__button btn__dark dashicons-email">Contact Us</a>
-					<button type="button" id="hideDostarNotice" class="codepopular__button btn__blue dashicons-no">Hide for 6 month</button>
+					<a href="https://codepopular.com/contact?utm_source=wp-dashboard-feed" target="_blank" class="codepopular__button btn__dark dashicons-email">Contact Us</a>
+					<button type="button" id="hideWmufsNotice" class="codepopular__button btn__blue dashicons-no">Hide for 6 month</button>
 				</div>
 			</div>
 

@@ -16,6 +16,7 @@ class Class_Wmufs_Loader{
 
         include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-i18n.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-plugin-suggest.php');
+        include_once(WMUFS_PLUGIN_PATH. 'inc/hooks.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-promotion.php');
         include_once(WMUFS_PLUGIN_PATH. 'admin/class-wmufs-admin.php');
 

@@ -13,8 +13,7 @@ class Codepopular_WMUFS
             add_filter('plugin_action_links_' . WMUFS_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ));
             add_filter('plugin_row_meta', array( __CLASS__, 'plugin_meta_links' ), 10, 2);
             add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
-            add_action( 'wp_ajax_wmufs_admin_notice_ajax_object_save', __CLASS__, 'wmufs_admin_notice_ajax_object_callback' );
-
+          
             if ( isset($_POST['upload_max_file_size_field']) ) {
                 $retrieved_nonce = isset($_POST['upload_max_file_size_nonce']) ? sanitize_text_field(wp_unslash($_POST['upload_max_file_size_nonce'])) : '';
                 if ( ! wp_verify_nonce($retrieved_nonce, 'upload_max_file_size_action') ) {
@@ -38,6 +37,19 @@ class Codepopular_WMUFS
 
     static function wmufs_style_and_script() {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.min.css', null, WMUFS_PLUGIN_VERSION);
+
+        wp_enqueue_script('wmufs-admin', WMUFS_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), WMUFS_PLUGIN_VERSION, true);
+
+        // Ajax admin localization.
+        $admin_notice_nonce = wp_create_nonce('wmufs_notice_status');
+        wp_localize_script(
+            'wmufs-admin',
+            'wmufs_admin_notice_ajax_object',
+            array(
+                'wmufs_admin_notice_ajax_url' => admin_url('admin-ajax.php'),
+                'nonce'              => $admin_notice_nonce,
+            )
+        );
     }
 
 
@@ -53,7 +65,7 @@ class Codepopular_WMUFS
     static function is_plugin_page() {
         $current_screen = get_current_screen();
 
-        if ( $current_screen->id == 'toplevel_page_upload_max_file_size' ) {
+        if ( $current_screen->id == 'media_page_upload_max_file_size' ) {
             return true;
         } else {
             return false;
@@ -113,8 +125,8 @@ class Codepopular_WMUFS
             'upload_max_file_size',
             [ __CLASS__, 'upload_max_file_size_dash' ]
         );
-    }
 
+    }
 
     /**
      * Get closest value from array
@@ -140,6 +152,19 @@ class Codepopular_WMUFS
 
         include_once(WMUFS_PLUGIN_PATH . 'inc/class-wmufs-helper.php');
         include_once WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-template.php';
+        
+        add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]); 
+    }
+
+    
+    /**
+     * Remove admin notices in admin page.
+     * 
+     * @return array|mixed.
+     */
+    static function wmufs_remove_admin_action() {
+        remove_all_actions('user_admin_notices');
+        remove_all_actions('admin_notices');
     }
 
     /**
@@ -159,32 +184,6 @@ class Codepopular_WMUFS
         return $max_size;
     } // upload_max_increase_upload
 
-
-
-/**
- * Save option after clicking hide button in WP dashboard.
- *
- * @return void
- */
-function wmufs_admin_notice_ajax_object_callback() {
-   
-
-	$data = isset($_POST['data']) ? sanitize_text_field(wp_unslash($_POST['data'])) : array();
-	if ( $data ) {
-		
-		// Check valid request form user.
-		check_ajax_referer('wmufs_notice_status');
-	
-		update_option('wmufs_notice', $data);  
-		update_option('wmufs_notice_disable_time', time());  
-
-		$response['message'] = 'sucess';
-		wp_send_json_success($response);
-	}
-
-	wp_die();
-
-}
 
 
 }

@@ -4,7 +4,7 @@ Tags: max upload file size, increase upload limit, increase file size limit, upl
 Requires at least: 3.0
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,11 @@ Or if needed, install manually;
 
 
 == Changelog ==
+
+1.0.8
+-------------
+* Footer text issue fixed in admin page.
+* Header Notification remove from plugin setting page.
 
 1.0.7
 -------------
