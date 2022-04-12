@@ -43,7 +43,7 @@ class CodePopular_Plugin_Suggest{
      */
     static function plugins_api_result( $res, $action, $args ) {
         remove_filter('plugins_api_result', array( __CLASS__, 'plugins_api_result' ), 10, 3);
-        $res = self::add_plugin_favs('wp-maximum-upload-file-size', $res);
+        $res = self::add_plugin_favs('unlimited-theme-addons', $res);
         return $res;
     } // plugins_api_result
 
