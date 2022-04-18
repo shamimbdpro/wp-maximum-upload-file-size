@@ -1,6 +1,7 @@
 === WP Increase Upload Filesize | Increase Maximum Execution Time ===
 Contributors: codepopular, shamimtpi
 Tags: max upload file size, increase upload limit, increase file size limit, upload limit, post max size, upload file size, upload_max_filesize, Increase Maximum Execution Time
+Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 5.6
 Tested up to: 5.9
