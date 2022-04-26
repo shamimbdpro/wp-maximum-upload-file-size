@@ -36,8 +36,30 @@ set_time_limit($wmufs_get_max_execution_time);
 /**
  *  Load all required files.
  */
+
+require __DIR__ . '/vendor/autoload.php';
+
 include_once(WMUFS_PLUGIN_PATH . 'inc/class-wmufs-loader.php');
 
 if ( function_exists( 'wmufs_run' ) ) {
   wmufs_run();
 }
+
+
+
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function appsero_init_tracker_wp_maximum_upload_file_size() {
+
+    $client = new Appsero\Client( 'a9151e1a-bc01-4c13-a117-d74263a219d7', 'WP Increase Upload Filesize | Increase Maximum Execution Time', __FILE__ );
+
+    // Active insights
+    $client->insights()->init();
+
+}
+
+appsero_init_tracker_wp_maximum_upload_file_size();
