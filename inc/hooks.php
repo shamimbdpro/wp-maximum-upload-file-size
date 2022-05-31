@@ -8,12 +8,11 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
      *
      * @return void
      */
-     function wmufs_admin_notice_ajax_object_callback()
-    {
+     function wmufs_admin_notice_ajax_object_callback() {
 
         $data = isset($_POST['data']) ? sanitize_text_field(wp_unslash($_POST['data'])) : array();
 
-        if ($data) {
+        if ( $data ) {
 
             // Check valid request form user.
             check_ajax_referer('wmufs_notice_status');
@@ -27,4 +26,4 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
         wp_die();
     }
 
-?>
+

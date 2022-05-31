@@ -48,15 +48,7 @@ function convertToBytes( string $from ): ?int {
     return $number * ( 1024 ** $exponent );
 }
 
-// Check upload folder is writable.
-function wmufs_upload_filter_is_writable() {
-    $upload_dir                   = wp_upload_dir();
-    $base_dir                     = $upload_dir['basedir'];
-    $upload_dir_permission_status = '';
-    $upload_dir_permission_status = is_writable( $base_dir ) ? 0 : '1';
 
-    return $upload_dir_permission_status;
-}
 
 // Check zipArchive extension enable from hosting.
 function wmufs_check_zip_extension() {
@@ -117,12 +109,6 @@ $wmufs_php_minimum_limit_time = '120';
 $wmufs_php_current_limit_time = ini_get('max_execution_time');
 $wmufs_php_limit_time_status = $wmufs_php_minimum_limit_time <= $wmufs_php_current_limit_time ? 1 : 0;
 
-// Check WordPress debug status.
-$wmufs_wp_debug_status = WP_DEBUG == true ? 1 : 0;
-
-// Check upload folder is writable.
-$wmufs_uplaod_folder_writable_status = wmufs_upload_filter_is_writable() == 0 ? 0 : 1;
-
 // Check if zipArchie extension is enable in hosting.
 $wmufs_check_zip_extension_status = wmufs_check_zip_extension() != '1' ? 0 : '1';
 
@@ -180,23 +166,6 @@ $system_status = array(
         'status'          => $wmufs_php_limit_time_status,
         'success_message' => esc_html__( '- Ok', 'wp-maximum-upload-file-size' ),
         'error_message' => esc_html__( 'Recommend : ', 'wp-maximum-upload-file-size' ) . $wmufs_php_minimum_limit_time,	//phpcs:ignore
-    ),
-
-
-    array(
-        'title'           => esc_html__( 'WordPress Upload Directory Writable Permission', 'wp-maximum-upload-file-size' ),
-        'version'         => '',
-        'status'          => $wmufs_uplaod_folder_writable_status,
-        'success_message' => esc_html__( 'Writable - Ok', 'wp-maximum-upload-file-size' ),
-        'error_message'   => esc_html__( 'Upload folder not writable permission', 'wp-maximum-upload-file-size' ),
-    ),
-
-    array(
-        'title'           => esc_html__( 'WordPress Debug Mode', 'wp-maximum-upload-file-size' ),
-        'version'         => '',
-        'status'          => $wmufs_wp_debug_status,
-        'success_message' => esc_html__( 'WordPress Debug Mode is On', 'wp-maximum-upload-file-size' ),
-        'error_message'   => __( '<b>WP_DEBUG_LOG</b> is false. Plugin can not write error logs if WP_DEBUG_LOG is set to false. You can learn more about debugging in WordPress from <a target="_blank" href="https://wordpress.org/support/article/debugging-in-wordpress/">here</a>', 'wp-maximum-upload-file-size' ),
     ),
 
     array(
