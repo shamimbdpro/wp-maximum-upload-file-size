@@ -52,7 +52,7 @@ function convertToBytes( string $from ): ?int {
         return null;
     }
 
-    return $number * ( 1024 ** $exponent );
+    return (int) $number * ( 1024 ** $exponent );
 }
 
 

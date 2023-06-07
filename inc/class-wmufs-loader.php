@@ -19,6 +19,7 @@ class Class_Wmufs_Loader{
         include_once(WMUFS_PLUGIN_PATH. 'inc/hooks.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-promotion.php');
         include_once(WMUFS_PLUGIN_PATH. 'admin/class-wmufs-admin.php');
+        include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-chunk-files.php');
 
     }
 }

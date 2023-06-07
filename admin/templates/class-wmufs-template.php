@@ -8,12 +8,13 @@ if ( isset($_GET['max-size-updated']) ) { ?>
 
 $max_size = get_option('max_file_size');
 if ( ! $max_size ) {
-    $max_size = 64 * 1024 * 1024;
+    $max_size = wp_max_upload_size();
 }
 $max_size = $max_size / 1024 / 1024;
 $upload_sizes = array(
 	'16' => '16 MB',
 	'32' => '32 MB',
+	'40' => '40 MB',
 	'64' => '64 MB',
 	'128' => '128 MB',
 	'256' => '256 MB',

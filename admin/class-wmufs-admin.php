@@ -13,7 +13,7 @@ class Codepopular_WMUFS
             add_filter('plugin_action_links_' . WMUFS_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ));
             add_filter('plugin_row_meta', array( __CLASS__, 'plugin_meta_links' ), 10, 2);
             add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
-          
+
             if ( isset($_POST['upload_max_file_size_field']) ) {
                 $retrieved_nonce = isset($_POST['upload_max_file_size_nonce']) ? sanitize_text_field(wp_unslash($_POST['upload_max_file_size_nonce'])) : '';
                 if ( ! wp_verify_nonce($retrieved_nonce, 'upload_max_file_size_action') ) {
@@ -152,14 +152,14 @@ class Codepopular_WMUFS
 
         include_once(WMUFS_PLUGIN_PATH . 'inc/class-wmufs-helper.php');
         include_once WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-template.php';
-        
-        add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]); 
+
+        add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]);
     }
 
-    
+
     /**
      * Remove admin notices in admin page.
-     * 
+     *
      * @return array|mixed.
      */
     static function wmufs_remove_admin_action() {
@@ -175,15 +175,9 @@ class Codepopular_WMUFS
      * @return int max_size in bytes
      *
      */
-    static function upload_max_increase_upload() {
-        $max_size = (int) get_option('max_file_size');
-        if ( ! $max_size ) {
-            $max_size = 64 * 1024 * 1024;
-        }
-
-        return $max_size;
-    } // upload_max_increase_upload
-
+    static function upload_max_increase_upload( $data ) {
+        return get_option('max_file_size') ? get_option('max_file_size') : $data;
+    }
 
 
 }

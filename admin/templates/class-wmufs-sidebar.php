@@ -31,24 +31,6 @@
     </div>
 </div>
 
-
-<!--Recommend Unlimited Theme Addons Pro-->
-
-<div class="wmufs_card_mini wmufs_mb_20">
-    <div class="wmufs-title">
-        <h3><?php esc_html_e('Elementor Countdown Timer Pro', 'wp-maximum-upload-file-size') ?></h3>
-        <div class="wmufs-recommended-content">
-            <a href="<?php echo esc_url_raw('https://codepopular.com/product/unlimited-theme-addons-pro/');?>" target="_blank">
-                <img src="<?php echo esc_url(  WMUFS_PLUGIN_URL . 'assets/images/best-elementor-countdown-timer.png' ); ?>" alt="<?php echo esc_html('dostart');?>">
-            </a>
-            <div class="wmufs-btn">
-                <a target="_blank" href="<?php echo esc_url_raw('https://codepopular.com/product/unlimited-theme-addons-pro/');?>"><?php esc_html_e('Buy Now with $4.99', 'wp-maximum-upload-file-size'); ?></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!--Recommend Unlimited Theme Addons-->
 
 <div class="wmufs_card_mini">
@@ -62,6 +44,6 @@
 </div>
 
 
-
-<?php echo ini_get( 'upload_max_filesize' ); ?>
-<?php echo ini_get( 'post_max_size' ); ?>
+<?php //echo ini_get( 'upload_max_filesize' ); ?>
+<?php //echo ini_get( 'post_max_size' ); ?>
+<?php // echo wp_max_upload_size(); ?>

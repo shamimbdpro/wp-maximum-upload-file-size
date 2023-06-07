@@ -109,13 +109,13 @@ Button Design
     background: #6d0eff;
     text-align: center;
 
-    .wmufs-btn a {
+    a {
         color: #fff;
         text-decoration: none;
         padding: 10px;
-        display: inline-block;
         font-weight: bold;
         font-size: 16px;
+        display:block;
     }
 
     a:hover,
