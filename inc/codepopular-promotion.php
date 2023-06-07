@@ -81,7 +81,7 @@ if ( ! function_exists('codepopular_wmufs_promotions') ) {
 				<p>We are glad that you are using our plugin and we hope you are satisfied with it. If you want, you can support us in the development of the plugin by buying us a coffee and adding a plugin review. This is very important and gives us the opportunity to create even better tools for you. Thank you to everyone. </p>
 				<div class="codepopular__buttons">
 					<a href="https://ko-fi.com/codepopular" target="_blank" class="codepopular__button btn__green dashicons-heart">
-						Buy us a coffee </a>
+						Buy me a coffee </a>
 					<a href="https://wordpress.org/support/plugin/wp-maximum-upload-file-size/reviews/#new-post" target="_blank" class="codepopular__button btn__yellow dashicons-star-filled">
 						Add a Plugin review </a>
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_ajax_object_callback');
@@ -19,7 +19,7 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
 
             update_option('wmufs_notice_disable_time', strtotime("+6 Months"));
 
-            $response['message'] = 'sucess';
+            $response['message'] = 'success';
             wp_send_json_success($response);
         }
 

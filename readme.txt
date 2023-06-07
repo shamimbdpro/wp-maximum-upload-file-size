@@ -4,8 +4,8 @@ Tags: max upload file size, increase upload limit, increase file size limit, upl
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 5.6
-Tested up to: 6.0
-Stable tag: 1.0.9
+Tested up to: 6.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,12 +29,12 @@ Some time WordPress user can't upload new file with media due to extended execut
 
 = Necessary Elementor Plugin for your store =
 
-> * [Unlimited Theme Addons](https://wordpress.org/plugins/unlimited-theme-addons/) 
+> * [Unlimited Theme Addons](https://wordpress.org/plugins/unlimited-theme-addons/)
 
 
 = Necessary WooCommerce Plugin for your store =
 
-> * [Variation Price Display Range for WooCommerce](https://wordpress.org/plugins/variation-price-display/) 
+> * [Variation Price Display Range for WooCommerce](https://wordpress.org/plugins/variation-price-display/)
 
 
 == Installation ==
@@ -51,7 +51,7 @@ Or if needed, install manually;
 1. Download the plugin.
 2. Unzip it and upload to _/wp-content/plugins/_
 3. Open WordPress admin - Plugins and click "Activate" next to the plugin
-4. Activate & open plugin's settings from Media>Increae Upload Size.
+4. Activate & open plugin's settings from Media>Increase Upload Size.
 
 
 == Screenshots ==
@@ -59,6 +59,11 @@ Or if needed, install manually;
 
 
 == Changelog ==
+
+1.1.0
+-------------
+* WordPress latest version 6 compatibility checked.
+* Allow to Upload File Size 3GB,4GB,5GB.
 
 1.0.9
 -------------

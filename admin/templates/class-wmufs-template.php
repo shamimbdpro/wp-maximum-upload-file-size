@@ -2,7 +2,7 @@
 
 if ( isset($_GET['max-size-updated']) ) { ?>
     <div class="notice-success notice is-dismissible">
-        <p><?php echo esc_html('Maximum Upload File Size Saved Changed!', 'wp-maximum-upload-file-size');?></p>
+        <p><?php echo esc_html__('Maximum Upload File Size Saved Changed!', 'wp-maximum-upload-file-size');?></p>
     </div>
 <?php }
 
@@ -11,8 +11,23 @@ if ( ! $max_size ) {
     $max_size = 64 * 1024 * 1024;
 }
 $max_size = $max_size / 1024 / 1024;
-$upload_sizes = array( 16, 32, 64, 128, 256, 512, 1024, 2048 );
-$current_max_size = self::get_closest($max_size, $upload_sizes);
+$upload_sizes = array(
+	'16' => '16 MB',
+	'32' => '32 MB',
+	'64' => '64 MB',
+	'128' => '128 MB',
+	'256' => '256 MB',
+	'512' => '512 MB',
+	'1024' => '1 GB',
+	'2048' => '2 GB',
+	'3072' => '3 GB',
+	'4096' => '4 GB',
+	'5120' => '5 GB',
+);
+
+//$current_max_size = self::get_closest($max_size, $upload_sizes);
+
+
 $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
 
 
@@ -33,8 +48,8 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                             <th scope="row"><label for="upload_max_file_size_field">Choose Maximum Upload File Size</label></th>
                             <td>
                                 <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
-                                    foreach ( $upload_sizes as $size ) {
-                                    echo '<option value="' . esc_attr($size) . '" ' . ($size == $current_max_size ? 'selected' : '') . '>' . ( $size . 'MB') . '</option>';
+                                    foreach ( $upload_sizes as $key => $size ) {
+                                    echo '<option value="' . esc_attr($key) . '" ' . ($key == $max_size ? 'selected' : '') . '>' . esc_html($size) . '</option>';
                                     } ?>
                                 </select>
                             </td>

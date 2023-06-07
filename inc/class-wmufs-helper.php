@@ -3,20 +3,23 @@
 // Read plugin header data.
 $wmufs_plugin_data = get_plugin_data( WMUFS_PLUGIN_URL );
 
-// WordPress check upload file size.
+/**
+ * WordPress check upload file size.
+ * @return string
+ */
 function wmufs_wp_minimum_upload_file_size() {
     $wp_size = wp_max_upload_size();
     if ( ! $wp_size ) {
         $wp_size = 'unknown';
-    } else {
-        $wp_size = round( ( $wp_size / 1024 / 1024 ) );
-        $wp_size = $wp_size == 1024 ? '1GB' : $wp_size . 'MB'; //phpcs:ignore
+        return $wp_size;
     }
-
-    return $wp_size;
+    return esc_html( size_format( $wp_size ) );
 }
 
-// Minimum upload size set by hosting provider.
+/**
+ * Minimum upload size set by hosting provider.
+ * @return string
+ */
 function wmufs_wp_upload_size_by_from_hosting() {
     $ini_size = ini_get( 'upload_max_filesize' );
     if ( ! $ini_size ) {
@@ -30,6 +33,10 @@ function wmufs_wp_upload_size_by_from_hosting() {
     return $ini_size;
 }
 
+/**
+ * @param string $from
+ * @return int|null
+ */
 function convertToBytes( string $from ): ?int {
     $units  = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB' ];
     $number = substr( $from, 0, - 2 );
@@ -49,26 +56,37 @@ function convertToBytes( string $from ): ?int {
 }
 
 
-
-// Check zipArchive extension enable from hosting.
-function wmufs_check_zip_extension() {
+/**
+ * Check zipArchive extension enable from hosting.
+ * @return bool
+ */
+function wmufs_check_zip_extension(): bool
+{
     $extension = '';
     $extension = in_array( 'zip', get_loaded_extensions() );
 
     return $extension;
 }
 
-// Check MBstring extension enable from hosting.
-function wmufs_check_mbstring_extension() {
+/**
+ * Check MBstring extension enable from hosting.
+ * @return bool
+ */
+function wmufs_check_mbstring_extension(): bool
+{
     $extension = '';
     $extension = in_array( 'mbstring', get_loaded_extensions() );
 
     return $extension;
 }
 
-// Check dom extension
 
-function wmufs_check_dom_extension() {
+/**
+ * Check dom extension
+ * @return bool
+ */
+function wmufs_check_dom_extension(): bool
+{
     $extension = '';
     $extension = in_array( 'dom', get_loaded_extensions() );
 
