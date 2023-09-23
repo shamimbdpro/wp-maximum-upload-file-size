@@ -1,11 +1,11 @@
 === Increase Maximum Upload File Size | Increase Execution Time ===
-Contributors: codepopular, shamimtpi
+Contributors: codepopular, shamimtpi, rajubdpro
 Tags: max upload file size, increase upload limit, increase file size limit, upload limit, post max size, upload file size, upload_max_filesize, Increase Maximum Execution Time
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 5.6
-Tested up to: 6.2
-Stable tag: 1.1.0
+Tested up to: 6.3
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,12 @@ Or if needed, install manually;
 
 
 == Changelog ==
+
+
+1.1.1
+-------------
+* PHP 8 compatibility checked.
+* WordPress latest version 6 compatibility checked.
 
 1.1.0
 -------------

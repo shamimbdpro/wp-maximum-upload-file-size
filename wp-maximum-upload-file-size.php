@@ -5,20 +5,20 @@
 * Author: CodePopular
 * Author URI: https://codepopular.com
 * Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
-* Version: 1.1.0
+* Version: 1.1.1
 * License: GPL2
 * Text Domain: wp-maximum-upload-file-size
 * Requires at least: 4.0
-* Tested up to: 6.2
+* Tested up to: 6.3
 * Requires PHP: 5.6
-* @coypright: -2021 CodePopular (support: info@codepopular.com)
+* @coypright: -2023 CodePopular (support: info@codepopular.com)
 */
 
 define('WMUFS_PLUGIN_FILE', __FILE__);
 define('WMUFS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('WMUFS_PLUGIN_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('WMUFS_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
-define('WMUFS_PLUGIN_VERSION', '1.1.0');
+define('WMUFS_PLUGIN_VERSION', '1.1.1');
 
 /**
  * Increase maximum execution time.
