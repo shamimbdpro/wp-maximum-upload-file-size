@@ -61,6 +61,10 @@ Or if needed, install manually;
 == Changelog ==
 
 
+1.1.3
+-------------
+* WP Latest Version 6.7 Compatibility Checked.
+
 1.1.2
 -------------
 * PHP 8 compatibility checked.
