@@ -19,7 +19,6 @@ define('WMUFS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('WMUFS_PLUGIN_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('WMUFS_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
 define('WMUFS_PLUGIN_VERSION', '1.1.3');
-
 /**
  * Increase maximum execution time.
  * Default 600.

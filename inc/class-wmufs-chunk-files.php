@@ -131,7 +131,7 @@ class WMUFS_File_Chunk{
                     echo wp_json_encode( array(
                         'success' => false,
                         'data'    => array(
-                            'message'  => __( 'The file size has exceeded the maximum file size setting.', 'tuxedo-big-file-uploads' ),
+                            'message'  => __( 'The file size has exceeded the maximum file size setting.', 'wp-maximum-upload-file-size' ),
                             'filename' => $fileName,
                         ),
                     ) );
@@ -149,7 +149,7 @@ class WMUFS_File_Chunk{
                             __( '&#8220;%s&#8221; has failed to upload.' ),
                             esc_html( $fileName )
                         ),
-                        __( 'The file size has exceeded the maximum file size setting.', 'tuxedo-big-file-uploads' )
+                        __( 'The file size has exceeded the maximum file size setting.', 'wp-maximum-upload-file-size' )
                     );
                     exit;
                 }
@@ -188,7 +188,7 @@ class WMUFS_File_Chunk{
                         array(
                             'success' => false,
                             'data'    => array(
-                                'message'  => sprintf( __( 'There was an error reading uploaded part %1$d of %2$d.', 'tuxedo-big-file-uploads' ), $current_part, $chunks ),
+                                'message'  => sprintf( __( 'There was an error reading uploaded part %1$d of %2$d.', 'wp-maximum-upload-file-size' ), $current_part, $chunks ),
                                 'filename' => esc_html( $fileName ),
                             ),
                         )
@@ -207,7 +207,7 @@ class WMUFS_File_Chunk{
                             __( '&#8220;%s&#8221; has failed to upload.' ),
                             esc_html( $fileName )
                         ),
-                        sprintf( __( 'There was an error reading uploaded part %1$d of %2$d.', 'tuxedo-big-file-uploads' ), $current_part, $chunks )
+                        sprintf( __( 'There was an error reading uploaded part %1$d of %2$d.', 'wp-maximum-upload-file-size' ), $current_part, $chunks )
                     );
                     exit;
                 }
@@ -225,7 +225,7 @@ class WMUFS_File_Chunk{
                     array(
                         'success' => false,
                         'data'    => array(
-                            'message'  => sprintf( __( 'There was an error opening the temp file %s for writing. Available temp directory space may be exceeded or the temp file was cleaned up before the upload completed.', 'tuxedo-big-file-uploads' ), esc_html( $filePath ) ),
+                            'message'  => sprintf( __( 'There was an error opening the temp file %s for writing. Available temp directory space may be exceeded or the temp file was cleaned up before the upload completed.', 'wp-maximum-upload-file-size' ), esc_html( $filePath ) ),
                             'filename' => esc_html( $fileName ),
                         ),
                     )
@@ -244,7 +244,7 @@ class WMUFS_File_Chunk{
                         __( '&#8220;%s&#8221; has failed to upload.' ),
                         esc_html( $fileName )
                     ),
-                    sprintf( __( 'There was an error opening the temp file %s for writing. Available temp directory space may be exceeded or the temp file was cleaned up before the upload completed.', 'tuxedo-big-file-uploads' ), esc_html( $filePath ) )
+                    sprintf( __( 'There was an error opening the temp file %s for writing. Available temp directory space may be exceeded or the temp file was cleaned up before the upload completed.', 'wp-maximum-upload-file-size' ), esc_html( $filePath ) )
                 );
                 exit;
             }
@@ -350,7 +350,8 @@ class WMUFS_File_Chunk{
      *
      * @return integer
      */
-    function get_upload_limit() {
+    function get_upload_limit(): int
+    {
         $max_size = (int) get_option('max_file_size');
         if ( ! $max_size ) {
             $max_size = wp_max_upload_size();
