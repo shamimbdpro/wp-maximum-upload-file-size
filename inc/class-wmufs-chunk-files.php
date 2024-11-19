@@ -77,7 +77,7 @@ class WMUFS_File_Chunk{
         $chunks = isset( $_REQUEST['chunks'] ) ? intval( $_REQUEST['chunks'] ) : 0;
 
         /** Get file name and path + name. */
-        $fileName = isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : $_FILES['async-upload']['name'];
+        $fileName = $_REQUEST['name'] ?? $_FILES['async-upload']['name'];
 
 
         $wmufs_temp_dir = apply_filters( 'wmufs_temp_dir', WP_CONTENT_DIR . '/wmufs-temp' );
@@ -85,29 +85,10 @@ class WMUFS_File_Chunk{
         //only run on first chunk
         if ( $chunk === 0 ) {
             // Create temp directory if it doesn't exist
-            if ( ! @is_dir( $wmufs_temp_dir ) ) {
-                wp_mkdir_p( $wmufs_temp_dir );
-            }
-
-            // Protect temp directory from browsing.
-            $index_pathname = $wmufs_temp_dir . '/index.php';
-            if ( ! file_exists( $index_pathname ) ) {
-                $file = fopen( $index_pathname, 'w' );
-                if ( false !== $file ) {
-                    fwrite( $file, "<?php\n// Silence is golden.\n" );
-                    fclose( $file );
-                }
-            }
+            $this->create_temp_directory( $wmufs_temp_dir );
 
             //scan temp dir for files older than 24 hours and delete them.
-            $files = glob( $wmufs_temp_dir . '/*.part' );
-            if ( is_array( $files ) ) {
-                foreach ( $files as $file ) {
-                    if ( @filemtime( $file ) < time() - DAY_IN_SECONDS ) {
-                        @unlink( $file );
-                    }
-                }
-            }
+            $this->cleanup_old_files( $wmufs_temp_dir );
         }
 
         $filePath = sprintf( '%s/%d-%s.part', $wmufs_temp_dir, get_current_blog_id(), sha1( $fileName ) );
@@ -218,7 +199,7 @@ class WMUFS_File_Chunk{
             @unlink( $_FILES['async-upload']['tmp_name'] );
         } else {
             /** Failed to open output stream. */
-            error_log( "BFU: Failed to open output stream $filePath to write part $current_part of $chunks." );
+            error_log( "Failed to open output stream $filePath to write part $current_part of $chunks." );
 
             if ( ! isset( $_REQUEST['short'] ) || ! isset( $_REQUEST['type'] ) ) {
                 echo wp_json_encode(
@@ -341,6 +322,29 @@ class WMUFS_File_Chunk{
 }
 
         die();
+    }
+
+    private function create_temp_directory( $dir ) {
+        if ( ! @is_dir( $dir ) ) {
+            wp_mkdir_p( $dir );
+        }
+
+        // Ensure temp dir is not browsable
+        $index_pathname = $dir . '/index.php';
+        if ( ! file_exists( $index_pathname ) ) {
+            file_put_contents( $index_pathname, "<?php\n// Silence is golden.\n" );
+        }
+    }
+
+    private function cleanup_old_files( $dir ) {
+        $files = glob( $dir . '/*.part' );
+        if ( is_array( $files ) ) {
+            foreach ( $files as $file ) {
+                if ( @filemtime( $file ) < time() - DAY_IN_SECONDS ) {
+                    @unlink( $file );
+                }
+            }
+        }
     }
 
     /**
