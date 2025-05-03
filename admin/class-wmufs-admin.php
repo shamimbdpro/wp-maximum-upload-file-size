@@ -28,13 +28,16 @@ class Codepopular_WMUFS
         }
 
         add_filter('upload_size_limit', array( __CLASS__, 'upload_max_increase_upload' ));
+
+        $wmufs_get_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
+        set_time_limit($wmufs_get_max_execution_time);
     }
 
-    /**
-     * Load Plugin Style and Scripts.
-     * @return string
-     */
 
+    /**
+     * Enqueue admin styles and scripts
+     * @return void
+     */
     static function wmufs_style_and_script() {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.min.css', null, WMUFS_PLUGIN_VERSION);
 
@@ -54,7 +57,8 @@ class Codepopular_WMUFS
 
 
     // get plugin version from header
-    static function get_plugin_version() {
+    static function get_plugin_version(): string
+    {
         $plugin_data = get_file_data(__FILE__, array( 'version' => 'Version' ), 'plugin');
 
         return $plugin_data['version'];
@@ -62,20 +66,20 @@ class Codepopular_WMUFS
 
 
     // test if we're on plugin's page
-    static function is_plugin_page() {
+    static function is_plugin_page(): bool
+    {
         $current_screen = get_current_screen();
-
-        if ( $current_screen->id == 'media_page_upload_max_file_size' ) {
+        if ( $current_screen->id == 'toplevel_page_upload_max_file_size' ) {
             return true;
         } else {
             return false;
         }
-    } // is_plugin_page
+    }
 
 
     // add settings link to plugins page
     static function plugin_action_links( $links ) {
-        $settings_link = '<a href="' . admin_url('upload.php?page=upload_max_file_size') . '" title="Adjust Max File Upload Size Settings">Settings</a>';
+        $settings_link = '<a href="' . admin_url('admin.php?page=upload_max_file_size') . '" title="Adjust Max File Upload Size Settings">Settings</a>';
 
         array_unshift($links, $settings_link);
 
@@ -102,47 +106,48 @@ class Codepopular_WMUFS
             return $text;
         }
 
-        $text = '<span id="footer-thankyou">If you like <strong><ins>WP Maximum Upload File Size</ins></strong> please leave us a <a target="_blank" style="color:#f9b918" href="https://wordpress.org/support/view/plugin-reviews/wp-maximum-upload-file-size?rate=5#postform">★★★★★</a> rating. A huge thank you in advance!</span>';
-        return $text;
+        return '<span id="footer-thankyou">If you like <strong><ins>WP Maximum Upload File Size</ins></strong> please leave us a <a target="_blank" style="color:#f9b918" href="https://wordpress.org/support/view/plugin-reviews/wp-maximum-upload-file-size?rate=5#postform">★★★★★</a> rating. A huge thank you in advance!</span>';
     } // admin_footer_text
 
 
     /**
-     * Add menu pages
+     * Add menu page
      *
      * @since 1.0
      *
-     * @return null
-     *
+     * @return void
      */
     static function upload_max_file_size_add_pages() {
-        // Add a new menu on main menu
+        // Add a new top-level menu page, right after Media (position ~21)
+        add_menu_page(
+            'Increase Max Upload File Size',   // Page Title
+            'Max Uploader',                    // Menu Title
+            'manage_options',                  // Capability
+            'upload_max_file_size',            // Menu Slug
+            [ __CLASS__, 'upload_max_file_size_dash' ], // Callback
+            'dashicons-upload',               // Icon (optional)
+            21                                 // Position (Media is 20)
+        );
+        // Submenu 2: System Health
         add_submenu_page(
-            'upload.php', // Parent Slug.
-            'Increase Max Upload File Size', // Page Title.
-            'Increase Upload Limit', // Menu Title
-            'manage_options',
             'upload_max_file_size',
-            [ __CLASS__, 'upload_max_file_size_dash' ]
+            'System Health',
+            'System Health',
+            'manage_options',
+            'upload_max_file_size_system_health',
+            array(__CLASS__, 'upload_max_file_size_system_health_page')
         );
 
+        // Submenu 3: Pro
+        add_submenu_page(
+            'upload_max_file_size',
+            'Pro Features',
+            'Pro',
+            'manage_options',
+            'upload_max_file_size_pro',
+            array(__CLASS__, 'upload_max_file_size_pro_page')
+        );
     }
-
-    /**
-     * Get closest value from array
-     * @param $search
-     * @param $arr
-     * @return mixed|null
-     */
-    static function get_closest( $search, $arr ) {
-        $closest = null;
-        foreach ( $arr as $item ) {
-            if ( $closest === null || abs($search - $closest) > abs($item - $search) ) {
-                $closest = $item;
-            }
-        }
-        return $closest;
-    } // get_closest
 
 
     /**
@@ -154,6 +159,15 @@ class Codepopular_WMUFS
         include_once WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-template.php';
 
         add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]);
+    }
+
+    static function upload_max_file_size_system_health_page() {
+        include_once(WMUFS_PLUGIN_PATH . 'inc/class-wmufs-helper.php');
+        include_once WMUFS_PLUGIN_PATH . 'admin/templates/ClassSystemHealth.php';
+    }
+
+    static function upload_max_file_size_pro_page() {
+        include_once (WMUFS_PLUGIN_PATH . 'admin/templates/FreeVsPro.php');
     }
 
 
@@ -175,7 +189,8 @@ class Codepopular_WMUFS
      * @return int max_size in bytes
      *
      */
-    static function upload_max_increase_upload( $data ) {
+    static function upload_max_increase_upload( $data ): int
+    {
         return get_option('max_file_size') ? get_option('max_file_size') : $data;
     }
 
