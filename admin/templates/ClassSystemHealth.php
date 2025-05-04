@@ -38,11 +38,6 @@
                         <?php endforeach; ?>
                     </table>
                 <?php endforeach; ?>
-
-                <div class="support-ticket">
-                    <h2><?php esc_html_e('Do you need any free help?', 'wp-maximum-upload-file-size'); ?></h2>
-                    <a target="_blank" href="<?php echo esc_url('https://wordpress.org/support/plugin/wp-maximum-upload-file-size/'); ?>"><?php esc_html_e('Open Ticket', 'wp-maximum-upload-file-size'); ?></a>
-                </div>
             </div>
 
             <!-- Start Sidebar Area -->

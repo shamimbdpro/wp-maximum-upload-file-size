@@ -1,11 +1,5 @@
 <?php
 
-if ( isset($_GET['max-size-updated']) ) { ?>
-    <div class="notice-success notice is-dismissible">
-        <p><?php echo esc_html__('Maximum Upload File Size Saved Changed!', 'wp-maximum-upload-file-size');?></p>
-    </div>
-<?php }
-
 $max_size = get_option('max_file_size');
 if ( ! $max_size ) {
     $max_size = wp_max_upload_size();

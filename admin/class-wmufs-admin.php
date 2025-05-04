@@ -11,17 +11,10 @@ class Codepopular_WMUFS {
             add_filter('plugin_row_meta', array( __CLASS__, 'plugin_meta_links' ), 10, 2);
             add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
 
-            if ( isset($_POST['upload_max_file_size_field']) ) {
-                $retrieved_nonce = isset($_POST['upload_max_file_size_nonce']) ? sanitize_text_field(wp_unslash($_POST['upload_max_file_size_nonce'])) : '';
-                if ( ! wp_verify_nonce($retrieved_nonce, 'upload_max_file_size_action') ) {
-                    die('Failed security check');
-                }
-                $max_size = (int) $_POST['upload_max_file_size_field'] * 1024 * 1024;
-                $max_execution_time = isset($_POST['wmufs_maximum_execution_time']) ? sanitize_text_field(wp_unslash((int) $_POST['wmufs_maximum_execution_time'])) : '';
-                update_option('wmufs_maximum_execution_time', $max_execution_time);
-                update_option('max_file_size', $max_size);
-                wp_safe_redirect(admin_url('admin.php?page=max_uploader&max-size-updated=true'));
-            }
+            // Handle form submission
+            add_action('admin_init', array( __CLASS__, 'max_uploader_form_submission' ));
+
+            add_action('admin_head', array( __CLASS__, 'show_admin_notice' ));
         }
 
         add_filter('upload_size_limit', array( __CLASS__, 'upload_max_increase_upload' ));
@@ -29,6 +22,42 @@ class Codepopular_WMUFS {
         $wmufs_get_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
         set_time_limit($wmufs_get_max_execution_time);
     }
+
+    /**
+     * Handle form submission for max uploader settings.
+     * @return void
+     */
+    static function max_uploader_form_submission() {
+        if (
+            ! isset($_POST['upload_max_file_size_nonce']) ||
+            ! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
+        ) {
+            return;
+        }
+
+        if ( isset($_POST['upload_max_file_size_field']) ) {
+            $max_upload_size = (int) sanitize_text_field($_POST['upload_max_file_size_field']) * 1024 * 1024;
+            update_option('max_file_size', $max_upload_size);
+        }
+
+        if ( isset($_POST['wmufs_maximum_execution_time']) ) {
+            $max_execution_time = sanitize_text_field($_POST['wmufs_maximum_execution_time']);
+            update_option('wmufs_maximum_execution_time', $max_execution_time);
+        }
+
+        set_transient('wmufs_settings_updated', 'Settings saved successfully.', 30);
+        wp_safe_redirect(admin_url('admin.php?page=max_uploader'));
+
+        exit;
+    }
+
+    static function show_admin_notice() {
+        if ( $message = get_transient('wmufs_settings_updated') ) {
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html($message) . '</p></div>';
+            delete_transient('wmufs_settings_updated');
+        }
+    }
+
 
     static function wmufs_style_and_script() {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', array(), WMUFS_PLUGIN_VERSION);
@@ -88,7 +117,7 @@ class Codepopular_WMUFS {
             'max_uploader',
             [ __CLASS__, 'upload_max_file_size_dash' ],
             'dashicons-upload',
-            21
+            10
         );
     }
 
@@ -105,7 +134,7 @@ class Codepopular_WMUFS {
                 <?php include_once WMUFS_PLUGIN_PATH . 'inc/MaxUploaderSystemStatus.php'; ?>
                 <div id="max-uploader-tab-general" class="max-uploader-tab-content" <?php echo $active_tab !== 'general' ? 'style="display:none;"' : ''; ?>>
                     <?php
-                    include WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-template.php';
+                    include WMUFS_PLUGIN_PATH . 'admin/templates/max-uploader-handle-form.php';
                     ?>
                 </div>
                 <div id="max-uploader-tab-system_status" class="max-uploader-tab-content" <?php echo $active_tab !== 'system_status' ? 'style="display:none;"' : ''; ?>>
