@@ -102,7 +102,7 @@ class Codepopular_WMUFS {
                 <a href="#" data-tab="pro" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'pro' ? 'nav-tab-active' : ''; ?>">Pro</a>
             </h2>
             <div id="max-uploader-tab-content">
-                <?php include_once WMUFS_PLUGIN_PATH . 'inc/class-wmufs-helper.php'; ?>
+                <?php include_once WMUFS_PLUGIN_PATH . 'inc/MaxUploaderSystemStatus.php'; ?>
                 <div id="max-uploader-tab-general" class="max-uploader-tab-content" <?php echo $active_tab !== 'general' ? 'style="display:none;"' : ''; ?>>
                     <?php
                     include WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-template.php';

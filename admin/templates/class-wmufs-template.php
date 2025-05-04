@@ -47,7 +47,7 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                     <table class="form-table">
                         <tbody>
                         <tr>
-                            <th scope="row"><label for="upload_max_file_size_field">Choose Maximum Upload File Size</label></th>
+                            <th scope="row"><label for="upload_max_file_size_field">Choose Upload File Size</label></th>
                             <td>
                                 <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
                                     foreach ( $upload_sizes as $key => $size ) {
@@ -58,7 +58,7 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                         </tr>
 
                         <tr>
-                            <th scope="row"><label for="upload_max_file_size_field">Maximum Execution Time</label></th>
+                            <th scope="row"><label for="upload_max_file_size_field">Execution Time</label></th>
                             <td>
                                 <input name="wmufs_maximum_execution_time" type="number" value="<?php echo esc_html($wpufs_max_execution_time);?>">
                                 <br><small>Example: 300, 600, 1800, 3600</small>

@@ -1,4 +1,3 @@
-
 <?php
 // Read plugin header data.
 $wmufs_plugin_data = get_plugin_data( WMUFS_PLUGIN_URL );
@@ -10,8 +9,7 @@ $wmufs_plugin_data = get_plugin_data( WMUFS_PLUGIN_URL );
 function wmufs_wp_minimum_upload_file_size() {
     $wp_size = wp_max_upload_size();
     if ( ! $wp_size ) {
-        $wp_size = 'unknown';
-        return $wp_size;
+        return 'unknown';
     }
     return esc_html( size_format( $wp_size ) );
 }
@@ -62,10 +60,7 @@ function convertToBytes( string $from ): ?int {
  */
 function wmufs_check_zip_extension(): bool
 {
-    $extension = '';
-    $extension = in_array( 'zip', get_loaded_extensions() );
-
-    return $extension;
+    return in_array( 'zip', get_loaded_extensions() );
 }
 
 /**
@@ -74,10 +69,7 @@ function wmufs_check_zip_extension(): bool
  */
 function wmufs_check_mbstring_extension(): bool
 {
-    $extension = '';
-    $extension = in_array( 'mbstring', get_loaded_extensions() );
-
-    return $extension;
+    return in_array( 'mbstring', get_loaded_extensions() );
 }
 
 
@@ -105,7 +97,7 @@ $wmufs_wp_version_status         = $wmufs_wp_current_version < $wmufs_minimum_wp
 
 // Minimum Woocommerce Version.
 if ( class_exists('woocommerce') ) {
-    $wmufs_wc_current_version = WC_VERSION;
+    $wmufs_wc_current_version = WC()->version;
 }else {
     $wmufs_wc_current_version = 'Not Active Woocommerce';
 }
@@ -136,7 +128,7 @@ $wmufs_check_mbstring_extension_status = wmufs_check_mbstring_extension() != '1'
 // Check dom extension.
 $wmufs_check_dom_extension_status = wmufs_check_dom_extension() != '1' ? 0 : '1';
 
-$system_status = array(
+$server_and_wp_status = array(
 
     array(
         'title'           => esc_html__( 'PHP Version', 'wp-maximum-upload-file-size' ),
@@ -210,4 +202,16 @@ $system_status = array(
         'error_message'   => esc_html__( 'Dom extension is not enable from hosting.', 'wp-maximum-upload-file-size' ),
     ),
 );
+include WMUFS_PLUGIN_PATH . 'inc/MaxUploaderDatabaseStatus.php';
+$database_info = (new Max_Uploader_Database_Status())->get_info();
+$system_status = array(
+    [
+        'group' => 'Server and WordPress Status',
+        'status' => $server_and_wp_status,
+    ],
 
+    [
+        'group' => 'Database Status',
+        'status' => $database_info
+    ],
+);

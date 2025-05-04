@@ -13,20 +13,6 @@
     </div>
 </div>
 
-<div class="wmufs_card_mini wmufs_mb_20">
-    <div class="wmufs-title">
-        <h3><?php esc_html_e('Get Free WordPress Theme', 'wp-maximum-upload-file-size') ?></h3>
-        <div class="wmufs-recommended-content">
-            <a href="<?php echo esc_url_raw('https://wordpress.org/themes/dostart');?>" target="_blank">
-            <img src="<?php echo esc_url(  WMUFS_PLUGIN_URL . 'assets/images/dostart.png' ); ?>" alt="<?php echo esc_html('dostart');?>">
-            </a>
-            <div class="wmufs-btn">
-                <a target="_blank" href="<?php echo esc_url_raw('https://wordpress.org/themes/dostart');?>"><?php esc_html_e('Download Now', 'wp-maximum-upload-file-size'); ?></a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!--Recommend Unlimited Theme Addons-->
 
 <div class="wmufs_card_mini wmufs_mb_20">
