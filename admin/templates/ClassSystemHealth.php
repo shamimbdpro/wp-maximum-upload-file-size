@@ -1,6 +1,6 @@
 
 <div class="wrap wmufs_mb_50">
-    <h1><span class="dashicons dashicons-admin-settings" style="font-size: inherit; line-height: unset;"></span> <?php echo esc_html_e( 'System Status', 'wp-maximum-upload-file-size' ); ?></h1><br>
+    <h1><span class="dashicons dashicons-database-view" style="font-size: inherit; line-height: unset;"></span> <?php echo esc_html_e( 'System Status', 'wp-maximum-upload-file-size' ); ?></h1><br>
     <div class="wmufs_admin_deashboard">
         <!-- Row -->
         <div class="wmufs_row" id="poststuff">
@@ -54,7 +54,7 @@
 
             <!-- Start Sidebar Area -->
             <div class="wmufs_admin_right_sidebar wmufs_card wmufs-col-4">
-                <?php include_once WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-sidebar.php'; ?>
+                <?php include WMUFS_PLUGIN_PATH . 'admin/templates/class-wmufs-sidebar.php'; ?>
             </div>
             <!-- End Sidebar area-->
 
