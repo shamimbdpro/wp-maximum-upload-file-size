@@ -2,7 +2,7 @@
 /**
  * Class Codepopular_WMUFS
  */
-class Codepopular_WMUFS {
+class MaxUploader_Admin {
     static function init(): void {
         if ( is_admin() ) {
             add_action('admin_enqueue_scripts', array( __CLASS__, 'wmufs_style_and_script' ));
@@ -174,5 +174,5 @@ class Codepopular_WMUFS {
     }
 }
 
-add_action('init', array( 'Codepopular_WMUFS', 'init' ));
+add_action('init', array( 'MaxUploader_Admin', 'init' ));
 ?>
