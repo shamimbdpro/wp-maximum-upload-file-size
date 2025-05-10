@@ -13,6 +13,27 @@
     </div>
 </div>
 
+<!-- Premium Features List -->
+<div style="background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 25px; margin: 30px auto; max-width: 600px; text-align: left;">
+    <h3 style="font-size: 20px; margin-bottom: 15px;"><?php echo esc_html__('Included in the Pro Extension:', 'wp-maximum-upload-file-size'); ?></h3>
+    <ul style="list-style: disc; padding-left: 20px; font-size: 15px; line-height: 1.7;">
+        <li><?php echo esc_html__('Set upload limits by user role', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Advanced system status dashboard', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Track total uploaded files per user', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Calculate total storage used', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Restrict file types by user role', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Premium support from our expert team', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('And many more enhancements to come!', 'wp-maximum-upload-file-size'); ?></li>
+    </ul>
+    <a href="https://codepopular.com/product/maxuploader/?utm_source=wp_dashboard&utm_medium=plugin&utm_campaign=pro_upgrade_button"
+       target="_blank"
+       class="button"
+       style="font-size: 15px; margin-top: 15px;">
+		<?php echo esc_html__('Learn More About Pro', 'wp-maximum-upload-file-size'); ?>
+    </a>
+</div>
+
+
 <!--Recommend Unlimited Theme Addons-->
 
 <div class="wmufs_card_mini wmufs_mb_20">
@@ -29,16 +50,17 @@
     </div>
 </div>
 
-<!--Recommend Unlimited Theme Addons-->
 
-<div class="wmufs_card_mini">
-    <div class="wmufs-title">
-        <div class="wmufs-recommended-content">
-            <div  class="wmufs-btn">
-                <a target="_blank" href="<?php echo esc_url_raw('https://codepopular.com/contact/');?>">
-                    <span class="dashicons dashicons-email"> </span>  &nbsp  <?php esc_html_e(' Contact Us', 'wp-maximum-upload-file-size'); ?>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+<!--Recommend Unlimited Theme Addons-->
+<!---->
+<!--<div class="wmufs_card_mini">-->
+<!--    <div class="wmufs-title">-->
+<!--        <div class="wmufs-recommended-content">-->
+<!--            <div  class="wmufs-btn">-->
+<!--                <a target="_blank" href="--><?php //echo esc_url_raw('https://codepopular.com/contact/');?><!--">-->
+<!--                    <span class="dashicons dashicons-email"> </span>  &nbsp  --><?php //esc_html_e(' Contact Us', 'wp-maximum-upload-file-size'); ?>
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
