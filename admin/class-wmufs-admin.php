@@ -110,14 +110,13 @@ class Codepopular_WMUFS {
     }
 
     static function upload_max_file_size_add_pages() {
-        add_menu_page(
+	    add_submenu_page(
+	        'upload.php', // Parent Slug.
             'Increase Max Upload File Size',
             'Max Uploader',
             'manage_options',
             'max_uploader',
             [ __CLASS__, 'upload_max_file_size_dash' ],
-            'dashicons-upload',
-            10
         );
     }
 
