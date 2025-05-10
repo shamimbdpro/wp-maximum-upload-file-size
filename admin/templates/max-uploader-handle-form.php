@@ -21,7 +21,11 @@ $upload_sizes = array(
 	'10240' => '10 GB',
 );
 
-//$current_max_size = self::get_closest($max_size, $upload_sizes);
+// Add the current WP max upload size if not in predefined list
+if ( ! array_key_exists( (string) $max_size, $upload_sizes ) ) {
+	$upload_sizes[ (string) $max_size ] = $max_size . ' MB (Detected)';
+	ksort($upload_sizes, SORT_NUMERIC);
+}
 
 
 $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');

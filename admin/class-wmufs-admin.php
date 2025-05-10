@@ -3,7 +3,7 @@
  * Class Codepopular_WMUFS
  */
 class Codepopular_WMUFS {
-    static function init() {
+    static function init(): void {
         if ( is_admin() ) {
             add_action('admin_enqueue_scripts', array( __CLASS__, 'wmufs_style_and_script' ));
             add_action('admin_menu', array( __CLASS__, 'upload_max_file_size_add_pages' ));
@@ -17,8 +17,14 @@ class Codepopular_WMUFS {
             add_action('admin_head', array( __CLASS__, 'show_admin_notice' ));
         }
 
+        // Set Upload Limit.
         add_filter('upload_size_limit', array( __CLASS__, 'upload_max_increase_upload' ));
 
+//        @ini_set('upload_max_filesize', '5312M');
+//        @ini_set('post_max_size', '5132M');
+//        @ini_set('memory_limit', '5132M');
+
+	    // Set Time Limit
         $wmufs_get_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
         set_time_limit($wmufs_get_max_execution_time);
     }
@@ -27,7 +33,7 @@ class Codepopular_WMUFS {
      * Handle form submission for max uploader settings.
      * @return void
      */
-    static function max_uploader_form_submission() {
+    static function max_uploader_form_submission(): void {
         if (
             ! isset($_POST['upload_max_file_size_nonce']) ||
             ! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
@@ -51,7 +57,7 @@ class Codepopular_WMUFS {
         exit;
     }
 
-    static function show_admin_notice() {
+    static function show_admin_notice(): void {
         if ( $message = get_transient('wmufs_settings_updated') ) {
             echo '<div class="notice notice-success is-dismissible"><p>' . esc_html($message) . '</p></div>';
             delete_transient('wmufs_settings_updated');
@@ -59,7 +65,7 @@ class Codepopular_WMUFS {
     }
 
 
-    static function wmufs_style_and_script() {
+    static function wmufs_style_and_script(): void {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', array(), WMUFS_PLUGIN_VERSION);
 
         // Ensure jQuery is loaded
@@ -86,7 +92,7 @@ class Codepopular_WMUFS {
     }
     static function is_plugin_page(): bool {
         $current_screen = get_current_screen();
-        return ($current_screen->id === 'toplevel_page_max_uploader');
+        return ($current_screen->id === 'media_page_max_uploader');
     }
 
     static function plugin_action_links( $links ) {
@@ -113,7 +119,7 @@ class Codepopular_WMUFS {
 	    add_submenu_page(
 	        'upload.php', // Parent Slug.
             'Increase Max Upload File Size',
-            'Max Uploader',
+            'MaxUploader',
             'manage_options',
             'max_uploader',
             [ __CLASS__, 'upload_max_file_size_dash' ],
@@ -125,9 +131,15 @@ class Codepopular_WMUFS {
         ?>
         <div class="wrap wmufs-wrap">
             <h2 class="nav-tab-wrapper">
-                <a href="#" data-tab="general" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">General</a>
-                <a href="#" data-tab="system_status" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'system_status' ? 'nav-tab-active' : ''; ?>">System Status</a>
-                <a href="#" data-tab="pro" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'pro' ? 'nav-tab-active' : ''; ?>">Pro</a>
+                <a href="#" data-tab="general" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">
+                    <span class="dashicons dashicons-admin-generic"></span> General
+                </a>
+                <a href="#" data-tab="system_status" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'system_status' ? 'nav-tab-active' : ''; ?>">
+                    <span class="dashicons dashicons-chart-bar"></span> System Status
+                </a>
+                <a href="#" data-tab="pro" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'pro' ? 'nav-tab-active' : ''; ?>">
+                    <span class="dashicons dashicons-star-filled"></span> Pro
+                </a>
             </h2>
             <div id="max-uploader-tab-content">
                 <?php include_once WMUFS_PLUGIN_PATH . 'inc/MaxUploaderSystemStatus.php'; ?>
@@ -152,13 +164,13 @@ class Codepopular_WMUFS {
         add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]);
     }
 
-    static function wmufs_remove_admin_action() {
+    static function wmufs_remove_admin_action(): void {
         remove_all_actions('user_admin_notices');
         remove_all_actions('admin_notices');
     }
 
     static function upload_max_increase_upload( $data ): int {
-        return get_option('max_file_size') ? get_option('max_file_size') : $data;
+	    return ($max_size = (int) get_option('max_file_size')) > 0 ? $max_size : $data;
     }
 }
 

@@ -29,7 +29,7 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
 
 add_action('admin_footer', 'custom_button_inline_after_upload_limit_by_class');
 
-function custom_button_inline_after_upload_limit_by_class() {
+function custom_button_inline_after_upload_limit_by_class(): void {
 	$screen = get_current_screen();
 
 	if ($screen->base === 'media' && $screen->action === 'add') {
@@ -42,7 +42,7 @@ function custom_button_inline_after_upload_limit_by_class() {
 
                 // Append inline link after the message
                 uploadNotice.append(
-                    ' <a href="<?php echo esc_url($custom_link); ?>" target="_blank" style="margin-left: 5px;">Change with Max Uploader</a>'
+                    ' <a href="<?php echo esc_url($custom_link); ?>" style="margin-left: 5px;">Change with - MaxUploader</a>'
                 );
             });
 		</script>
