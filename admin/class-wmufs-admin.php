@@ -129,7 +129,7 @@ class MaxUploader_Admin {
     static function upload_max_file_size_dash() {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general';
         ?>
-        <div class="wrap wmufs-wrap">
+        <div class="wmufs-wrap">
             <h2 class="nav-tab-wrapper">
                 <a href="#" data-tab="general" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">
                     <span class="dashicons dashicons-admin-generic"></span> General

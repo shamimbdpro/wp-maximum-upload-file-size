@@ -1,39 +1,3 @@
-.form-table th {
-    width: 230px;
-}
-
-.gray-box {
-    display: inline-block;
-    padding: 15px;
-    background-color: #e6e6e6;
-}
-
-
-.support-ticket {
-    text-align: center;
-    border: 1px solid #ccc;
-    margin-top: 20px;
-    padding: 20px;
-
-
-    h2 {
-        font-size: 25px;
-    }
-
-    a {
-        text-decoration: none;
-        font-size: 16px;
-        background: #6d0eff;
-        padding: 9px 23px;
-        color: #fff;
-        border-radius: 20px;
-        display: inline-block;
-    }
-
-
-}
-
-
 .wmufs_mb_50 {
     margin-bottom: 50px;
 }
@@ -50,8 +14,8 @@
 }
 
 .wmufs_card {
-    background: #fff;
-    border: 1px solid #eee;
+    background: #f8f8f8;
+    border: 1px solid #e4e4e4;
     box-shadow: 1px 3px 9px 1px #eee;
     padding: 10px 20px
 }
@@ -64,65 +28,51 @@
 .wmufs-col-4 {
     width: 21.3333333333%;
     flex: 0 0 auto;
-    margin-right: 20px
 }
-
-
 
 .wmufs_card_mini {
     border: 1px solid #eee;
-    padding: 10px
-}
-
-.wmufs-title h3 {
-    border: 1px solid #eee;
     padding: 10px;
-    text-align: center;
-    background: #f5f5f5;
-    margin: 0px 0px 10px 0px;
-    font-size: 18px;
+    background: #f9f9f9;
 
-}
+    .support-ticket {
+        text-align: center;
+        padding: 20px;
 
-/**
-Button Design
-*/
+        h2 {
+            font-size: 25px;
+        }
 
-.wmufs-btn {
-    background: #2271b1;
-    text-align: center;
+        a {
+            display: flex;
+            text-decoration: none;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 
-    a {
-        color: #fff;
-        text-decoration: none;
+    .wmufs-title h3 {
+        border: 1px solid #eee;
         padding: 10px;
-        font-weight: bold;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        text-align: center;
+        background: #f5f5f5;
+        margin: 0px 0px 10px 0px;
+        font-size: 18px;
 
-    a:hover,
-    a:focus,
-    a:active {
-        outline: 0;
-        box-shadow: none;
     }
 
 
+    .wmufs-recommended-content img {
+        width: 100%
+    }
+
+    .wmufs-recommended-content a {
+        text-decoration: none;
+    }
+
+
 }
-
-
-
-.wmufs-recommended-content img {
-    width: 100%
-}
-
-.wmufs-recommended-content a {
-    text-decoration: none;
-}
-
 
 
 
@@ -130,6 +80,8 @@ Button Design
 
 .wmufs-system-status {
     width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 
     .dashicons-warning {
         color: #cd5c5c;
@@ -141,81 +93,65 @@ Button Design
         font-size: 20px;
     }
 
-    tr td:first-child {
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
         text-align: left;
-    }
 
+        &:nth-child(2) {
+            text-align: center;
+            width: 100px;
+        }
+
+        &:last-child {
+            border-left: none;
+        }
+    }
 
     th {
-        border: 1px solid #ccc;
-        padding: 10px;
+        background-color: #f9f9f9;
+        font-weight: 600;
         border-bottom: none;
+
+        &:last-child {
+            border-left: none;
+        }
     }
 
-    th:first-child {
-        border-right: none;
-    }
-
-
-
-    th:last-child {
-        border-left: none;
-    }
-
-    td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-bottom: none;
-    }
-
-    td:nth-child(2) {
-        border-left: none;
-        text-align: center;
-    }
-
-
-    td:last-child {
-        border-left: none;
+    tr td:first-child {
+        text-align: left;
     }
 
     tr:last-child td {
         border-bottom: 1px solid #ccc;
     }
-
-
-
 }
-
-
 
 .wpifw_status_message {
     margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555d66;
 }
 
+// Icon next to "System Status" heading
+.system-status-icon {
+    font-size: inherit;
+    line-height: unset;
+}
 
-
+// Responsive adjustments
 @media(max-width: 786px) {
     .wmufs_row {
-        display: block
+        display: block;
     }
 
-    .wmufs-col-8 {
-        width: 100%;
-    }
-
+    .wmufs-col-8,
     .wmufs-col-4 {
         width: 100%;
     }
-
-
 }
 
 
+
 @import "./promotion";
-
-
-
-
-
-
-

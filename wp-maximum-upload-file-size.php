@@ -30,7 +30,7 @@ define('WMUFS_PLUGIN_VERSION', '1.1.7');
 
 require __DIR__ . '/vendor/autoload.php';
 
-include_once(WMUFS_PLUGIN_PATH . 'inc/class-wmufs-loader.php');
+include_once( WMUFS_PLUGIN_PATH . 'inc/class-maxUploader-loader.php' );
 
 if ( function_exists( 'wmufs_run' ) ) {
   wmufs_run();

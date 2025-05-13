@@ -69,12 +69,6 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                     <?php submit_button(); ?>
                 </form>
 
-                <div class="support-ticket">
-                    <h2><?php echo esc_html__('Do you need any free help?', 'wp-maximum-upload-file-size'); ?></h2>
-                    <a target="_blank" href="<?php echo esc_url_raw('https://wordpress.org/support/plugin/wp-maximum-upload-file-size/');?>"><?php echo esc_html__('Open Ticket', 'wp-maximum-upload-file-size'); ?></a>
-                </div>
-
-
             </div>
             <!-- End Content Area -->
 
