@@ -54,6 +54,11 @@
 
 }
 
+body.post-type-attachment.media_page_max_uploader .notice:not(.wmufs-notice) {
+    display: none !important;
+}
+
+
 /** Form Styles **/
 .wmufs_form_centered {
     display: flex;
