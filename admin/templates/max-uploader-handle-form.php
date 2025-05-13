@@ -40,36 +40,37 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
         <div class="wmufs_row" id="poststuff">
 
             <!-- Start Content Area -->
-            <div class="wmufs_admin_left wmufs_card wmufs-col-8">
-                <form method="post">
-                    <table class="form-table">
-                        <tbody>
-                        <tr>
-                            <th scope="row"><label for="upload_max_file_size_field">Choose Upload File Size</label></th>
-                            <td>
-                                <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
-                                    foreach ( $upload_sizes as $key => $size ) {
-                                    echo '<option value="' . esc_attr($key) . '" ' . ($key == $max_size ? 'selected' : '') . '>' . esc_html($size) . '</option>';
-                                    } ?>
-                                </select>
-                            </td>
-                        </tr>
+            <div class="wmufs_admin_left wmufs_card wmufs-col-8 wmufs_form_centered">
+                <div class="wmufs_inner_form_box">
+                    <form method="post">
+                        <table class="form-table">
+                            <tbody>
+                            <tr>
+                                <th scope="row"><label for="upload_max_file_size_field">Choose Upload File Size</label></th>
+                                <td>
+                                    <select id="upload_max_file_size_field" name="upload_max_file_size_field"> <?php
+                                        foreach ( $upload_sizes as $key => $size ) {
+                                        echo '<option value="' . esc_attr($key) . '" ' . ($key == $max_size ? 'selected' : '') . '>' . esc_html($size) . '</option>';
+                                        } ?>
+                                    </select>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row"><label for="upload_max_file_size_field">Execution Time</label></th>
-                            <td>
-                                <input name="wmufs_maximum_execution_time" type="number" value="<?php echo esc_html($wpufs_max_execution_time);?>">
-                                <br><small>Example: 300, 600, 1800, 3600</small>
-                            </td>
-                        </tr>
+                            <tr>
+                                <th scope="row"><label for="upload_max_file_size_field">Execution Time</label></th>
+                                <td>
+                                    <input name="wmufs_maximum_execution_time" type="number" value="<?php echo esc_html($wpufs_max_execution_time);?>">
+                                    <br><small>Example: 300, 600, 1800, 3600</small>
+                                </td>
+                            </tr>
 
-                        </tbody>
-                    </table>
-                    <?php wp_nonce_field('upload_max_file_size_action', 'upload_max_file_size_nonce'); ?>
-                    <?php submit_button(); ?>
-                </form>
-
-            </div>
+                            </tbody>
+                        </table>
+                        <?php wp_nonce_field('upload_max_file_size_action', 'upload_max_file_size_nonce'); ?>
+                        <?php submit_button(); ?>
+                    </form>
+                </div>
+             </div>
             <!-- End Content Area -->
 
             <!-- Start Sidebar Area -->

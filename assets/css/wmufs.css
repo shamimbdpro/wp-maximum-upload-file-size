@@ -49,21 +49,54 @@
   align-items: center;
   justify-content: center;
 }
-.wmufs_card_mini .wmufs-title h3 {
-  border: 1px solid #eee;
-  padding: 10px;
-  text-align: center;
-  background: #f5f5f5;
-  margin: 0px 0px 10px 0px;
-  font-size: 18px;
+
+/** Form Styles **/
+.wmufs_form_centered {
+  display: flex;
+  justify-content: center;
 }
-.wmufs_card_mini .wmufs-recommended-content img {
+.wmufs_form_centered .wmufs_inner_form_box {
+  width: 100%;
+  max-width: 600px;
+}
+.wmufs_form_centered form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.wmufs_form_centered form table.form-table {
   width: 100%;
 }
-.wmufs_card_mini .wmufs-recommended-content a {
-  text-decoration: none;
+.wmufs_form_centered form table.form-table th {
+  text-align: left;
+  vertical-align: top;
+  padding: 10px 0;
+  width: 40%;
+}
+.wmufs_form_centered form table.form-table td {
+  padding: 10px 0;
+}
+.wmufs_form_centered form table.form-table select, .wmufs_form_centered form table.form-table input[type=number] {
+  width: 100%;
+  max-width: 300px;
+}
+.wmufs_form_centered form table.form-table small {
+  display: block;
+  margin-top: 5px;
+  color: #777;
 }
 
+@media (max-width: 768px) {
+  .wmufs_form_centered {
+    flex-direction: column;
+    align-items: center;
+  }
+  .wmufs_form_centered .wmufs_inner_form_box {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
 /******** System Status ******************/
 .wmufs-system-status {
   width: 100%;
