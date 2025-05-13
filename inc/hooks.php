@@ -32,7 +32,7 @@ add_action('admin_footer', 'custom_button_inline_after_upload_limit_by_class');
 function custom_button_inline_after_upload_limit_by_class(): void {
 	$screen = get_current_screen();
 
-	if ($screen->base === 'media' && $screen->action === 'add') {
+	if ($screen->base === 'media') {
 		$custom_link = admin_url('admin.php?page=max_uploader');
 		?>
 		<script type="text/javascript">

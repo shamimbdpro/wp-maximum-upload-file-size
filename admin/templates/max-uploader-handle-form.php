@@ -69,6 +69,31 @@ $wpufs_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? g
                         <?php wp_nonce_field('upload_max_file_size_action', 'upload_max_file_size_nonce'); ?>
                         <?php submit_button(); ?>
                     </form>
+
+                    <div class="wmufs_faq_section">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="wmufs_faq_item">
+                            <strong>Q: What happens if I set a file size higher than my server allows?</strong>
+                            <p>A: Your server configuration will override this setting. Please make sure to update your server's <code>php.ini</code>, <code>.htaccess</code>, or contact your hosting provider to allow larger uploads.</p>
+                        </div>
+                        <div class="wmufs_faq_item">
+                            <strong>Q: What is the recommended maximum execution time?</strong>
+                            <p>A: For large file uploads or slow internet connections, 300 to 600 seconds is recommended. However, your hosting provider may have limits.</p>
+                        </div>
+                        <div class="wmufs_faq_item">
+                            <strong>Q: Why don’t changes take effect immediately?</strong>
+                            <p>A: Sometimes, server caching or PHP-FPM may delay changes. Try clearing your server cache or restarting PHP services.</p>
+                        </div>
+                        <div class="wmufs_faq_item">
+                            <strong>Q: Can I upload files larger than 2GB?</strong>
+                            <p>A: It depends on your server configuration and PHP version. Many shared hosting providers do not allow files larger than 2GB.</p>
+                        </div>
+                        <div class="wmufs_faq_item">
+                            <strong>Q: Where can I find my current server limits?</strong>
+                            <p>A: Go to <code>Tools > Site Health > Info || System Status Tab</code> or ask your hosting provider.</p>
+                        </div>
+                    </div>
+
                 </div>
              </div>
             <!-- End Content Area -->

@@ -19,7 +19,7 @@
                 </p>
 
                 <p style="font-size: 18px; font-weight: bold; color: #0073aa; margin-top: 30px;">
-					<?php echo esc_html__('🎉 Launch Offer: Reserve your 50% discount today – starting at just $39!', 'wp-maximum-upload-file-size'); ?>
+					<?php echo esc_html__('🎉 Launch Offer: Reserve your 50% discount today – starting at just $19!', 'wp-maximum-upload-file-size'); ?>
                 </p>
 
                 <p style="font-size: 15px; color: #444; max-width: 600px; margin: 10px auto 30px;">

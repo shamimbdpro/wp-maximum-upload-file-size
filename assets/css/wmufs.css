@@ -33,7 +33,7 @@
 .wmufs_card_mini {
   border: 1px solid #eee;
   padding: 10px;
-  background: #f9f9f9;
+  background: #f0f0f1;
 }
 .wmufs_card_mini .support-ticket {
   text-align: center;
@@ -48,6 +48,10 @@
   margin-bottom: 10px;
   align-items: center;
   justify-content: center;
+}
+
+body.post-type-attachment.media_page_max_uploader .notice:not(.wmufs-notice) {
+  display: none !important;
 }
 
 /** Form Styles **/
@@ -97,6 +101,35 @@
     padding: 0 10px;
   }
 }
+.wmufs_faq_section {
+  margin-top: 40px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ccd0d4;
+  border-radius: 4px;
+}
+
+.wmufs_faq_section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #23282d;
+}
+
+.wmufs_faq_item {
+  margin-bottom: 15px;
+}
+
+.wmufs_faq_item strong {
+  display: block;
+  color: #0073aa;
+}
+
+.wmufs_faq_item p {
+  margin: 5px 0 0 0;
+  color: #444;
+}
+
 /******** System Status ******************/
 .wmufs-system-status {
   width: 100%;
