@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class Class_Wmufs_Loader
+ * Class Class_Max_Uploader_Loader
  */
-class Class_Wmufs_Loader{
+class Class_Max_Uploader_Loader{
     // Autoload dependency.
     public function __construct(){
         $this->load_dependency();
@@ -12,7 +12,7 @@ class Class_Wmufs_Loader{
     /**
      * Load all Plugin FIle.
      */
-    public function load_dependency(){
+    public function load_dependency(): void {
 
         include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-i18n.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-plugin-suggest.php');
@@ -27,9 +27,9 @@ class Class_Wmufs_Loader{
 /**
  * Initialize load class .
  */
-function wmufs_run(){
-    if ( class_exists( 'Class_Wmufs_Loader' ) ) {
-        new Class_Wmufs_Loader();
+function wmufs_run(): void {
+    if ( class_exists( 'Class_Max_Uploader_Loader' ) ) {
+        new Class_Max_Uploader_Loader();
     }
 }
 

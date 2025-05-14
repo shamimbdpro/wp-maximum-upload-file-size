@@ -3,7 +3,7 @@ Contributors: codepopular, shamimtpi, rajubdpro,bitpressadmin
 Tags: max uploader, increase upload limit, big file upload, upload limit, Increase Maximum Execution Time
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
-Requires PHP: 5.6
+Requires PHP: 7.4
 Tested up to: 6.7
 Stable tag: 1.1.7
 License: GPLv2 or later
