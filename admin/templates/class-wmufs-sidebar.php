@@ -9,8 +9,11 @@
         <li><?php echo esc_html__('Calculate total storage used', 'wp-maximum-upload-file-size'); ?></li>
         <li><?php echo esc_html__('Restrict file types by user role', 'wp-maximum-upload-file-size'); ?></li>
         <li><?php echo esc_html__('Premium support from our expert team', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Calculate file size in media list and grid', 'wp-maximum-upload-file-size'); ?></li>
+        <li><?php echo esc_html__('Maleware scane in media libreary', 'wp-maximum-upload-file-size'); ?></li>
         <li><?php echo esc_html__('And many more enhancements to come!', 'wp-maximum-upload-file-size'); ?></li>
     </ul>
+	<p>Pro Extention will keep your media libreary protected and clean</p>
     <a href="https://codepopular.com/product/maxuploader/?utm_source=wp_dashboard&utm_medium=plugin&utm_campaign=pro_upgrade_button"
        target="_blank"
        class="button"
@@ -28,7 +31,7 @@
             <a target="_blank" class="button" href="<?php echo esc_url_raw('https://wordpress.org/support/plugin/wp-maximum-upload-file-size/');?>">
                 <span class="dashicons dashicons-sos"></span>&nbsp;<?php echo esc_html__('Open Ticket', 'wp-maximum-upload-file-size'); ?>
             </a>
-            <a target="_blank" class="button" href="<?php echo esc_url_raw('https://codepopular.com/contact/');?>">
+            <a target="_blank" class="button" href="<?php echo esc_url_raw('https://codepopular.com/contact/?utm_source=wp_dashboard&utm_medium=plugin&utm_campaign=contact_us_button');?>">
                 <span class="dashicons dashicons-email"></span>&nbsp;<?php esc_html_e('Contact Us', 'wp-maximum-upload-file-size'); ?>
             </a>
             <a target="_blank" class="button button-primary" href="<?php echo esc_url_raw('https://ko-fi.com/codepopular');?>">
