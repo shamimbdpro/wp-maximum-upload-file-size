@@ -17,16 +17,8 @@ class MaxUploader_Admin {
             add_action('admin_head', array( __CLASS__, 'show_admin_notice' ));
         }
 
-        // Set Upload Limit.
-        add_filter('upload_size_limit', array( __CLASS__, 'upload_max_increase_upload' ));
-
-//        @ini_set('upload_max_filesize', '5312M');
-//        @ini_set('post_max_size', '5132M');
-//        @ini_set('memory_limit', '5132M');
-
-	    // Set Time Limit
-        $wmufs_get_max_execution_time = get_option('wmufs_maximum_execution_time') != '' ? get_option('wmufs_maximum_execution_time') : ini_get('max_execution_time');
-        set_time_limit($wmufs_get_max_execution_time);
+        // Set Upload Limit
+        self::upload_max_increase_upload();
     }
 
     /**
@@ -169,9 +161,34 @@ class MaxUploader_Admin {
         remove_all_actions('admin_notices');
     }
 
-    static function upload_max_increase_upload( $data ): int {
-	    return ($max_size = (int) get_option('max_file_size')) > 0 ? $max_size : $data;
-    }
+	/**
+	 * @return void
+	 */
+	static function upload_max_increase_upload(): void {
+
+		$max_upload_size = (int) get_option('max_file_size'); // bytes
+		$max_upload_size_mb = round($max_upload_size / 1048576); // convert to MB
+
+
+		add_filter('upload_size_limit', function ($data) use ($max_upload_size) {
+			return $max_upload_size > 0 ? $max_upload_size : $data;
+		});
+
+		$execution_time = get_option('wmufs_maximum_execution_time');
+		$execution_time = !empty($execution_time) ? $execution_time : ini_get('max_execution_time');
+		set_time_limit((int) $execution_time);
+
+		if ($max_upload_size_mb > 0) {
+			@ini_set('upload_max_filesize', $max_upload_size_mb . 'M');
+			@ini_set('post_max_size', $max_upload_size_mb . 'M');
+
+			// Optional set memory_limit separately
+			@ini_set('memory_limit', ($max_upload_size_mb * 2) . 'M'); // buffer
+
+		}
+
+	}
+
 }
 
 add_action('init', array( 'MaxUploader_Admin', 'init' ));

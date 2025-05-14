@@ -28,20 +28,37 @@
 
                 <!-- Email Subscription Form -->
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 300px; margin: 0 auto;">
-                    <form action="YOUR_MAILCHIMP_FORM_ACTION_URL_HERE" method="post" target="_blank" style="width: 100%;" novalidate>
+                    <form action="https://codepopular.us7.list-manage.com/subscribe/post?u=bfe03762e75044921cf6e87d7&amp;id=4dd0580a1a&amp;f_id=00e5aae4f0"
+                          method="post" target="_blank" style="width: 100%;" novalidate>
+
+                        <!-- Your custom style -->
                         <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Email input -->
                             <input type="email" name="EMAIL" required
                                    placeholder="<?php echo esc_attr__('Enter your email to book 50% OFF', 'wp-maximum-upload-file-size'); ?>"
                                    style="padding: 12px; font-size: 16px; width: 100%; border: 1px solid #ccc; border-radius: 5px;" />
 
-                            <input type="submit" value="<?php echo esc_attr__('Book My Discount Now', 'wp-maximum-upload-file-size'); ?>"
+                            <!-- Hidden tag field (optional Mailchimp audience tag) -->
+                            <input type="hidden" name="tags" value="8790127">
+
+                            <!-- Anti-bot hidden field -->
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="b_bfe03762e75044921cf6e87d7_4dd0580a1a" tabindex="-1" value="">
+                            </div>
+
+                            <!-- Submit button -->
+                            <input type="submit"
+                                   value="<?php echo esc_attr__('Book My Discount Now', 'wp-maximum-upload-file-size'); ?>"
                                    class="button button-primary"
                                    style="font-size: 16px; padding: 10px 20px;" />
                         </div>
+
+                        <!-- Note -->
                         <p style="font-size: 13px; color: #666; margin-top: 5px;">
-							<?php echo esc_html__('No spam – we’ll only notify you once the Pro version is ready.', 'wp-maximum-upload-file-size'); ?>
+			                <?php echo esc_html__('No spam – we’ll only notify you once the Pro version is ready.', 'wp-maximum-upload-file-size'); ?>
                         </p>
                     </form>
+
                 </div>
             </div>
             <!-- End Content Area -->

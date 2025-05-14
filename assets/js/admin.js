@@ -3,7 +3,6 @@
 
     $(document).ready(function () {
         console.log("Admin script loaded");
-
         // Hide admin notice
         $('#hideWmufsNotice').on('click', function () {
             $.ajax({
@@ -25,20 +24,11 @@
 
         // Function to initialize sidebar functionality
         function initializeSidebar() {
-            // Example: Re-bind click events for sidebar toggle
+            // Example: Re bind click events for sidebar toggle
             // Replace with your actual sidebar initialization logic
             $('.wmufs-sidebar-toggle').off('click').on('click', function () {
                 $('.wmufs-sidebar').toggleClass('active');
             });
-
-            // Add any other sidebar-related event bindings or initializations here
-            // For example, if your sidebar has dynamic content or accordion menus:
-            /*
-            $('.wmufs-sidebar .accordion').off('click').on('click', function () {
-                $(this).toggleClass('open');
-                $(this).next('.accordion-content').slideToggle();
-            });
-            */
         }
 
         // Handle tab clicks
@@ -54,7 +44,7 @@
             $('.max-uploader-tab-content').hide();
             $('#max-uploader-tab-' + tabId).show();
 
-            // Update URL without reload
+            // Update URL without a reload
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('tab', tabId);
             history.pushState({ tab: tabId }, '', newUrl);
