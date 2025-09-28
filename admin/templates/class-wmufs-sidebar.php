@@ -1,26 +1,31 @@
 
 <!-- Premium Features List -->
-<div class="wmufs_card_mini wmufs_mb_20">
-    <h3 style="font-size: 20px; margin-bottom: 15px;"><?php echo esc_html__('Included in the Pro Extension:', 'wp-maximum-upload-file-size'); ?></h3>
-    <ul style="list-style: disc; padding-left: 20px; font-size: 15px; line-height: 1.7;">
-        <li><?php echo esc_html__('Set upload limits by user role', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Advanced system status dashboard', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Track total uploaded files per user', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Calculate total storage used', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Restrict file types by user role', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Premium support from our expert team', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Calculate file size in media list and grid', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('Maleware scane in media libreary', 'wp-maximum-upload-file-size'); ?></li>
-        <li><?php echo esc_html__('And many more enhancements to come!', 'wp-maximum-upload-file-size'); ?></li>
-    </ul>
-	<p>Pro Extention will keep your media library protected and clean</p>
-    <a href="https://codepopular.com/product/maxuploader/?utm_source=wp_dashboard&utm_medium=plugin&utm_campaign=pro_upgrade_button"
-       target="_blank"
-       class="button"
-       style="font-size: 15px; margin-top: 15px;">
-		<?php echo esc_html__('Learn More About Pro', 'wp-maximum-upload-file-size'); ?>
-    </a>
-</div>
+<?php if(WMUFS_Helper::get_upgrade_url()){ ?>
+    <div class="wmufs_faq_section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="wmufs_faq_item">
+            <strong>Q: What happens if I set a file size higher than my server allows?</strong>
+            <p>A: Your server configuration will override this setting. Please update your <code>php.ini</code>, <code>.htaccess</code>, or contact your host.</p>
+        </div>
+        <div class="wmufs_faq_item">
+            <strong>Q: What is the recommended maximum execution time?</strong>
+            <p>A: For large uploads or slow connections, 300 to 600 seconds is recommended. Confirm limits with your host.</p>
+        </div>
+        <div class="wmufs_faq_item">
+            <strong>Q: Why don’t changes take effect immediately?</strong>
+            <p>A: Server caching or PHP-FPM may delay changes. Clear server cache or restart PHP services.</p>
+        </div>
+        <div class="wmufs_faq_item">
+            <strong>Q: Can I upload files larger than 2GB?</strong>
+            <p>A: It depends on your PHP/server configuration. Many shared hosts do not allow uploads > 2GB.</p>
+        </div>
+        <div class="wmufs_faq_item">
+            <strong>Q: Where can I find my current server limits?</strong>
+            <p>A: Go to <code>Tools > Site Health > Info || System Status Tab</code> or ask your host.</p>
+        </div>
+    </div>
+
+<?php } ?>
 
 <!-- Create Support Ticket -->
 <div class="wmufs_card_mini wmufs_mb_20">

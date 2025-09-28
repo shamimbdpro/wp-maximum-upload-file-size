@@ -25,39 +25,39 @@ class MaxUploader_Admin {
      * Handle form submission for max uploader settings.
      * @return void
      */
-	static function max_uploader_form_submission(): void {
-		if (
-			! isset($_POST['upload_max_file_size_nonce']) ||
-			! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
-		) {
-			return;
-		}
+    static function max_uploader_form_submission(): void {
+        if (
+            ! isset($_POST['upload_max_file_size_nonce']) ||
+            ! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
+        ) {
+            return;
+        }
 
-		$settings = [];
+        $settings = [];
 
-		if ( isset($_POST['max_file_size_field']) ) {
-			$limit = (int) sanitize_text_field($_POST['max_file_size_field']) * 1024 * 1024;
+        if ( isset($_POST['max_file_size_field']) ) {
+            $limit = (int) sanitize_text_field($_POST['max_file_size_field']) * 1024 * 1024;
             $settings['max_limits'] = [
-              'all' => $limit,
+                'all' => $limit,
             ];
-		}
+        }
 
-		if ( isset($_POST['max_execution_time_field']) ) {
-			$settings['max_execution_time'] = (int) sanitize_text_field($_POST['max_execution_time_field']);
-		}
+        if ( isset($_POST['max_execution_time_field']) ) {
+            $settings['max_execution_time'] = (int) sanitize_text_field($_POST['max_execution_time_field']);
+        }
 
-		if ( isset($_POST['max_memory_limit_field']) ) {
-			$settings['max_memory_limit'] = (int) sanitize_text_field($_POST['max_memory_limit_field']) * 1024 * 1024;
-		}
+        if ( isset($_POST['max_memory_limit_field']) ) {
+            $settings['max_memory_limit'] = (int) sanitize_text_field($_POST['max_memory_limit_field']) * 1024 * 1024;
+        }
 
-		// Save as JSON string or array. WordPress can handle arrays (auto-serialized).
-		update_option('wmufs_settings', $settings);
+        // Save as JSON string or array. WordPress can handle arrays (auto-serialized).
+        update_option('wmufs_settings', $settings);
 
-		set_transient('wmufs_settings_updated', 'Settings saved successfully.', 30);
-		wp_safe_redirect(admin_url('admin.php?page=max_uploader'));
+        set_transient('wmufs_settings_updated', 'Settings saved successfully.', 30);
+        wp_safe_redirect(admin_url('admin.php?page=max_uploader'));
 
-		exit;
-	}
+        exit;
+    }
 
 
     static function show_admin_notice(): void {
@@ -119,8 +119,8 @@ class MaxUploader_Admin {
     }
 
     static function upload_max_file_size_add_pages() {
-	    add_submenu_page(
-	        'upload.php', // Parent Slug.
+        add_submenu_page(
+            'upload.php', // Parent Slug.
             'Increase Max Upload File Size',
             'MaxUploader',
             'manage_options',
@@ -131,36 +131,60 @@ class MaxUploader_Admin {
 
     static function upload_max_file_size_dash() {
         $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general';
+
+        $tabs = array(
+            'general' => __('General', 'wp-maximum-upload-file-size'),
+            'system_status' => __('System Status', 'wp-maximum-upload-file-size')
+        );
+
+        if (!WMUFS_Helper::is_premium_active()) {
+            $tabs['upload_logs'] = __('Upload Logs', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
+            $tabs['user_limits'] = __('Individual User Limits', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
+            $tabs['statistics'] = __('Statistics', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
+        }
+
+        $tabs = apply_filters('wmufs_admin_tabs', $tabs);
+
         ?>
         <div class="wmufs-wrap">
             <h2 class="nav-tab-wrapper">
-                <a href="#" data-tab="general" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">
-                    <span class="dashicons dashicons-admin-generic"></span> General
-                </a>
-                <a href="#" data-tab="system_status" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'system_status' ? 'nav-tab-active' : ''; ?>">
-                    <span class="dashicons dashicons-chart-bar"></span> System Status
-                </a>
-                <a href="#" data-tab="pro" class="nav-tab max-uploader-tab-link <?php echo $active_tab === 'pro' ? 'nav-tab-active' : ''; ?>">
-                    <span class="dashicons dashicons-star-filled"></span> Pro
-                </a>
+                <?php foreach ($tabs as $tab_key => $tab_label): ?>
+                    <a href="#" data-tab="<?php echo esc_attr($tab_key); ?>" class="nav-tab max-uploader-tab-link <?php echo $active_tab === $tab_key ? 'nav-tab-active' : ''; ?>">
+                        <?php if ($tab_key === 'general'): ?>
+                            <span class="dashicons dashicons-admin-generic"></span>
+                        <?php elseif ($tab_key === 'system_status'): ?>
+                            <span class="dashicons dashicons-chart-bar"></span>
+                        <?php elseif ($tab_key === 'upload_logs'): ?>
+                            <span class="dashicons dashicons-list-view"></span>
+                        <?php elseif ($tab_key === 'user_limits'): ?>
+                            <span class="dashicons dashicons-groups"></span>
+                        <?php elseif ($tab_key === 'statistics'): ?>
+                            <span class="dashicons dashicons-chart-area"></span>
+                        <?php elseif ($tab_key === 'pro'): ?>
+                            <span class="dashicons dashicons-star-filled"></span>
+                        <?php endif; ?>
+                        <?php echo wp_kses_post($tab_label); ?>
+                    </a>
+                <?php endforeach; ?>
             </h2>
             <div id="max-uploader-tab-content">
                 <?php include_once WMUFS_PLUGIN_PATH . 'inc/MaxUploaderSystemStatus.php'; ?>
-                <div id="max-uploader-tab-general" class="max-uploader-tab-content" <?php echo $active_tab !== 'general' ? 'style="display:none;"' : ''; ?>>
-                    <?php
-                    include WMUFS_PLUGIN_PATH . 'admin/templates/MaxUploaderForm.php';
-                    ?>
-                </div>
-                <div id="max-uploader-tab-system_status" class="max-uploader-tab-content" <?php echo $active_tab !== 'system_status' ? 'style="display:none;"' : ''; ?>>
-                    <?php
-                    include WMUFS_PLUGIN_PATH . 'admin/templates/ClassSystemHealth.php';
-                    ?>
-                </div>
-                <div id="max-uploader-tab-pro" class="max-uploader-tab-content" <?php echo $active_tab !== 'pro' ? 'style="display:none;"' : ''; ?>>
-                    <?php
-                    include WMUFS_PLUGIN_PATH . 'admin/templates/FreeVsPro.php';
-                    ?>
-                </div>
+
+                <?php foreach ($tabs as $tab_key => $tab_label): ?>
+                    <div id="max-uploader-tab-<?php echo esc_attr($tab_key); ?>" class="max-uploader-tab-content" <?php echo $active_tab !== $tab_key ? 'style="display:none;"' : ''; ?>>
+                        <?php
+                        if ($tab_key === 'general') {
+                            include WMUFS_PLUGIN_PATH . 'admin/templates/MaxUploaderForm.php';
+                        } elseif ($tab_key === 'system_status') {
+                            include WMUFS_PLUGIN_PATH . 'admin/templates/ClassSystemHealth.php';
+                        }elseif (in_array($tab_key, ['upload_logs', 'user_limits', 'statistics']) && !WMUFS_Helper::is_premium_active()) {
+                            include WMUFS_PLUGIN_PATH . 'admin/templates/UpgradePro.php';
+                        } else {
+                            do_action('wmufs_admin_tab_content', $tab_key);
+                        }
+                        ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
         <?php
@@ -172,10 +196,10 @@ class MaxUploader_Admin {
         remove_all_actions('admin_notices');
     }
 
-	/**
-	 * @return void
-	 */
-	static function upload_max_increase_upload(): void {
+    /**
+     * @return void
+     */
+    static function upload_max_increase_upload(): void {
 
         $settings = get_option('wmufs_settings') ?? [];
         $max_upload_size = (int) ($settings['max_limits']['all'] ?? get_option('max_file_size')); // bytes
@@ -183,26 +207,26 @@ class MaxUploader_Admin {
         $memory_limit = (int) ($settings['max_memory_limit'] ?? get_option('wmufs_memory_limit'));
 
         // Set max upload size
-		add_filter('upload_size_limit', function ($data) use ($max_upload_size) {
-			return $max_upload_size > 0 ? $max_upload_size : $data;
-		});
+        add_filter('upload_size_limit', function ($data) use ($max_upload_size) {
+            return $max_upload_size > 0 ? $max_upload_size : $data;
+        });
 
         // Set max execution time
-		if ( !empty($max_execution_time) && $max_execution_time > 0) {
-			// Only try to set a time limit if the function is available
-			if (function_exists('set_time_limit')) {
-				@set_time_limit( $max_execution_time ); // Suppress errors if the host restricts
-			}
-		}
+        if ( !empty($max_execution_time) && $max_execution_time > 0) {
+            // Only try to set a time limit if the function is available
+            if (function_exists('set_time_limit')) {
+                @set_time_limit( $max_execution_time ); // Suppress errors if the host restricts
+            }
+        }
 
         // Set a memory limit
-		if ( !empty($memory_limit) && $memory_limit > 0) {
+        if ( !empty($memory_limit) && $memory_limit > 0) {
             $memory_limit_mb = round($memory_limit / 1048576); // convert to MB ex: 2048
-			@ini_set('memory_limit', ((int) $memory_limit_mb) . 'M'); // e.g., 512M, 1024M
-		}
+            @ini_set('memory_limit', ((int) $memory_limit_mb) . 'M'); // e.g., 512M, 1024M
+        }
 
 
-	}
+    }
 
 }
 

@@ -15,6 +15,7 @@ class Class_Max_Uploader_Loader{
     public function load_dependency(): void {
 
         include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-i18n.php');
+        include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-helper.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-plugin-suggest.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/hooks.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/codepopular-promotion.php');
