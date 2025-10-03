@@ -160,8 +160,6 @@ class MaxUploader_Admin {
                             <span class="dashicons dashicons-groups"></span>
                         <?php elseif ($tab_key === 'statistics'): ?>
                             <span class="dashicons dashicons-chart-area"></span>
-                        <?php elseif ($tab_key === 'pro'): ?>
-                            <span class="dashicons dashicons-star-filled"></span>
                         <?php endif; ?>
                         <?php echo wp_kses_post($tab_label); ?>
                     </a>
