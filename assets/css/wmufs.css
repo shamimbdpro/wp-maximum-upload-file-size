@@ -126,16 +126,17 @@ body.post-type-attachment.media_page_max_uploader .notice:not(.wmufs-notice) {
 
 .wmufs_faq_section h2 {
   margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 18px;
+  margin-bottom: 25px;
+  font-size: 25px;
   color: #23282d;
   text-align: center;
 }
 
 .wmufs_faq_item {
   margin-bottom: 13px;
-  border: 1px solid #ddd;
-  padding: 10px 5px;
+  border: 1px solid #dadada;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .wmufs_faq_item strong {
@@ -259,6 +260,16 @@ body.post-type-attachment.media_page_max_uploader .notice:not(.wmufs-notice) {
 
 .wmufs-toggle-section {
   margin-top: 10px;
+}
+
+.easymedia-pro-badge {
+  border-radius: 1px;
+  padding: 3px 5px !important;
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  margin-left: 5px;
+  background-color: red;
 }
 
 /**----------------------------------------

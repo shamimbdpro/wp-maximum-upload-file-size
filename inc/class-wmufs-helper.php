@@ -38,7 +38,7 @@ class WMUFS_Helper {
      * @since 2.0.3
      */
     public static function get_upgrade_url(): string {
-        return 'https://codepopular.com/maxuploader-pro/';
+        return 'https://codepopular.com/product/easymedia?utm_source=plugin&utm_medium=link&utm_campaign=wmufs_free_to_pro_upgrade';
     }
 
     /**

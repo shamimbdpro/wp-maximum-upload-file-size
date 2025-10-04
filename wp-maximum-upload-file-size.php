@@ -1,18 +1,18 @@
 <?php
 /**
-* Plugin Name: MaxUploader - Increase Media Upload Size
-* Description: Wp Maximum Upload File Size will increase upload limit with one click. You can increase the upload file size according to your need.
-* Author: CodePopular
-* Author URI: https://codepopular.com
-* Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
-* Version: 2.0.2
-* License: GPL2
-* Text Domain: wp-maximum-upload-file-size
-* Requires at least: 4.0
-* Tested up to: 6.8
-* Requires PHP: 7.0
-* @coypright: -2025 CodePopular (support: info@codepopular.com)
-**/
+ * Plugin Name: EasyMedia - Increase Media Upload Size
+ * Description: Wp Maximum Upload File Size will increase upload limit with one click. You can increase the upload file size according to your need.
+ * Author: CodePopular
+ * Author URI: https://codepopular.com
+ * Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
+ * Version: 2.0.2
+ * License: GPL2
+ * Text Domain: wp-maximum-upload-file-size
+ * Requires at least: 4.0
+ * Tested up to: 6.8
+ * Requires PHP: 7.0
+ * @coypright: -2025 CodePopular (support: info@codepopular.com)
+ **/
 
 define('WMUFS_PLUGIN_FILE', __FILE__);
 define('WMUFS_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -30,10 +30,10 @@ define('WMUFS_PLUGIN_VERSION', '2.0.2');
 
 require __DIR__ . '/vendor/autoload.php';
 
-include_once( WMUFS_PLUGIN_PATH . 'inc/class-maxUploader-loader.php' );
+include_once( WMUFS_PLUGIN_PATH . 'inc/class-easymedia-loader.php' );
 
 if ( function_exists( 'wmufs_run' ) ) {
-  wmufs_run();
+    wmufs_run();
 }
 
 

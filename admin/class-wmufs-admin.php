@@ -12,7 +12,7 @@ class MaxUploader_Admin {
             add_filter('admin_footer_text', array( __CLASS__, 'admin_footer_text' ));
 
             // Handle form submission
-            add_action('admin_init', array( __CLASS__, 'max_uploader_form_submission' ));
+            add_action('admin_init', array( __CLASS__, 'easy_media_form_submission' ));
 
             add_action('admin_head', array( __CLASS__, 'show_admin_notice' ));
         }
@@ -25,7 +25,7 @@ class MaxUploader_Admin {
      * Handle form submission for max uploader settings.
      * @return void
      */
-    static function max_uploader_form_submission(): void {
+    static function easy_media_form_submission(): void {
         if (
             ! isset($_POST['upload_max_file_size_nonce']) ||
             ! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
@@ -54,7 +54,7 @@ class MaxUploader_Admin {
         update_option('wmufs_settings', $settings);
 
         set_transient('wmufs_settings_updated', 'Settings saved successfully.', 30);
-        wp_safe_redirect(admin_url('admin.php?page=max_uploader'));
+        wp_safe_redirect(admin_url('admin.php?page=easy_media'));
 
         exit;
     }
@@ -95,11 +95,11 @@ class MaxUploader_Admin {
     }
     static function is_plugin_page(): bool {
         $current_screen = get_current_screen();
-        return ($current_screen->id === 'media_page_max_uploader');
+        return ($current_screen->id === 'media_page_easy_media');
     }
 
     static function plugin_action_links( $links ) {
-        $settings_link = '<a href="' . admin_url('admin.php?page=max_uploader') . '">Settings</a>';
+        $settings_link = '<a href="' . admin_url('admin.php?page=easy_media') . '">Settings</a>';
         array_unshift($links, $settings_link);
         return $links;
     }
@@ -121,10 +121,10 @@ class MaxUploader_Admin {
     static function upload_max_file_size_add_pages() {
         add_submenu_page(
             'upload.php', // Parent Slug.
-            'Increase Max Upload File Size',
-            'MaxUploader',
+            'EasyMedia - Increase Max Upload File Size',
+            'EasyMedia',
             'manage_options',
-            'max_uploader',
+            'easy_media',
             [ __CLASS__, 'upload_max_file_size_dash' ],
         );
     }
@@ -138,9 +138,7 @@ class MaxUploader_Admin {
         );
 
         if (!WMUFS_Helper::is_premium_active()) {
-            $tabs['upload_logs'] = __('Upload Logs', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
-            $tabs['user_limits'] = __('Individual User Limits', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
-            $tabs['statistics'] = __('Statistics', 'wp-maximum-upload-file-size') . ' <span class="wmufs-pro-badge">PRO</span>';
+            $tabs['upload_logs'] = __('Pro', 'wp-maximum-upload-file-size');
         }
 
         $tabs = apply_filters('wmufs_admin_tabs', $tabs);
