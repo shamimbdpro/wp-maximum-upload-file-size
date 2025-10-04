@@ -1,32 +1,4 @@
 
-<!-- Premium Features List -->
-<?php if(WMUFS_Helper::get_upgrade_url()){ ?>
-    <div class="wmufs_faq_section">
-        <h2>Frequently Asked Questions</h2>
-        <div class="wmufs_faq_item">
-            <strong>Q: What happens if I set a file size higher than my server allows?</strong>
-            <p>A: Your server configuration will override this setting. Please update your <code>php.ini</code>, <code>.htaccess</code>, or contact your host.</p>
-        </div>
-        <div class="wmufs_faq_item">
-            <strong>Q: What is the recommended maximum execution time?</strong>
-            <p>A: For large uploads or slow connections, 300 to 600 seconds is recommended. Confirm limits with your host.</p>
-        </div>
-        <div class="wmufs_faq_item">
-            <strong>Q: Why don’t changes take effect immediately?</strong>
-            <p>A: Server caching or PHP-FPM may delay changes. Clear server cache or restart PHP services.</p>
-        </div>
-        <div class="wmufs_faq_item">
-            <strong>Q: Can I upload files larger than 2GB?</strong>
-            <p>A: It depends on your PHP/server configuration. Many shared hosts do not allow uploads > 2GB.</p>
-        </div>
-        <div class="wmufs_faq_item">
-            <strong>Q: Where can I find my current server limits?</strong>
-            <p>A: Go to <code>Tools > Site Health > Info || System Status Tab</code> or ask your host.</p>
-        </div>
-    </div>
-
-<?php } ?>
-
 <!-- Create Support Ticket -->
 <div class="wmufs_card_mini wmufs_mb_20">
     <div class="support-ticket">
@@ -40,6 +12,19 @@
             </a>
             <a target="_blank" class="button button-primary" href="<?php echo esc_url_raw('https://ko-fi.com/codepopular');?>">
                 <span class="dashicons dashicons-smiley"></span>&nbsp;<?php esc_html_e('Buy Me a Coffee', 'wp-maximum-upload-file-size'); ?>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Create Support Ticket -->
+<div class="wmufs_card_mini wmufs_mb_20">
+    <div class="support-ticket">
+        <h2><?php echo esc_html__('Update to Pro?', 'wp-maximum-upload-file-size'); ?></h2>
+        <p><code>No recurring payment required</code>Track and monitor all file uploads with detailed logging including user information, file details, upload timestamps, and success/failure status. Get complete visibility into your media library activity.</p>
+        <div class="support-buttons">
+            <a target="_blank" class="button button-primary" href="<?php echo esc_url_raw('https://codepopular.com/product/easymedia?utm_source=plugin&utm_medium=link&utm_campaign=wmufs_free_to_pro_upgrade');?>">
+                <span class="dashicons dashicons-cart"></span>&nbsp;<?php esc_html_e('Buy Now for only $19', 'wp-maximum-upload-file-size'); ?>
             </a>
         </div>
     </div>

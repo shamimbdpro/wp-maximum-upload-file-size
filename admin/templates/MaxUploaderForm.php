@@ -89,7 +89,7 @@ $pro_active = WMUFS_Helper::is_premium_active();
 
                         <div class="wmufs-toggle-buttons">
                             <button type="button" class="wmufs-toggle-btn active" data-target="#all-users-section">Global Limit</button>
-                            <button type="button" class="wmufs-toggle-btn" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="wmufs-pro-badge">PRO</span><?php } ?></button>
+                            <button type="button" class="wmufs-toggle-btn" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="easymedia-pro-badge">PRO</span><?php } ?></button>
                         </div>
 
                         <div id="all-users-section" class="wmufs-toggle-section">
@@ -189,11 +189,38 @@ $pro_active = WMUFS_Helper::is_premium_active();
                                 </form>
                             <?php else : ?>
                                 <p class="submit">
-                                    <button type="button" class="button button-primary"><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size'); ?><span class="wmufs-pro-badge">PRO</span></button>
+                                    <button type="button" class="button button-primary"><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size'); ?><span class="easymedia-pro-badge">PRO</span></button>
                                 </p>
                             <?php endif; ?>
                         </div>
                     </div>
+                    <!-- Premium Features List -->
+                    <?php if(WMUFS_Helper::get_upgrade_url()){ ?>
+                        <div class="wmufs_faq_section">
+                            <h2>Frequently Asked Questions</h2>
+                            <div class="wmufs_faq_item">
+                                <strong>Q: What happens if I set a file size higher than my server allows?</strong>
+                                <p>A: Your server configuration will override this setting. Please update your <code>php.ini</code>, <code>.htaccess</code>, or contact your host.</p>
+                            </div>
+                            <div class="wmufs_faq_item">
+                                <strong>Q: What is the recommended maximum execution time?</strong>
+                                <p>A: For large uploads or slow connections, 300 to 600 seconds is recommended. Confirm limits with your host.</p>
+                            </div>
+                            <div class="wmufs_faq_item">
+                                <strong>Q: Why don’t changes take effect immediately?</strong>
+                                <p>A: Server caching or PHP-FPM may delay changes. Clear server cache or restart PHP services.</p>
+                            </div>
+                            <div class="wmufs_faq_item">
+                                <strong>Q: Can I upload files larger than 2GB?</strong>
+                                <p>A: It depends on your PHP/server configuration. Many shared hosts do not allow uploads > 2GB.</p>
+                            </div>
+                            <div class="wmufs_faq_item">
+                                <strong>Q: Where can I find my current server limits?</strong>
+                                <p>A: Go to <code>Tools > Site Health > Info || System Status Tab</code> or ask your host.</p>
+                            </div>
+                        </div>
+
+                    <?php } ?>
                 </div>
             </div>
             <!-- End Content Area -->
