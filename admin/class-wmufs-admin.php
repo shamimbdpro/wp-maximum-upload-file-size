@@ -62,7 +62,7 @@ class MaxUploader_Admin {
 
     static function show_admin_notice(): void {
         if ( $message = get_transient('wmufs_settings_updated') ) {
-            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html($message) . '</p></div>';
+            echo '<div class="notice notice-success is-dismissible wmufs-notice"><p>' . esc_html($message) . '</p></div>';
             delete_transient('wmufs_settings_updated');
         }
     }

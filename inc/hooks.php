@@ -33,7 +33,7 @@ function custom_button_inline_after_upload_limit_by_class(): void {
 	$screen = get_current_screen();
 
 	if ($screen->base === 'media') {
-		$custom_link = admin_url('admin.php?page=max_uploader');
+		$custom_link = admin_url('admin.php?page=easy_media');
 		?>
 		<script type="text/javascript">
             jQuery(document).ready(function($) {
