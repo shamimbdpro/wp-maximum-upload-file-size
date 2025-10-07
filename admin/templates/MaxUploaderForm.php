@@ -8,6 +8,10 @@ $max_size = $max_size / 1024 / 1024;
 
 // Unified size options (16 MB to 10 GB)
 $size_options = array(
+    '0' => 'Default (Server Limit)',
+    '2' => '2 MB',
+    '4' => '4 MB',
+    '8' => '8 MB',
     '16' => '16 MB',
     '32' => '32 MB',
     '40' => '40 MB',
@@ -71,6 +75,10 @@ if (!isset($memory_limit_mb)) {
 
 // Check if pro/premium is active
 $pro_active = WMUFS_Helper::is_premium_active();
+
+// Get Limit Type (global or role-based)
+$wmufs_limit_type = $max_uploader_settings['limit_type'] ?? 'global';
+
 ?>
 
 <div class="wrap wmufs_mb_50">
@@ -88,21 +96,21 @@ $pro_active = WMUFS_Helper::is_premium_active();
                         <h3 class="wmufs-card-title">Select Upload Limit Mode</h3>
 
                         <div class="wmufs-toggle-buttons">
-                            <button type="button" class="wmufs-toggle-btn active" data-target="#all-users-section">Global Limit</button>
-                            <button type="button" class="wmufs-toggle-btn" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="easymedia-pro-badge">PRO</span><?php } ?></button>
+                            <button type="button" class="wmufs-toggle-btn <?php esc_html_e($wmufs_limit_type === 'global' ? 'active' : '')?>" data-target="#all-users-section">Global Limit</button>
+                            <button type="button" class="wmufs-toggle-btn <?php esc_html_e($wmufs_limit_type === 'role_based' ? 'active' : '')?>" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="easymedia-pro-badge">PRO</span><?php } ?></button>
                         </div>
 
                         <div id="all-users-section" class="wmufs-toggle-section">
                             <!-- All Users Form -->
                             <form method="post" action="options.php">
-                                <?php settings_fields('wmufs_settings_group'); ?>
+                                <input type="hidden" name="type" value="global">
                                 <h2><?php esc_html_e('Apply Upload Limit for All Users', 'wp-maximum-upload-file-size'); ?></h2>
                                 <table class="form-table">
                                     <tbody>
                                     <tr>
-                                        <th scope="row"><label for="max_file_size_field"><?php esc_html_e('Choose Upload File Size', 'wp-maximum-upload-file-size'); ?></label></th>
+                                        <th scope="row"><label for="max_file_size_field"><?php esc_html_e('Site Global Limit', 'wp-maximum-upload-file-size'); ?></label></th>
                                         <td>
-                                            <select id="max_file_size_field" name="wmufs_settings[max_limits][all]">
+                                            <select id="max_file_size_field" name="max_file_size_field">
                                                 <?php
                                                 foreach ($size_options as $key => $size) {
                                                     echo '<option value="' . esc_attr($key) . '" ' . selected($key, $max_size, false) . '>' . esc_html($size) . '</option>';
@@ -114,14 +122,14 @@ $pro_active = WMUFS_Helper::is_premium_active();
                                     <tr>
                                         <th scope="row"><label for="max_execution_time_field"><?php esc_html_e('Execution Time', 'wp-maximum-upload-file-size'); ?></label></th>
                                         <td>
-                                            <input id="max_execution_time_field" name="wmufs_settings[max_execution_time]" type="number" value="<?php echo esc_attr($wpufs_max_execution_time); ?>">
+                                            <input id="max_execution_time_field" name="max_execution_time_field" type="number" value="<?php echo esc_attr($wpufs_max_execution_time); ?>">
                                             <br><small><?php esc_html_e('Example: 300, 600, 1800, 3600', 'wp-maximum-upload-file-size'); ?></small>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row"><label for="max_memory_limit_field"><?php esc_html_e('Memory Limit', 'wp-maximum-upload-file-size'); ?></label></th>
                                         <td>
-                                            <select id="max_memory_limit_field" name="wmufs_settings[max_memory_limit]">
+                                            <select id="max_memory_limit_field" name="max_memory_limit_field">
                                                 <?php
                                                 foreach ($size_options as $key => $label) {
                                                     echo '<option value="' . esc_attr($key) . '" ' . selected($key, $memory_limit_mb, false) . '>' . esc_html($label) . '</option>';
@@ -136,62 +144,62 @@ $pro_active = WMUFS_Helper::is_premium_active();
                                     </tbody>
                                 </table>
 
-                                <?php wp_nonce_field('upload_max_file_size_action', 'upload_max_file_size_nonce'); ?>
+                                <?php wp_nonce_field('easy_media_set_size_action', 'easy_media_set_size_limit'); ?>
                                 <?php submit_button(); ?>
                             </form>
                         </div>
 
                         <div id="role-based-section" class="wmufs-toggle-section" style="display:none;">
-                            <?php
-                            $roles = WMUFS_Helper::get_available_roles();
-                            $role_limits = WMUFS_Helper::get_role_limits();
-                            ?>
-                            <h2><?php _e('Role-Based Upload Limits', 'wp-maximum-upload-file-size'); ?></h2>
-                            <?php if (!$pro_active) : ?>
-                                <p><?php esc_html_e('Upgrade to Pro to edit role-based upload limits.', 'wp-maximum-upload-file-size'); ?> <a href="https://x.ai/grok" target="_blank"><?php _e('Learn More', 'wp-maximum-upload-file-size'); ?></a></p>
-                            <?php endif; ?>
-                            <table class="wp-list-table widefat fixed striped">
-                                <thead>
-                                <tr>
-                                    <th><?php _e('Role', 'wp-maximum-upload-file-size'); ?></th>
-                                    <th><?php _e('Display Name', 'wp-maximum-upload-file-size'); ?></th>
-                                    <th><?php _e('Upload Limit (MB)', 'wp-maximum-upload-file-size'); ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($roles as $role_key => $role_data):
-                                    $current_limit = isset($role_limits[$role_key]) ? $role_limits[$role_key] / (1024 * 1024) : 0;
-                                    ?>
+                            <form id="role-limits-form" method="post" action="options.php">
+                                <?php
+                                $roles = WMUFS_Helper::get_available_roles();
+                                $role_limits = WMUFS_Helper::get_role_limits();
+                                ?>
+                                <h2><?php _e('Role-Based Upload Limits', 'wp-maximum-upload-file-size'); ?></h2>
+                                <?php if (!$pro_active) : ?>
+                                    <p><?php esc_html_e('Upgrade to Pro to edit role-based upload limits.', 'wp-maximum-upload-file-size'); ?> <a href="<?php echo esc_url(WMUFS_Helper::get_upgrade_url()); ?>" target="_blank"><?php _e('Learn More', 'wp-maximum-upload-file-size'); ?></a></p>
+                                <?php endif; ?>
+                                <table class="wp-list-table widefat fixed striped">
+                                    <thead>
                                     <tr>
-                                        <td><?php echo esc_html($role_key); ?></td>
-                                        <td><?php echo esc_html($role_data['name']); ?></td>
-                                        <td>
-                                            <?php if ($pro_active) : ?>
-                                                <input type="number" name="role_limits[<?php echo esc_attr($role_key); ?>]"
-                                                       value="<?php echo esc_attr($current_limit); ?>" min="0" step="1" />
-                                                <p><small><?php _e('0 = no limit', 'wp-maximum-upload-file-size'); ?></small></p>
-                                            <?php else : ?>
-                                                <span><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size')?></span>
-                                            <?php endif; ?>
-                                        </td>
+                                        <th><?php _e('Role', 'wp-maximum-upload-file-size'); ?></th>
+                                        <th><?php _e('Display Name', 'wp-maximum-upload-file-size'); ?></th>
+                                        <th><?php _e('Upload Limit (MB)', 'wp-maximum-upload-file-size'); ?></th>
                                     </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                            <?php if ($pro_active) : ?>
-                                <form id="role-limits-form" method="post" action="options.php">
-                                    <?php settings_fields('wmufs_role_limits_group'); ?>
-                                    <?php wp_nonce_field('role_limits_action', 'role_limits_nonce'); ?>
-                                    <input type="hidden" name="wmufs_role_limits" value="<?php echo esc_attr(json_encode($role_limits)); ?>">
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($roles as $role_key => $role_data):
+                                        $current_limit = isset($role_limits[$role_key]) ? $role_limits[$role_key] / (1024 * 1024) : 0;
+                                        ?>
+                                        <tr>
+                                            <td><?php echo esc_html($role_key); ?></td>
+                                            <td><?php echo esc_html($role_data['name']); ?></td>
+                                            <td>
+                                                <?php if ($pro_active) : ?>
+                                                    <select name="role_limits[<?php echo esc_attr($role_key); ?>]">
+                                                        <?php foreach ($size_options as $key => $label): ?>
+                                                            <option value="<?php echo esc_attr($key); ?>" <?php selected($current_limit, $key); ?>><?php echo esc_html($label); ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                <?php else : ?>
+                                                    <span><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size')?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php if ($pro_active) : ?>
+                                    <input type="hidden" name="type" value="role_based">
+                                    <?php wp_nonce_field('easy_media_set_size_action', 'easy_media_set_size_limit'); ?>
+                                    <?php submit_button(); ?>
+
+                                <?php else : ?>
                                     <p class="submit">
-                                        <button type="submit" class="button button-primary"><?php _e('Save Role Limits', 'wp-maximum-upload-file-size'); ?></button>
+                                        <button type="button" class="button button-primary"><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size'); ?><span class="easymedia-pro-badge">PRO</span></button>
                                     </p>
-                                </form>
-                            <?php else : ?>
-                                <p class="submit">
-                                    <button type="button" class="button button-primary"><?php _e('Upgrade Pro', 'wp-maximum-upload-file-size'); ?><span class="easymedia-pro-badge">PRO</span></button>
-                                </p>
-                            <?php endif; ?>
+                                <?php endif; ?>
+                            </form>
                         </div>
                     </div>
                     <!-- Premium Features List -->
@@ -237,16 +245,35 @@ $pro_active = WMUFS_Helper::is_premium_active();
         const toggleButtons = document.querySelectorAll('.wmufs-toggle-btn');
         const toggleSections = document.querySelectorAll('.wmufs-toggle-section');
 
+        // Get a limit type from PHP
+        const activeType = "<?php echo esc_js($wmufs_limit_type); ?>";
+        const activeTarget = activeType === 'role_based' ? '#role-based-section' : '#all-users-section';
+
+        // Initially activate the correct button + section
+        toggleButtons.forEach(button => {
+            const target = button.getAttribute('data-target');
+            if (target === activeTarget) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+
+        toggleSections.forEach(section => {
+            if ('#' + section.id === activeTarget) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+
+        // Handle button clicks
         toggleButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Remove active class from all buttons
                 toggleButtons.forEach(btn => btn.classList.remove('active'));
-                // Add active class to clicked button
                 this.classList.add('active');
 
-                // Hide all sections
                 toggleSections.forEach(section => section.style.display = 'none');
-                // Show the target section
                 const targetSection = document.querySelector(this.dataset.target);
                 if (targetSection) {
                     targetSection.style.display = 'block';

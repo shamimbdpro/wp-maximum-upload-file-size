@@ -30,6 +30,11 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
 add_action('admin_footer', 'custom_button_inline_after_upload_limit_by_class');
 
 function custom_button_inline_after_upload_limit_by_class(): void {
+
+    if(!WMUFS_Helper::user_can_manage_options()){
+        return;
+    }
+
 	$screen = get_current_screen();
 
 	if ($screen->base === 'media') {

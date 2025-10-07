@@ -1,27 +1,14 @@
 <?php
 class WMUFS_File_Chunk{
 
-
-    private static $instance = null;
-
-
     protected $max_upload_size;
-
-    /**
-     * Make instance of the admin class.
-     */
-    public static function get_instance() {
-        if ( ! self::$instance)
-            self::$instance = new self();
-        return self::$instance;
-    }
-
 
     /**
      * Load all action and filters.
      * @return void
      */
-    public function init(){
+    public function init(): void
+    {
         $this->max_upload_size = wp_max_upload_size();
         add_action( 'wp_ajax_wmufs_chunker', array( $this, 'wmufs_ajax_chunk_receiver' ) );
         add_filter( 'plupload_init', array( $this, 'wmufs_filter_plupload_settings' ) );
@@ -34,7 +21,8 @@ class WMUFS_File_Chunk{
      * @param $plupload_params
      * @return mixed
      */
-    public function wmufs_filter_plupload_params( $plupload_params ) {
+    public function wmufs_filter_plupload_params( $plupload_params ): mixed
+    {
 
         $plupload_params['action'] = 'wmufs_chunker';
 
@@ -459,4 +447,9 @@ class WMUFS_File_Chunk{
 
 }
 
-WMUFS_File_Chunk::get_instance()->init();
+add_action('init', function (){
+    if(WMUFS_Helper::user_can_manage_options()){
+        $object = new WMUFS_File_Chunk();
+        $object->init();
+    }
+});

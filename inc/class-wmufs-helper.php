@@ -30,7 +30,7 @@ class WMUFS_Helper {
     }
 
     /**
-     * Get upgrade URL for premium version
+     * Get upgrade URL for a premium version
      *
      * Returns the URL where users can upgrade to premium
      *
@@ -45,15 +45,21 @@ class WMUFS_Helper {
      * Get role limits
      */
     public static function get_role_limits() {
-        return get_option('wmufs_pro_role_limits', array());
+        $settings =  get_option('wmufs_settings') ?? array();
+        return is_array($settings) ? $settings['max_limits'] : array();
     }
 
     /**
      * Get available WordPress roles
      */
-    public static function get_available_roles() {
+    public static function get_available_roles(): array
+    {
         global $wp_roles;
         return $wp_roles->roles;
+    }
+
+    public static function user_can_manage_options(): bool {
+        return current_user_can('manage_options');
     }
 
 }

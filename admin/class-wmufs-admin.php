@@ -20,42 +20,59 @@ class MaxUploader_Admin {
         // Set Upload Limit
         self::upload_max_increase_upload();
     }
-
     /**
      * Handle form submission for max uploader settings.
      * @return void
      */
     static function easy_media_form_submission(): void {
+
         if (
-            ! isset($_POST['upload_max_file_size_nonce']) ||
-            ! wp_verify_nonce(sanitize_text_field($_POST['upload_max_file_size_nonce']), 'upload_max_file_size_action')
+            ! isset($_POST['easy_media_set_size_limit']) ||
+            ! wp_verify_nonce(sanitize_text_field($_POST['easy_media_set_size_limit']), 'easy_media_set_size_action')
         ) {
             return;
         }
 
-        $settings = [];
+        $settings = get_option('wmufs_settings', []);
 
-        if ( isset($_POST['max_file_size_field']) ) {
-            $limit = (int) sanitize_text_field($_POST['max_file_size_field']) * 1024 * 1024;
-            $settings['max_limits'] = [
-                'all' => $limit,
-            ];
+        // Save Type of Limit
+        if (isset($_POST['type'])) {
+            $settings['limit_type'] = sanitize_text_field($_POST['type']);
         }
 
-        if ( isset($_POST['max_execution_time_field']) ) {
+        // 🧩 Base limit for all users
+        if (isset($_POST['max_file_size_field'])) {
+            $limit = (int) sanitize_text_field($_POST['max_file_size_field']) * 1024 * 1024;
+            if (!isset($settings['max_limits'])) {
+                $settings['max_limits'] = [];
+            }
+            $settings['max_limits']['all'] = $limit;
+        }
+
+        // 🧩 Per-role upload limits (optional)
+        if (isset($_POST['role_limits']) && is_array($_POST['role_limits'])) {
+            if (!isset($settings['max_limits'])) {
+                $settings['max_limits'] = [];
+            }
+            foreach ($_POST['role_limits'] as $role => $size) {
+                $settings['max_limits'][$role] = (int) sanitize_text_field($size) * 1024 * 1024;
+            }
+        }
+
+        // ⏱ Execution time
+        if (isset($_POST['max_execution_time_field'])) {
             $settings['max_execution_time'] = (int) sanitize_text_field($_POST['max_execution_time_field']);
         }
 
-        if ( isset($_POST['max_memory_limit_field']) ) {
+        // 💾 Memory limit
+        if (isset($_POST['max_memory_limit_field'])) {
             $settings['max_memory_limit'] = (int) sanitize_text_field($_POST['max_memory_limit_field']) * 1024 * 1024;
         }
 
-        // Save as JSON string or array. WordPress can handle arrays (auto-serialized).
         update_option('wmufs_settings', $settings);
 
         set_transient('wmufs_settings_updated', 'Settings saved successfully.', 30);
         wp_safe_redirect(admin_url('admin.php?page=easy_media'));
-
         exit;
     }
 
