@@ -10,7 +10,7 @@
  * Text Domain: wp-maximum-upload-file-size
  * Requires at least: 4.0
  * Tested up to: 6.8
- * Requires PHP: 7.0
+ * Requires PHP: 5.6
  * @coypright: -2025 CodePopular (support: info@codepopular.com)
  **/
 
@@ -42,7 +42,7 @@ if ( function_exists( 'wmufs_run' ) ) {
  *
  * @return void
  */
-function appsero_init_tracker_wp_maximum_upload_file_size(): void {
+function appsero_init_tracker_wp_maximum_upload_file_size() {
 
     $client = new Appsero\Client( 'a9151e1a-bc01-4c13-a117-d74263a219d7', 'WP Increase Upload Filesize | Increase Maximum Execution Time', __FILE__ );
 

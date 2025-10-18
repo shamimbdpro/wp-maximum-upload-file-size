@@ -1,6 +1,6 @@
 <?php
 $max_uploader_settings = get_option('wmufs_settings', []);
-$max_size = $max_uploader_settings['max_limits']['all'] ?? '';
+$max_size = isset($max_uploader_settings['max_limits']['all']) ? $max_uploader_settings['max_limits']['all'] : '';
 if (!$max_size) {
     $max_size = wp_max_upload_size();
 }
@@ -34,11 +34,11 @@ if (!isset($size_options[(string)$max_size])) {
 }
 
 // Execution time
-$wpufs_max_execution_time = $max_uploader_settings['max_execution_time'] ?? '';
+$wpufs_max_execution_time = isset($max_uploader_settings['max_execution_time']) ? $max_uploader_settings['max_execution_time'] : '';
 $wpufs_max_execution_time = $wpufs_max_execution_time ?: ini_get('max_execution_time');
 
 // Get memory limit
-$max_uploader_customize_memory_limit = $max_uploader_settings['max_memory_limit'] ?? '';
+$max_uploader_customize_memory_limit = isset($max_uploader_settings['max_memory_limit']) ? $max_uploader_settings['max_memory_limit'] : '';
 if ($max_uploader_customize_memory_limit) {
     $memory_limit_mb = $max_uploader_customize_memory_limit / 1024 / 1024;
 } else {
@@ -77,7 +77,7 @@ if (!isset($memory_limit_mb)) {
 $pro_active = WMUFS_Helper::is_premium_active();
 
 // Get Limit Type (global or role-based)
-$wmufs_limit_type = $max_uploader_settings['limit_type'] ?? 'global';
+$wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_settings['limit_type'] : 'global';
 
 ?>
 

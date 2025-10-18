@@ -3,7 +3,7 @@
  * Class Codepopular_WMUFS
  */
 class MaxUploader_Admin {
-    static function init(): void {
+    static function init() {
 
         if ( is_admin() ) {
             add_action('admin_enqueue_scripts', array( __CLASS__, 'wmufs_style_and_script' ));
@@ -25,7 +25,7 @@ class MaxUploader_Admin {
      * Handle form submission for max uploader settings.
      * @return void
      */
-    static function easy_media_form_submission(): void {
+    static function easy_media_form_submission() {
 
         if (
             ! isset($_POST['easy_media_set_size_limit']) ||
@@ -78,7 +78,7 @@ class MaxUploader_Admin {
     }
 
 
-    static function show_admin_notice(): void {
+    static function show_admin_notice() {
         if ( $message = get_transient('wmufs_settings_updated') ) {
             echo '<div class="notice notice-success is-dismissible wmufs-notice"><p>' . esc_html($message) . '</p></div>';
             delete_transient('wmufs_settings_updated');
@@ -86,7 +86,7 @@ class MaxUploader_Admin {
     }
 
 
-    static function wmufs_style_and_script(): void {
+    static function wmufs_style_and_script() {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', array(), WMUFS_PLUGIN_VERSION);
 
         // Ensure jQuery is loaded
@@ -107,11 +107,11 @@ class MaxUploader_Admin {
         );
     }
 
-    static function get_plugin_version(): string {
+    static function get_plugin_version() {
         $plugin_data = get_file_data(__FILE__, array('version' => 'Version'), 'plugin');
         return $plugin_data['version'];
     }
-    static function is_plugin_page(): bool {
+    static function is_plugin_page() {
         $current_screen = get_current_screen();
         return ($current_screen->id === 'media_page_easy_media');
     }
@@ -205,7 +205,7 @@ class MaxUploader_Admin {
         add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]);
     }
 
-    static function wmufs_remove_admin_action(): void {
+    static function wmufs_remove_admin_action() {
         remove_all_actions('user_admin_notices');
         remove_all_actions('admin_notices');
     }
@@ -213,19 +213,19 @@ class MaxUploader_Admin {
     /**
      * @return void
      */
-    static function upload_max_increase_upload(): void {
-        $settings = get_option('wmufs_settings') ?? [];
-        $role_limits = $settings['max_limits'] ?? [];
-        $global_limit = (int) ($role_limits['all'] ?? 0); // global limit in bytes
+    static function upload_max_increase_upload() {
+        $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+        $role_limits = isset($settings['max_limits']) ? $settings['max_limits'] : [];
+        $global_limit = (int) (isset($role_limits['all']) ? $role_limits['all'] : 0); // global limit in bytes
 
         // Execution time
-        $max_execution_time = (int) ($settings['max_execution_time'] ?? get_option('wmufs_maximum_execution_time'));
+        $max_execution_time = (int) (isset($settings['max_execution_time']) ? $settings['max_execution_time'] : get_option('wmufs_maximum_execution_time'));
         if ($max_execution_time > 0 && function_exists('set_time_limit')) {
             @set_time_limit($max_execution_time);
         }
 
         // Memory limit
-        $memory_limit = (int) ($settings['max_memory_limit'] ?? get_option('wmufs_memory_limit'));
+        $memory_limit = (int) (isset($settings['max_memory_limit']) ? $settings['max_memory_limit'] : get_option('wmufs_memory_limit'));
         if ($memory_limit > 0) {
             $memory_limit_mb = round($memory_limit / 1048576);
             @ini_set('memory_limit', $memory_limit_mb . 'M');

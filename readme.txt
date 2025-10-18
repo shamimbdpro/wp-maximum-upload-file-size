@@ -3,7 +3,7 @@ Contributors: codepopular, shamimtpi, rajubdpro
 Tags: upload limit, increase upload, big file upload, media upload, execution time
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
-Requires PHP: 7.0
+Requires PHP: 5.6
 Tested up to: 6.8
 Stable tag: 2.0.2
 License: GPLv2 or later

@@ -7,7 +7,7 @@ class WMUFS_File_Chunk{
      * Load all action and filters.
      * @return void
      */
-    public function init(): void
+    public function init()
     {
         $this->max_upload_size = wp_max_upload_size();
         add_action( 'wp_ajax_wmufs_chunker', array( $this, 'wmufs_ajax_chunk_receiver' ) );
@@ -21,7 +21,7 @@ class WMUFS_File_Chunk{
      * @param $plupload_params
      * @return mixed
      */
-    public function wmufs_filter_plupload_params( $plupload_params ): mixed
+    public function wmufs_filter_plupload_params( $plupload_params )
     {
 
         $plupload_params['action'] = 'wmufs_chunker';
@@ -68,7 +68,7 @@ class WMUFS_File_Chunk{
         $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
 
         /** Get file name and path + name. */
-        $fileName = $_REQUEST['name'] ?? $_FILES['async-upload']['name'];
+        $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : $_FILES['async-upload']['name'];
 
 
         $wmufs_temp_dir = apply_filters('wmufs_temp_dir', WP_CONTENT_DIR . '/wmufs-temp');
@@ -205,7 +205,7 @@ class WMUFS_File_Chunk{
      * @param $tempFile
      * @return bool
      */
-    private function is_file_size_exceeded( $filePath, $tempFile ): bool
+    private function is_file_size_exceeded( $filePath, $tempFile )
     {
         $wmufs_max_upload_size = $this->get_upload_limit();
         return file_exists( $filePath ) && filesize( $filePath ) + filesize( $tempFile ) > $wmufs_max_upload_size;
@@ -287,10 +287,10 @@ class WMUFS_File_Chunk{
      *
      * @return integer
      */
-    function get_upload_limit(): int
+    function get_upload_limit()
     {
-	    $settings = get_option('wmufs_settings') ?? [];
-	    $max_size = (int) ($settings['max_limits']['all'] ?? get_option('max_file_size')); // bytes
+	    $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+	    $max_size = (int) (isset($settings['max_limits']['all']) ? $settings['max_limits']['all'] : get_option('max_file_size')); // bytes
         if ( ! $max_size ) {
             $max_size = wp_max_upload_size();
         }

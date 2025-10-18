@@ -25,7 +25,7 @@ class WMUFS_Helper {
      * @return bool True if premium version is active, false otherwise
      * @since 2.0.3
      */
-    public static function is_premium_active(): bool {
+    public static function is_premium_active() {
         return defined('WMUFS_PRO_VERSION') || class_exists('WMUFS_Pro_Loader');
     }
 
@@ -37,7 +37,7 @@ class WMUFS_Helper {
      * @return string Upgrade URL
      * @since 2.0.3
      */
-    public static function get_upgrade_url(): string {
+    public static function get_upgrade_url() {
         return 'https://codepopular.com/product/easymedia?utm_source=plugin&utm_medium=link&utm_campaign=wmufs_free_to_pro_upgrade';
     }
 
@@ -45,20 +45,20 @@ class WMUFS_Helper {
      * Get role limits
      */
     public static function get_role_limits() {
-        $settings =  get_option('wmufs_settings') ?? array();
+        $settings =  get_option('wmufs_settings') ? get_option('wmufs_settings') : array();
         return is_array($settings) ? $settings['max_limits'] : array();
     }
 
     /**
      * Get available WordPress roles
      */
-    public static function get_available_roles(): array
+    public static function get_available_roles()
     {
         global $wp_roles;
         return $wp_roles->roles;
     }
 
-    public static function user_can_manage_options(): bool {
+    public static function user_can_manage_options() {
         return current_user_can('manage_options');
     }
 

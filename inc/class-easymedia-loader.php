@@ -12,7 +12,7 @@ class Class_Max_Uploader_Loader{
     /**
      * Load all Plugin FIle.
      */
-    public function load_dependency(): void {
+    public function load_dependency() {
 
         include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-i18n.php');
         include_once(WMUFS_PLUGIN_PATH. 'inc/class-wmufs-helper.php');
@@ -28,7 +28,7 @@ class Class_Max_Uploader_Loader{
 /**
  * Initialize load class .
  */
-function wmufs_run(): void {
+function wmufs_run() {
     if ( class_exists( 'Class_Max_Uploader_Loader' ) ) {
         new Class_Max_Uploader_Loader();
     }

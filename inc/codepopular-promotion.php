@@ -21,7 +21,7 @@ if ( ! function_exists( 'codepopular_dashboard_widget_render' ) ) {
 	/**
 	 * Render the dashboard widget content with transient cache.
 	 */
-	function codepopular_dashboard_widget_render(): void {
+	function codepopular_dashboard_widget_render() {
 
 		// ✅ PROMOTION (cached for 12 hours)
 		$promo_data = get_transient( 'codepopular_promo_data' );
