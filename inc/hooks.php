@@ -47,10 +47,33 @@ function custom_button_inline_after_upload_limit_by_class() {
 
                 // Append inline link after the message
                 uploadNotice.append(
-                    ' <a href="<?php echo esc_url($custom_link); ?>" style="margin-left: 5px;">Change with - MaxUploader</a>'
+                    ' <a href="<?php echo esc_url($custom_link); ?>" style="margin-left: 5px;">Change with - EasyMedia</a>'
                 );
+
+
+
             });
 		</script>
 		<?php
 	}
 }
+
+add_action('admin_enqueue_scripts', function($hook) {
+    if ($hook === 'upload.php') {
+        $custom_link = esc_url( admin_url('admin.php?page=easy_media') );
+        wp_add_inline_script('media-views', "
+            jQuery(document).ready(function($) {
+                // Also run once on first load
+                $(window).on('load', function() {
+                    const maxText = $('.max-upload-size');
+                    if (maxText.length && !maxText.find('a.easymedia-link').length) {
+                        maxText.append(
+                            ' <a href=\"{$custom_link}\" class=\"easymedia-link\" target=\"_blank\" style=\"margin-left:8px;\">Change Limit With EasyMedia</a>'
+                        );
+                    }
+                });
+            });
+        ");
+    }
+});
+

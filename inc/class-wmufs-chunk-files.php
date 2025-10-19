@@ -285,15 +285,53 @@ class WMUFS_File_Chunk{
      *
      * @return integer
      */
-    function get_upload_limit()
-    {
-	    $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
-	    $max_size = (int) (isset($settings['max_limits']['all']) ? $settings['max_limits']['all'] : get_option('max_file_size')); // bytes
-        if ( ! $max_size ) {
-            $max_size = wp_max_upload_size();
+//    function get_upload_limit()
+//    {
+//	    $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+//	    $max_size = (int) (isset($settings['max_limits']['all']) ? $settings['max_limits']['all'] : get_option('max_file_size')); // bytes
+//        if ( ! $max_size ) {
+//            $max_size = wp_max_upload_size();
+//        }
+//        return $max_size;
+//    }
+
+    function get_upload_limit() {
+        $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+
+        // Ensure the settings structure is valid
+        if ( ! is_array( $settings ) || ! isset( $settings['max_limits'] ) ) {
+            return wp_max_upload_size();
         }
-        return $max_size;
+
+        error_log('Settings: ' . print_r($settings, true));
+
+        // Default limit fallback
+        $default_limit = isset( $settings['max_limits']['all']['bytes'] ) ? (int) $settings['max_limits']['all']['bytes'] : wp_max_upload_size();
+
+       //  Check if by-role limits are enabled
+        if ( $settings['limit_type'] === 'role_based'  && is_user_logged_in() ) {
+            $limit = 0;
+            $user  = wp_get_current_user();
+
+            if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+                foreach ( $user->roles as $role ) {
+                    if ( isset( $settings['limits'][ $role ]['bytes'] ) ) {
+                        $role_limit = (int) $settings['limits'][ $role ]['bytes'];
+                        if ( $role_limit > $limit ) {
+                            $limit = $role_limit;
+                        }
+                    }
+                }
+            }
+
+            // Return role-specific limit if found, otherwise default
+            return $limit > 0 ? $limit : $default_limit;
+        }
+
+        // Return global limit
+        return $default_limit;
     }
+
 
 
     /**
@@ -446,8 +484,8 @@ class WMUFS_File_Chunk{
 }
 
 add_action('init', function (){
-    if(WMUFS_Helper::user_can_manage_options()){
+//    if(WMUFS_Helper::user_can_manage_options()){ //only load for users who can manage options
         $object = new WMUFS_File_Chunk();
         $object->init();
-    }
+//    }
 });

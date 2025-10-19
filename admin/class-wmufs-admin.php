@@ -283,91 +283,102 @@ class MaxUploader_Admin {
      * @return void
      */
     static function upload_max_increase_upload() {
-        $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
-        $role_limits = isset($settings['max_limits']) ? $settings['max_limits'] : [];
-        $global_limit = (int) (isset($role_limits['all']) ? $role_limits['all'] : 0); // global limit in bytes
+        // Get plugin settings
+        $settings = get_option('wmufs_settings', []);
+        
+        // Only proceed if settings exist
+        if (empty($settings)) {
+            return;
+        }
 
-        // Execution time
+        // Get limit type (global or role_based)
+        $limit_type = isset($settings['limit_type']) ? $settings['limit_type'] : 'global';
+        $max_limits = isset($settings['max_limits']) ? $settings['max_limits'] : [];
+
+        // Apply execution time setting
         $max_execution_time = (int) (isset($settings['max_execution_time']) ? $settings['max_execution_time'] : get_option('wmufs_maximum_execution_time'));
         if ($max_execution_time > 0 && function_exists('set_time_limit')) {
             @set_time_limit($max_execution_time);
         }
 
-        // Memory limit
+        // Apply memory limit setting
         $memory_limit = (int) (isset($settings['max_memory_limit']) ? $settings['max_memory_limit'] : get_option('wmufs_memory_limit'));
         if ($memory_limit > 0) {
             $memory_limit_mb = round($memory_limit / 1048576);
             @ini_set('memory_limit', $memory_limit_mb . 'M');
         }
 
-        // Upload size limit filter
-        add_filter('upload_size_limit', function ($size) use ($global_limit, $role_limits) {
-            // If a global limit is set, use it
+        // Apply upload size limits based on a limit type
+        if ($limit_type === 'global') {
+            // Global limit for all users
+            $global_limit = (int) (isset($max_limits['all']) ? $max_limits['all'] : 0);
+            
             if ($global_limit > 0) {
-                return $global_limit;
+                add_filter('upload_size_limit', function ($size) use ($global_limit) {
+                    return $global_limit;
+                });
             }
-
-            // Role-based limit
-            if (is_user_logged_in()) {
-                $user = wp_get_current_user();
-                foreach ($user->roles as $role) {
-                    if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
-                        return (int) $role_limits[$role];
+        } elseif ($limit_type === 'role_based' && WMUFS_Helper::is_premium_active()) {
+            // Role-based limits (Pro feature only)
+            $role_limits = $max_limits;
+            
+            add_filter('upload_size_limit', function ($size) use ($role_limits) {
+                if (is_user_logged_in()) {
+                    $user = wp_get_current_user();
+                    foreach ($user->roles as $role) {
+                        if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
+                            return (int) $role_limits[$role];
+                        }
                     }
                 }
-            }
-
-            // fallback: WordPress default
-            return $size;
-        });
-
-
-//        // Also apply to media library bulk uploads
-//        add_filter('plupload_init', function ($plupload_init) use ($global_limit
-//        , $role_limits) {
-//            $max_size = $global_limit;
-//
-//            if ($max_size <= 0 && is_user_logged_in()) {
-//                $user = wp_get_current_user();
-//                foreach ($user->roles as $role) {
-//                    if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
-//                        $max_size = (int) $role_limits[$role];
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            if ($max_size > 0) {
-//                // Convert bytes to MB for plupload
-//                $plupload_init['max_file_size'] = size_format($max_size);
-//            }
-//
-//            return $plupload_init;
-//        });
+                return $size;
+            });
+        }
+        
 
         // Add validation of upload limit in pre-upload phase
-        // add_filter('wp_handle_upload_prefilter', function ($file) use ($global_limit, $role_limits) {
-        //     $max_size = $global_limit;
-        //     if ($max_size <= 0 && is_user_logged_in()) {
-        //         $user = wp_get_current_user();
-        //         foreach ($user->roles as $role) {
-        //             if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
-        //                 $max_size = (int) $role_limits[$role];
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     if ($max_size > 0 && isset($file['size']) && $file['size'] > $max_size) {
-        //         $file['error'] = sprintf(
-        //             __('Upload exceeds the maximum allowed size of %s.', 'wp-maximum-upload-file-size'),
-        //             size_format($max_size)
-        //         );
-        //     }
-        //     return $file;
-        // });
+        if ($limit_type === 'global') {
+            $global_limit = (int) (isset($max_limits['all']) ? $max_limits['all'] : 0);
+            
+            if ($global_limit > 0) {
+                add_filter('wp_handle_upload_prefilter', function ($file) use ($global_limit) {
+                    if (isset($file['size']) && $file['size'] > $global_limit) {
+                        $file['error'] = sprintf(
+                            __('Upload exceeds the maximum allowed size of %s.', 'wp-maximum-upload-file-size'),
+                            size_format($global_limit)
+                        );
+                    }
+                    return $file;
+                });
+            }
+        } elseif ($limit_type === 'role_based' && WMUFS_Helper::is_premium_active()) {
+            $role_limits = $max_limits;
+            
+            add_filter('wp_handle_upload_prefilter', function ($file) use ($role_limits) {
 
+                error_log("Checking role-based upload limit...");
 
-
+                $max_size = 0;
+                
+                if (is_user_logged_in()) {
+                    $user = wp_get_current_user();
+                    foreach ($user->roles as $role) {
+                        if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
+                            $max_size = (int) $role_limits[$role];
+                            break;
+                        }
+                    }
+                }
+                
+                if ($max_size > 0 && isset($file['size']) && $file['size'] > $max_size) {
+                    $file['error'] = sprintf(
+                        __('Upload exceeds the maximum allowed size of %s.', 'wp-maximum-upload-file-size'),
+                        size_format($max_size)
+                    );
+                }
+                return $file;
+            });
+        }
 
     }
 

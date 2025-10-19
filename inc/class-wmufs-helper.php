@@ -43,10 +43,12 @@ class WMUFS_Helper {
 
     /**
      * Get role limits
+     * 
+     * @return array Array of role limits or empty array if not set
      */
     public static function get_role_limits() {
-        $settings =  get_option('wmufs_settings') ? get_option('wmufs_settings') : array();
-        return is_array($settings) ? $settings['max_limits'] : array();
+        $settings = get_option('wmufs_settings', array());
+        return is_array($settings) && isset($settings['max_limits']) ? $settings['max_limits'] : array();
     }
 
     /**
