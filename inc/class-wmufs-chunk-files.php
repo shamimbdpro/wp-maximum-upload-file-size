@@ -266,7 +266,6 @@ class WMUFS_File_Chunk{
         } else {
             @fclose( $out );
             @unlink( $filePath );
-            error_log( "Error reading part $current_part of $chunks" );
             wp_die();
         }
     }
@@ -276,7 +275,6 @@ class WMUFS_File_Chunk{
      * @return void
      */
     private function handle_file_open_error( $filePath) {
-        error_log( "Failed to open output stream for $filePath" );
         wp_die();
     }
 

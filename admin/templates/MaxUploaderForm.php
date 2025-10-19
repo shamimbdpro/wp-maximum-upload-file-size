@@ -202,6 +202,19 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                             </form>
                         </div>
                     </div>
+
+                    <!-- Restore Default Settings Section -->
+                    <div class="wmufs-card wmufs-toggle-card" style="margin-top: 20px;">
+                        <h3 class="wmufs-card-title"><?php esc_html_e('Reset Settings', 'wp-maximum-upload-file-size'); ?></h3>
+                        <p><?php esc_html_e('Reset all plugin settings to their default values. This will clear all custom upload limits, execution time, and memory limit settings.', 'wp-maximum-upload-file-size'); ?></p>
+                        <p class="submit">
+                            <button type="button" id="restore-default-settings" class="button button-secondary" style="background-color: #dc3232; color: white; border-color: #dc3232;">
+                                <span class="dashicons dashicons-undo" style="vertical-align: middle; margin-right: 5px;"></span>
+                                <?php esc_html_e('Restore Default Settings', 'wp-maximum-upload-file-size'); ?>
+                            </button>
+                        </p>
+                    </div>
+
                     <!-- Premium Features List -->
                     <?php if(WMUFS_Helper::get_upgrade_url()){ ?>
                         <div class="wmufs_faq_section">
@@ -280,5 +293,75 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                 }
             });
         });
+
+        // Handle restore default settings button
+        const restoreButton = document.getElementById('restore-default-settings');
+        if (restoreButton) {
+            restoreButton.addEventListener('click', function() {
+                if (confirm('<?php esc_html_e('Are you sure you want to restore default settings? This will reset all your custom upload limits, execution time, and memory limit settings.', 'wp-maximum-upload-file-size'); ?>')) {
+                    // Show loading state
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<span class="dashicons dashicons-update" style="vertical-align: middle; margin-right: 5px; animation: spin 1s linear infinite;"></span><?php esc_html_e('Restoring...', 'wp-maximum-upload-file-size'); ?>';
+                    this.disabled = true;
+
+                    // Make AJAX request - use jQuery for better compatibility
+                    const ajaxUrl = typeof ajaxurl !== 'undefined' ? ajaxurl : '<?php echo admin_url('admin-ajax.php'); ?>';
+                    
+                    // Use jQuery AJAX for better compatibility
+                    jQuery.ajax({
+                        url: ajaxUrl,
+                        type: 'POST',
+                        data: {
+                            action: 'wmufs_restore_default_settings',
+                            nonce: '<?php echo wp_create_nonce('wmufs_restore_defaults'); ?>'
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.success) {
+                                // Show success message
+                                const notice = document.createElement('div');
+                                notice.className = 'notice notice-success is-dismissible';
+                                notice.innerHTML = '<p>' + data.data.message + '</p>';
+                                document.querySelector('.wrap').insertBefore(notice, document.querySelector('.wmufs_admin_deashboard'));
+                                
+                                // Reload page after 2 seconds
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                // Show error message
+                                const notice = document.createElement('div');
+                                notice.className = 'notice notice-error is-dismissible';
+                                notice.innerHTML = '<p>' + (data.data.message || '<?php esc_html_e('An error occurred while restoring settings.', 'wp-maximum-upload-file-size'); ?>') + '</p>';
+                                document.querySelector('.wrap').insertBefore(notice, document.querySelector('.wmufs_admin_deashboard'));
+                                
+                                // Restore button state
+                                restoreButton.innerHTML = originalText;
+                                restoreButton.disabled = false;
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX Error:', error);
+                            // Show error message
+                            const notice = document.createElement('div');
+                            notice.className = 'notice notice-error is-dismissible';
+                            notice.innerHTML = '<p><?php esc_html_e('An error occurred while restoring settings.', 'wp-maximum-upload-file-size'); ?></p>';
+                            document.querySelector('.wrap').insertBefore(notice, document.querySelector('.wmufs_admin_deashboard'));
+                            
+                            // Restore button state
+                            restoreButton.innerHTML = originalText;
+                            restoreButton.disabled = false;
+                        }
+                    });
+                }
+            });
+        }
     });
 </script>
+
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
