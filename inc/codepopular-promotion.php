@@ -98,7 +98,7 @@ if ( ! function_exists( 'codepopular_wmufs_promotions' ) ) {
 	function codepopular_wmufs_promotions() { ?>
         <div class="notice notice-success is-dismissible hideWmufsNotice">
             <div class="codepopular_notice">
-                <h4><?php esc_html_e( 'Thank you for using our Plugin to Increase Upload Size!', 'wp-maximum-upload-file-size' ); ?></h4>
+                <h4><?php esc_html_e( 'Thank you for using our Plugin EasyMedia!', 'wp-maximum-upload-file-size' ); ?></h4>
                 <p><?php esc_html_e( 'We are glad that you are using our plugin... Thank you to everyone.', 'wp-maximum-upload-file-size' ); ?></p>
                 <div class="codepopular__buttons">
                     <a href="https://ko-fi.com/codepopular?utm_source=maxuploader-dashboard-feed" target="_blank" class="codepopular__button btn__green dashicons-heart">

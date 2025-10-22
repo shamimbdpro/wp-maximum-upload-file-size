@@ -159,7 +159,7 @@ class MaxUploader_Admin {
         wp_enqueue_script('jquery');
 
         // Enqueue your script with explicit dependency on jQuery
-        wp_enqueue_script('wmufs-admin', WMUFS_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), time(), true);
+        wp_enqueue_script('wmufs-admin', WMUFS_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), WMUFS_PLUGIN_VERSION, true);
 
         wp_localize_script(
             'wmufs-admin',
@@ -245,6 +245,10 @@ class MaxUploader_Admin {
                             <span class="dashicons dashicons-groups"></span>
                         <?php elseif ($tab_key === 'statistics'): ?>
                             <span class="dashicons dashicons-chart-area"></span>
+                        <?php elseif ($tab_key === 'media_manager'): ?>
+                            <span class="dashicons dashicons-category"></span>
+                        <?php elseif ($tab_key === 'license'): ?>
+                            <span class="dashicons dashicons-admin-network"></span>
                         <?php endif; ?>
                         <?php echo wp_kses_post($tab_label); ?>
                     </a>
