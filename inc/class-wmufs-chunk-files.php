@@ -7,7 +7,7 @@ class WMUFS_File_Chunk{
      * Load all action and filters.
      * @return void
      */
-    public function init(): void
+    public function init()
     {
         $this->max_upload_size = wp_max_upload_size();
         add_action( 'wp_ajax_wmufs_chunker', array( $this, 'wmufs_ajax_chunk_receiver' ) );
@@ -21,7 +21,7 @@ class WMUFS_File_Chunk{
      * @param $plupload_params
      * @return mixed
      */
-    public function wmufs_filter_plupload_params( $plupload_params ): mixed
+    public function wmufs_filter_plupload_params( $plupload_params )
     {
 
         $plupload_params['action'] = 'wmufs_chunker';
@@ -68,7 +68,7 @@ class WMUFS_File_Chunk{
         $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
 
         /** Get file name and path + name. */
-        $fileName = $_REQUEST['name'] ?? $_FILES['async-upload']['name'];
+        $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : $_FILES['async-upload']['name'];
 
 
         $wmufs_temp_dir = apply_filters('wmufs_temp_dir', WP_CONTENT_DIR . '/wmufs-temp');
@@ -205,7 +205,7 @@ class WMUFS_File_Chunk{
      * @param $tempFile
      * @return bool
      */
-    private function is_file_size_exceeded( $filePath, $tempFile ): bool
+    private function is_file_size_exceeded( $filePath, $tempFile )
     {
         $wmufs_max_upload_size = $this->get_upload_limit();
         return file_exists( $filePath ) && filesize( $filePath ) + filesize( $tempFile ) > $wmufs_max_upload_size;
@@ -266,7 +266,6 @@ class WMUFS_File_Chunk{
         } else {
             @fclose( $out );
             @unlink( $filePath );
-            error_log( "Error reading part $current_part of $chunks" );
             wp_die();
         }
     }
@@ -276,7 +275,6 @@ class WMUFS_File_Chunk{
      * @return void
      */
     private function handle_file_open_error( $filePath) {
-        error_log( "Failed to open output stream for $filePath" );
         wp_die();
     }
 
@@ -287,15 +285,53 @@ class WMUFS_File_Chunk{
      *
      * @return integer
      */
-    function get_upload_limit(): int
-    {
-	    $settings = get_option('wmufs_settings') ?? [];
-	    $max_size = (int) ($settings['max_limits']['all'] ?? get_option('max_file_size')); // bytes
-        if ( ! $max_size ) {
-            $max_size = wp_max_upload_size();
+//    function get_upload_limit()
+//    {
+//	    $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+//	    $max_size = (int) (isset($settings['max_limits']['all']) ? $settings['max_limits']['all'] : get_option('max_file_size')); // bytes
+//        if ( ! $max_size ) {
+//            $max_size = wp_max_upload_size();
+//        }
+//        return $max_size;
+//    }
+
+    function get_upload_limit() {
+        $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+
+        // Ensure the settings structure is valid
+        if ( ! is_array( $settings ) || ! isset( $settings['max_limits'] ) ) {
+            return wp_max_upload_size();
         }
-        return $max_size;
+
+        error_log('Settings: ' . print_r($settings, true));
+
+        // Default limit fallback
+        $default_limit = isset( $settings['max_limits']['all']['bytes'] ) ? (int) $settings['max_limits']['all']['bytes'] : wp_max_upload_size();
+
+       //  Check if by-role limits are enabled
+        if ( $settings['limit_type'] === 'role_based'  && is_user_logged_in() ) {
+            $limit = 0;
+            $user  = wp_get_current_user();
+
+            if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+                foreach ( $user->roles as $role ) {
+                    if ( isset( $settings['limits'][ $role ]['bytes'] ) ) {
+                        $role_limit = (int) $settings['limits'][ $role ]['bytes'];
+                        if ( $role_limit > $limit ) {
+                            $limit = $role_limit;
+                        }
+                    }
+                }
+            }
+
+            // Return role-specific limit if found, otherwise default
+            return $limit > 0 ? $limit : $default_limit;
+        }
+
+        // Return global limit
+        return $default_limit;
     }
+
 
 
     /**
@@ -448,8 +484,8 @@ class WMUFS_File_Chunk{
 }
 
 add_action('init', function (){
-    if(WMUFS_Helper::user_can_manage_options()){
+//    if(WMUFS_Helper::user_can_manage_options()){ //only load for users who can manage options
         $object = new WMUFS_File_Chunk();
         $object->init();
-    }
+//    }
 });

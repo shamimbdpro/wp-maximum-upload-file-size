@@ -6,11 +6,11 @@ class MaxUploaderWordPressStatus {
         $plugin_data = get_plugin_data( WMUFS_PLUGIN_PATH . 'wp-maximum-upload-file-size.php' );
 
         $wp_version         = get_bloginfo( 'version' );
-        $min_wp_version     = $plugin_data['RequiresWP'] ?? '4.4';
+        $min_wp_version     = isset($plugin_data['RequiresWP']) ? $plugin_data['RequiresWP'] : '4.4';
         $wp_version_status  = version_compare( $wp_version, $min_wp_version, '>=' ) ? 1 : 0;
 
         $wc_version = class_exists( 'woocommerce' ) ? WC()->version : 'Not Active Woocommerce';
-        $min_wc_version = $plugin_data['WC requires at least'] ?? '3.2';
+        $min_wc_version = isset($plugin_data['WC requires at least']) ? $plugin_data['WC requires at least'] : '3.2';
         $wc_status = is_numeric( $wc_version ) && version_compare( $wc_version, $min_wc_version, '>=' ) ? 1 : 0;
 
         $min_upload_size = '40MB';
@@ -63,18 +63,18 @@ class MaxUploaderWordPressStatus {
         ];
     }
 
-    private function wp_min_upload_size(): string {
+    private function wp_min_upload_size() {
         $size = wp_max_upload_size();
         return $size ? size_format($size) : 'unknown';
     }
 
-    private function wp_upload_size_from_host(): string {
+    private function wp_upload_size_from_host() {
         $ini = ini_get('upload_max_filesize') ?: 'unknown';
         if (is_numeric($ini)) return $ini . ' bytes';
         return $ini . 'B';
     }
 
-    private function convertToBytes(string $from): ?int {
+    private function convertToBytes($from) {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $number = (float) preg_replace('/[^\d.]/', '', $from);
         $suffix = strtoupper(trim(str_replace($number, '', $from)));

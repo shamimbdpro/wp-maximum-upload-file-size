@@ -3,7 +3,8 @@
  * Class Codepopular_WMUFS
  */
 class MaxUploader_Admin {
-    static function init(): void {
+    static function init() {
+
         if ( is_admin() ) {
             add_action('admin_enqueue_scripts', array( __CLASS__, 'wmufs_style_and_script' ));
             add_action('admin_menu', array( __CLASS__, 'upload_max_file_size_add_pages' ));
@@ -15,6 +16,9 @@ class MaxUploader_Admin {
             add_action('admin_init', array( __CLASS__, 'easy_media_form_submission' ));
 
             add_action('admin_head', array( __CLASS__, 'show_admin_notice' ));
+
+            // AJAX handlers
+            add_action('wp_ajax_wmufs_restore_default_settings', array( __CLASS__, 'restore_default_settings_ajax' ));
         }
 
         // Set Upload Limit
@@ -24,7 +28,7 @@ class MaxUploader_Admin {
      * Handle form submission for max uploader settings.
      * @return void
      */
-    static function easy_media_form_submission(): void {
+    static function easy_media_form_submission() {
 
         if (
             ! isset($_POST['easy_media_set_size_limit']) ||
@@ -34,6 +38,11 @@ class MaxUploader_Admin {
         }
 
         $settings = get_option('wmufs_settings', []);
+        
+        // Ensure settings is always an array
+        if (!is_array($settings)) {
+            $settings = [];
+        }
 
         // Save Type of Limit
         if (isset($_POST['type'])) {
@@ -76,8 +85,66 @@ class MaxUploader_Admin {
         exit;
     }
 
+    /**
+     * AJAX handler for restoring default settings
+     */
+    static function restore_default_settings_ajax() {
+        // Verify nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wmufs_restore_defaults')) {
+            wp_send_json_error(array('message' => __('Security check failed.', 'wp-maximum-upload-file-size')));
+        }
 
-    static function show_admin_notice(): void {
+        // Check user capabilities
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => __('You do not have permission to perform this action.', 'wp-maximum-upload-file-size')));
+        }
+
+        try {
+            // Delete main plugin settings (this is the primary setting)
+            delete_option('wmufs_settings');
+            
+            // Delete legacy settings only if they exist (for backward compatibility)
+            if (get_option('wmufs_maximum_execution_time') !== false) {
+                delete_option('wmufs_maximum_execution_time');
+            }
+            if (get_option('wmufs_memory_limit') !== false) {
+                delete_option('wmufs_memory_limit');
+            }
+            if (get_option('wmufs_notice_disable_time') !== false) {
+                delete_option('wmufs_notice_disable_time');
+            }
+
+            // Clear any transients (safe to call even if they don't exist)
+            delete_transient('wmufs_settings_updated');
+            delete_transient('codepopular_promo_data');
+            delete_transient('codepopular_blog_posts');
+
+            // Also clear any Appsero tracking settings if they exist
+            $appsero_options = array(
+                'wp_maximum_upload_file_size_allow_tracking',
+                'wp_maximum_upload_file_size_tracking_notice',
+                'wp_maximum_upload_file_size_tracking_last_send',
+                'wp_maximum_upload_file_size_tracking_skipped'
+            );
+            
+            foreach ($appsero_options as $option) {
+                if (get_option($option) !== false) {
+                    delete_option($option);
+                }
+            }
+
+            wp_send_json_success(array(
+                'message' => __('Settings have been restored to default values successfully.', 'wp-maximum-upload-file-size')
+            ));
+
+        } catch (Exception $e) {
+            wp_send_json_error(array(
+                'message' => __('An error occurred while restoring settings: ', 'wp-maximum-upload-file-size') . $e->getMessage()
+            ));
+        }
+    }
+
+    static function show_admin_notice() {
         if ( $message = get_transient('wmufs_settings_updated') ) {
             echo '<div class="notice notice-success is-dismissible wmufs-notice"><p>' . esc_html($message) . '</p></div>';
             delete_transient('wmufs_settings_updated');
@@ -85,14 +152,14 @@ class MaxUploader_Admin {
     }
 
 
-    static function wmufs_style_and_script(): void {
+    static function wmufs_style_and_script() {
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', array(), WMUFS_PLUGIN_VERSION);
 
         // Ensure jQuery is loaded
         wp_enqueue_script('jquery');
 
         // Enqueue your script with explicit dependency on jQuery
-        wp_enqueue_script('wmufs-admin', WMUFS_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), time(), true);
+        wp_enqueue_script('wmufs-admin', WMUFS_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), WMUFS_PLUGIN_VERSION, true);
 
         wp_localize_script(
             'wmufs-admin',
@@ -104,13 +171,16 @@ class MaxUploader_Admin {
                 'active_tab' => isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general',
             )
         );
+
+        // Add ajaxurl for inline scripts
+        wp_add_inline_script('wmufs-admin', 'var ajaxurl = "' . admin_url('admin-ajax.php') . '";', 'before');
     }
 
-    static function get_plugin_version(): string {
+    static function get_plugin_version() {
         $plugin_data = get_file_data(__FILE__, array('version' => 'Version'), 'plugin');
         return $plugin_data['version'];
     }
-    static function is_plugin_page(): bool {
+    static function is_plugin_page() {
         $current_screen = get_current_screen();
         return ($current_screen->id === 'media_page_easy_media');
     }
@@ -142,7 +212,7 @@ class MaxUploader_Admin {
             'EasyMedia',
             'manage_options',
             'easy_media',
-            [ __CLASS__, 'upload_max_file_size_dash' ],
+            array( __CLASS__, 'upload_max_file_size_dash' ),
         );
     }
 
@@ -155,7 +225,7 @@ class MaxUploader_Admin {
         );
 
         if (!WMUFS_Helper::is_premium_active()) {
-            $tabs['upload_logs'] = __('Pro', 'wp-maximum-upload-file-size');
+            $tabs['upload_logs'] = __('Pro <span class="easymedia-pro-badge">PRO</span>', 'wp-maximum-upload-file-size');
         }
 
         $tabs = apply_filters('wmufs_admin_tabs', $tabs);
@@ -175,6 +245,10 @@ class MaxUploader_Admin {
                             <span class="dashicons dashicons-groups"></span>
                         <?php elseif ($tab_key === 'statistics'): ?>
                             <span class="dashicons dashicons-chart-area"></span>
+                        <?php elseif ($tab_key === 'media_manager'): ?>
+                            <span class="dashicons dashicons-category"></span>
+                        <?php elseif ($tab_key === 'license'): ?>
+                            <span class="dashicons dashicons-admin-network"></span>
                         <?php endif; ?>
                         <?php echo wp_kses_post($tab_label); ?>
                     </a>
@@ -204,7 +278,7 @@ class MaxUploader_Admin {
         add_action('admin_head', [ __CLASS__, 'wmufs_remove_admin_action' ]);
     }
 
-    static function wmufs_remove_admin_action(): void {
+    static function wmufs_remove_admin_action() {
         remove_all_actions('user_admin_notices');
         remove_all_actions('admin_notices');
     }
@@ -212,36 +286,106 @@ class MaxUploader_Admin {
     /**
      * @return void
      */
-    static function upload_max_increase_upload(): void {
+    static function upload_max_increase_upload() {
+        // Get plugin settings
+        $settings = get_option('wmufs_settings', []);
+        
+        // Only proceed if settings exist
+        if (empty($settings)) {
+            return;
+        }
 
-        $settings = get_option('wmufs_settings') ?? [];
-        $max_upload_size = (int) ($settings['max_limits']['all'] ?? get_option('max_file_size')); // bytes
-        $max_execution_time = (int) ($settings['max_execution_time'] ??  get_option('wmufs_maximum_execution_time'));
-        $memory_limit = (int) ($settings['max_memory_limit'] ?? get_option('wmufs_memory_limit'));
+        // Get limit type (global or role_based)
+        $limit_type = isset($settings['limit_type']) ? $settings['limit_type'] : 'global';
+        $max_limits = isset($settings['max_limits']) ? $settings['max_limits'] : [];
 
-        // Set max upload size
-        add_filter('upload_size_limit', function ($data) use ($max_upload_size) {
-            return $max_upload_size > 0 ? $max_upload_size : $data;
-        });
+        // Apply execution time setting
+        $max_execution_time = (int) (isset($settings['max_execution_time']) ? $settings['max_execution_time'] : get_option('wmufs_maximum_execution_time'));
+        if ($max_execution_time > 0 && function_exists('set_time_limit')) {
+            @set_time_limit($max_execution_time);
+        }
 
-        // Set max execution time
-        if ( !empty($max_execution_time) && $max_execution_time > 0) {
-            // Only try to set a time limit if the function is available
-            if (function_exists('set_time_limit')) {
-                @set_time_limit( $max_execution_time ); // Suppress errors if the host restricts
+        // Apply memory limit setting
+        $memory_limit = (int) (isset($settings['max_memory_limit']) ? $settings['max_memory_limit'] : get_option('wmufs_memory_limit'));
+        if ($memory_limit > 0) {
+            $memory_limit_mb = round($memory_limit / 1048576);
+            @ini_set('memory_limit', $memory_limit_mb . 'M');
+        }
+
+        // Apply upload size limits based on a limit type
+        if ($limit_type === 'global') {
+            // Global limit for all users
+            $global_limit = (int) (isset($max_limits['all']) ? $max_limits['all'] : 0);
+            
+            if ($global_limit > 0) {
+                add_filter('upload_size_limit', function ($size) use ($global_limit) {
+                    return $global_limit;
+                });
             }
+        } elseif ($limit_type === 'role_based' && WMUFS_Helper::is_premium_active()) {
+            // Role-based limits (Pro feature only)
+            $role_limits = $max_limits;
+            
+            add_filter('upload_size_limit', function ($size) use ($role_limits) {
+                if (is_user_logged_in()) {
+                    $user = wp_get_current_user();
+                    foreach ($user->roles as $role) {
+                        if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
+                            return (int) $role_limits[$role];
+                        }
+                    }
+                }
+                return $size;
+            });
         }
+        
 
-        // Set a memory limit
-        if ( !empty($memory_limit) && $memory_limit > 0) {
-            $memory_limit_mb = round($memory_limit / 1048576); // convert to MB ex: 2048
-            @ini_set('memory_limit', ((int) $memory_limit_mb) . 'M'); // e.g., 512M, 1024M
+        // Add validation of upload limit in pre-upload phase
+        if ($limit_type === 'global') {
+            $global_limit = (int) (isset($max_limits['all']) ? $max_limits['all'] : 0);
+            
+            if ($global_limit > 0) {
+                add_filter('wp_handle_upload_prefilter', function ($file) use ($global_limit) {
+                    if (isset($file['size']) && $file['size'] > $global_limit) {
+                        $file['error'] = sprintf(
+                            __('Upload exceeds the maximum allowed size of %s.', 'wp-maximum-upload-file-size'),
+                            size_format($global_limit)
+                        );
+                    }
+                    return $file;
+                });
+            }
+        } elseif ($limit_type === 'role_based' && WMUFS_Helper::is_premium_active()) {
+            $role_limits = $max_limits;
+            
+            add_filter('wp_handle_upload_prefilter', function ($file) use ($role_limits) {
+
+                error_log("Checking role-based upload limit...");
+
+                $max_size = 0;
+                
+                if (is_user_logged_in()) {
+                    $user = wp_get_current_user();
+                    foreach ($user->roles as $role) {
+                        if (isset($role_limits[$role]) && $role_limits[$role] > 0) {
+                            $max_size = (int) $role_limits[$role];
+                            break;
+                        }
+                    }
+                }
+                
+                if ($max_size > 0 && isset($file['size']) && $file['size'] > $max_size) {
+                    $file['error'] = sprintf(
+                        __('Upload exceeds the maximum allowed size of %s.', 'wp-maximum-upload-file-size'),
+                        size_format($max_size)
+                    );
+                }
+                return $file;
+            });
         }
-
 
     }
 
 }
 
 add_action('init', array( 'MaxUploader_Admin', 'init' ));
-?>

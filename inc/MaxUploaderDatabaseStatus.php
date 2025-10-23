@@ -19,7 +19,7 @@ class Max_Uploader_Database_Status {
      *
      * @return array
      */
-    public function get_info(): array
+    public function get_info()
     {
         return array(
             array(
