@@ -96,7 +96,7 @@ $testimonials = array(
         <!-- Urgency Banner -->
         <div class="easymedia-urgency-banner">
             <span class="dashicons dashicons-tickets-alt"></span>
-            <span><?php _e('Price only for first 100 licenses so don\'t miss chance!', 'wp-maximum-upload-file-size'); ?></span>
+            <span><?php _e('First 100 licenses will be sale for lifetime with regular price, so don\'t miss chance!', 'wp-maximum-upload-file-size'); ?></span>
         </div>
 
         <!-- Trust Bar -->

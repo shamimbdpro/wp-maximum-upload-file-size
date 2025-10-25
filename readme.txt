@@ -1,9 +1,9 @@
 === EasyMedia - Increase Media Upload File Size | Increase Execution Time ===
 Contributors: codepopular, shamimtpi, rajubdpro
-Tags: upload limit, increase upload, big file upload, media upload, execution time
+Tags: increase upload limit,increase file size limit,large file upload,easymedia,max upload file size
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
-Requires PHP: 5.6
+Requires PHP: 7.0
 Tested up to: 6.8
 Stable tag: 2.0.2
 License: GPLv2 or later
@@ -14,7 +14,7 @@ EasyMedia - Increase maximum upload file size limit to any value. Increase uploa
 
 == Description ==
 
-### **Increase the upload file size limit to any value with one click.**
+### **Increases the upload file size limit to any value with one click**
 Plugin automatically detects upload limits set by WordPress and by the server / hosting provider, and displays them in an easy-to-understand dashboard.
 
 Access the plugin's settings from the main WP admin menu.
@@ -26,6 +26,13 @@ After installing and activating the plugin, go to your dashboard and navigate to
 
 ### **Increase Maximum Execution Time.**
 Sometimes WordPress users can't upload new files due to extended execution time limits. With this plugin, you can increase the execution time to avoid these issues. Simply set the execution time in the input field according to your needs.
+
+### **Plugin Renamed: MaxUploader is now EasyMedia** ###
+We’ve rebranded MaxUploader to EasyMedia for a better, more user-friendly experience.
+Don’t worry — all your existing settings will remain intact. The plugin continues to provide the same core functionality, including increasing upload file size limits and execution time, with an improved interface and additional features.
+
+If you previously used MaxUploader, you can safely update to EasyMedia — it’s the same plugin, just with a new name and enhanced design.
+
 
 ### **🚀 Upgrade to EasyMedia Pro for Advanced Features**
 
@@ -182,7 +189,7 @@ If minimum upload limit is set by hosting provider then it will not work. Ask yo
 
 = Increase maximum execution time but not working? =
 
-If minimum execution time is set by hosting provider then it will not work. Ask your hosting provider to increase execution time limit.
+Usually we upload large by chunking to small size but if your WordPress upload directory is protected, then we can't create chunk directory. Try to create a support ticket we will try to investigate the issue to fix it
 
 = What's the difference between free and pro versions? =
 
