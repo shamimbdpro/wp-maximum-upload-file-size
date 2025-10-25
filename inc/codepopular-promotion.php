@@ -23,14 +23,14 @@ if ( ! function_exists( 'codepopular_dashboard_widget_render' ) ) {
 	 */
 	function codepopular_dashboard_widget_render() {
 
-		// ✅ PROMOTION (cached for 12 hours)
+		// ✅ PROMOTION (cached for 4 hours)
 		$promo_data = get_transient( 'codepopular_promo_data' );
 
 		if ( false === $promo_data ) {
 			$promo_response = wp_remote_get( 'https://raw.githubusercontent.com/shamimbdpro/promotion/main/promotion.json', array( 'timeout' => 10 ) );
 			if ( ! is_wp_error( $promo_response ) ) {
 				$promo_data = json_decode( wp_remote_retrieve_body( $promo_response ), true );
-				set_transient( 'codepopular_promo_data', $promo_data, 12 * HOUR_IN_SECONDS );
+				set_transient( 'codepopular_promo_data', $promo_data, 4 * HOUR_IN_SECONDS );
 			}
 		}
 

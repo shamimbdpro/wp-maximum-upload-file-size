@@ -51,7 +51,7 @@ class MaxUploaderServerStatus {
 	 */
 	protected function format_item( $title, $value, $is_ok = true ) {
 		return array(
-			'title'           => esc_html__( $title, 'wp-maximum-upload-file-size' ),
+			'title'           => esc_html( $title ),
 			'version'         => esc_html( $value ),
 			'status'          => $is_ok ? 1 : 0,
 			'success_message' => $is_ok ? esc_html__( '- ok', 'wp-maximum-upload-file-size' ) : '',

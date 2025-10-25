@@ -96,8 +96,8 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                         <h3 class="wmufs-card-title">Select Upload Limit Mode</h3>
 
                         <div class="wmufs-toggle-buttons">
-                            <button type="button" class="wmufs-toggle-btn <?php esc_html_e($wmufs_limit_type === 'global' ? 'active' : '')?>" data-target="#all-users-section">Global Limit</button>
-                            <button type="button" class="wmufs-toggle-btn <?php esc_html_e($wmufs_limit_type === 'role_based' ? 'active' : '')?>" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="easymedia-pro-badge">PRO</span><?php } ?></button>
+                            <button type="button" class="wmufs-toggle-btn <?php esc_html($wmufs_limit_type === 'global' ? 'active' : '')?>" data-target="#all-users-section">Global Limit</button>
+                            <button type="button" class="wmufs-toggle-btn <?php esc_html($wmufs_limit_type === 'role_based' ? 'active' : '')?>" data-target="#role-based-section">Role-Based Limit <?php if(!$pro_active){?><span class="easymedia-pro-badge">PRO</span><?php } ?></button>
                         </div>
 
                         <div id="all-users-section" class="wmufs-toggle-section">
@@ -155,16 +155,16 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                                 $roles = WMUFS_Helper::get_available_roles();
                                 $role_limits = WMUFS_Helper::get_role_limits();
                                 ?>
-                                <h2><?php _e('Role-Based Upload Limits', 'wp-maximum-upload-file-size'); ?></h2>
+                                <h2><?php esc_html_e('Role-Based Upload Limits', 'wp-maximum-upload-file-size'); ?></h2>
                                 <?php if (!$pro_active) : ?>
                                     <p><?php esc_html_e('Upgrade to Pro to edit role-based upload limits.', 'wp-maximum-upload-file-size'); ?> <a href="<?php echo esc_url(WMUFS_Helper::get_upgrade_url()); ?>" target="_blank"><?php _e('Learn More', 'wp-maximum-upload-file-size'); ?></a></p>
                                 <?php endif; ?>
                                 <table class="wp-list-table widefat fixed striped">
                                     <thead>
                                     <tr>
-                                        <th><?php _e('Role', 'wp-maximum-upload-file-size'); ?></th>
-                                        <th><?php _e('Display Name', 'wp-maximum-upload-file-size'); ?></th>
-                                        <th><?php _e('Upload Limit (MB)', 'wp-maximum-upload-file-size'); ?></th>
+                                        <th><?php esc_html_e('Role', 'wp-maximum-upload-file-size'); ?></th>
+                                        <th><?php esc_html_e('Display Name', 'wp-maximum-upload-file-size'); ?></th>
+                                        <th><?php esc_html_e('Upload Limit (MB)', 'wp-maximum-upload-file-size'); ?></th>
                                     </tr>
                                     </thead>
                                     <tbody>
