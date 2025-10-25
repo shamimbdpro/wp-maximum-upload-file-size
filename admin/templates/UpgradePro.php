@@ -53,19 +53,19 @@ $upgrade_url = WMUFS_Helper::get_upgrade_url();
 $pricing_tiers = array(
     array(
         'sites' => 1,
-        'price' => 19,
+        'price' => 29,
         'label' => __('1 Site', 'wp-maximum-upload-file-size'),
         'highlight' => false
     ),
     array(
         'sites' => 5,
-        'price' => 79,
+        'price' => 119,
         'label' => __('5 Sites', 'wp-maximum-upload-file-size'),
         'highlight' => true
     ),
     array(
         'sites' => 10,
-        'price' => 149,
+        'price' => 219,
         'label' => __('10 Sites', 'wp-maximum-upload-file-size'),
         'highlight' => false
     )
@@ -123,7 +123,7 @@ $testimonials = array(
         <div class="easymedia-upgrade-header">
             <h1>Unlock <span>EasyMedia Pro</span> – Total Upload Control Awaits</h1>
             <p>Stop wrestling with uploads. Get advanced monitoring, quotas, and security that scales with your site. Join 10,000+ happy users.</p>
-            <a href="<?php echo esc_url($upgrade_url); ?>" class="easymedia-btn hero-btn">Upgrade Now</a>
+            <a href="<?php echo esc_url($upgrade_url); ?>" target="_blank" class="easymedia-btn hero-btn">Upgrade Now</a>
         </div>
 
         <!-- Features Grid (3 Columns) -->
@@ -132,7 +132,7 @@ $testimonials = array(
                 <div class="easymedia-feature-box">
                     <h3><?php echo esc_html($feature['icon'] . ' ' . $feature['title']); ?></h3>
                     <p><?php echo esc_html($feature['description']); ?></p>
-                    <a href="<?php echo esc_url($upgrade_url); ?>" class="learn-more">Unlock Now →</a>
+                    <a href="<?php echo esc_url($upgrade_url); ?>" target="_blank" class="learn-more">Unlock Now →</a>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -286,7 +286,7 @@ $testimonials = array(
 
         <!-- CTA Footer -->
         <div class="easymedia-upgrade-footer">
-            <a href="<?php echo esc_url($upgrade_url); ?>" class="easymedia-btn cta-btn">Upgrade to Pro</a>
+            <a href="<?php echo esc_url($upgrade_url); ?>" target="_blank" class="easymedia-btn cta-btn">Upgrade to Pro</a>
             <p class="note"><?php _e('Upgrade once — enjoy lifetime access with priority support and regular updates.', 'wp-maximum-upload-file-size'); ?></p>
         </div>
 
