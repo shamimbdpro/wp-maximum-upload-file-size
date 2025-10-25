@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: EasyMedia - Increase Media Upload Size
- * Description: Wp EeasyMedia will increase upload limit with one click. You can increase the upload file size according to your need. It detects the upload limits set by WordPress and by the server / hosting provider, and displays them in an easy-to-understand dashboard.
+ * Description:EasyMedia will increase upload limit with one click. If your hosting provider does not allow uploading more than 2MB then the plugin will help you!
  * Author: CodePopular
  * Author URI: https://codepopular.com
  * Plugin URI: https://wordpress.org/plugins/wp-maximum-upload-file-size/
- * Version: 2.0.2
+ * Version: 3.0.0
  * License: GPL2
  * Text Domain: wp-maximum-upload-file-size
  * Requires at least: 4.0
@@ -19,7 +19,7 @@ define( 'WMUFS_PLUGIN_FILE', __FILE__ );
 define( 'WMUFS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WMUFS_PLUGIN_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'WMUFS_PLUGIN_URL', trailingslashit( plugins_url( '/', __FILE__ ) ) );
-define( 'WMUFS_PLUGIN_VERSION', '2.0.2' );
+define( 'WMUFS_PLUGIN_VERSION', '3.0.0' );
 
 /**----------------------------------------------------------------*/
 /*

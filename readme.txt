@@ -5,7 +5,7 @@ Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 7.0
 Tested up to: 6.8
-Stable tag: 2.0.2
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,7 +63,7 @@ Take your media management to the next level with [EasyMedia Pro](http://codepop
 The usual, automatic way:
 
 1. Open WordPress admin, go to Plugins, click Add New
-2. Enter "EasyMedia" in search and hit Enter
+2. Enter "EasyMedia" or "MaxUploader" or "Maximum upload file size" in search and hit Enter
 3. The Plugin will show up in the list, click "Install Now"
 4. Activate & open the plugin's settings page located in the main admin menu
 
@@ -71,7 +71,7 @@ Or if needed, install manually:
 
 1. Download the plugin.
 2. Unzip it and upload to _/wp-content/plugins/_
-3. Open WordPress admin - Plugins and click "Activate" next to the plugin
+3. Open WordPress admin - Plugins and click "Activate" next to plug in
 4. Activate & open the plugin's settings from Media > EasyMedia.
 
 
@@ -82,9 +82,14 @@ Or if needed, install manually:
 
 == Changelog ==
 
+= 3.0.0 =
+-------------
+* PHP 7.0 to 8.3 support
+* Pro Extension offer to extend features
+
 = 2.0.2 =
 -------------
-* Allow to change memory limit.
+* Allow to change the memory limit.
 * Latest feed display in the cache to make it faster.
 * Rebranded to EasyMedia for better user experience.
 

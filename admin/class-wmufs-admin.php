@@ -202,7 +202,7 @@ class MaxUploader_Admin {
         if ( ! self::is_plugin_page() ) {
             return $text;
         }
-        return '<span id="footer-thankyou">If you like <strong><ins>WP Maximum Upload File Size</ins></strong> please leave us a <a target="_blank" style="color:#f9b918" href="https://wordpress.org/support/view/plugin-reviews/wp-maximum-upload-file-size?rate=5#postform">★★★★★</a> rating. A huge thank you in advance!</span>';
+        return '<span id="footer-thankyou">If you like <strong><ins>EasyMedia</ins></strong> please leave us a <a target="_blank" style="color:#f9b918" href="https://wordpress.org/support/view/plugin-reviews/wp-maximum-upload-file-size?rate=5#postform">★★★★★</a> rating. A huge thank you in advance!</span>';
     }
 
     static function upload_max_file_size_add_pages() {

@@ -253,7 +253,7 @@ $testimonials = array(
         <div class="easymedia-pricing-section">
             <div class="pricing-header">
                 <h3><?php _e('Choose Your Plan', 'wp-maximum-upload-file-size'); ?></h3>
-                <p><?php _e('One-time payment for lifetime access. No recurring fees.', 'wp-maximum-upload-file-size'); ?></p>
+                <p><?php _e('One-time payment for lifetime access. No recurring fees for beta version.', 'wp-maximum-upload-file-size'); ?></p>
             </div>
             <div class="pricing-grid">
                 <?php foreach ($pricing_tiers as $tier): ?>
