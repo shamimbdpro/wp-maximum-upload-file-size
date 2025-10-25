@@ -7,7 +7,7 @@ class Max_Uploader_Database_Status {
      *
      * @var wpdb
      */
-    protected wpdb $wpdb;
+    protected $wpdb;
 
     public function __construct() {
         global $wpdb;

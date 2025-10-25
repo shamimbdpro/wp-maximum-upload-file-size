@@ -10,7 +10,7 @@
  * Text Domain: wp-maximum-upload-file-size
  * Requires at least: 4.0
  * Tested up to: 6.8
- * Requires PHP: 5.6
+ * Requires PHP: 7.0
  *
  * @coypright: -2025 CodePopular (support: info@codepopular.com)
  **/
