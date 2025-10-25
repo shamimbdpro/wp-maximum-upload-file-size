@@ -24,7 +24,7 @@
         <p><code>No recurring payment required</code>Track and monitor all file uploads with detailed logging including user information, file details, upload timestamps, and success/failure status. Get complete visibility into your media library activity.</p>
         <div class="support-buttons">
             <a target="_blank" class="button button-primary" href="<?php echo esc_url_raw('https://codepopular.com/product/easymedia?utm_source=plugin&utm_medium=link&utm_campaign=wmufs_free_to_pro_upgrade');?>">
-                <span class="dashicons dashicons-cart"></span>&nbsp;<?php esc_html_e('Buy Now for only $19', 'wp-maximum-upload-file-size'); ?>
+                <span class="dashicons dashicons-cart"></span>&nbsp;<?php esc_html_e('Upgrade Pro', 'wp-maximum-upload-file-size'); ?>
             </a>
         </div>
     </div>

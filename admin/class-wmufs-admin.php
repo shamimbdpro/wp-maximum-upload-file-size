@@ -212,7 +212,7 @@ class MaxUploader_Admin {
             'EasyMedia',
             'manage_options',
             'easy_media',
-            array( __CLASS__, 'upload_max_file_size_dash' ),
+            array( __CLASS__, 'upload_max_file_size_dash' )
         );
     }
 

@@ -75,12 +75,18 @@ class MaxUploaderWordPressStatus {
     }
 
     private function convertToBytes($from) {
+        // PHP 8.1+ compatibility: ensure $from is a string
+        if ($from === null || $from === '') {
+            return 0;
+        }
+        
+        $from = (string) $from;
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $number = (float) preg_replace('/[^\d.]/', '', $from);
-        $suffix = strtoupper(trim(str_replace($number, '', $from)));
+        $suffix = strtoupper(trim(str_replace((string)$number, '', $from)));
 
         $index = array_search($suffix, $units);
-        if ($index === false) return null;
+        if ($index === false) return 0;
 
         return (int) ($number * (1024 ** $index));
     }
