@@ -6,9 +6,11 @@ if (!$max_size) {
 }
 $max_size = $max_size / 1024 / 1024;
 
+// Get WordPress default upload limit
+$wp_default_limit = wp_max_upload_size() / 1024 / 1024; // Convert to MB
+
 // Unified size options (16 MB to 10 GB)
 $size_options = array(
-    '0' => 'Default (Server Limit)',
     '2' => '2 MB',
     '4' => '4 MB',
     '8' => '8 MB',
@@ -27,9 +29,9 @@ $size_options = array(
     '10240' => '10 GB',
 );
 
-// Add custom upload size if needed
-if (!isset($size_options[(string)$max_size])) {
-    $size_options[(string)$max_size] = $max_size . ' MB';
+// Add WordPress default limit if it's not already in the list
+if (!isset($size_options[(string)$wp_default_limit]) && $wp_default_limit > 0) {
+    $size_options[(string)$wp_default_limit] = 'Server Default (' . round($wp_default_limit) . ' MB)';
     ksort($size_options, SORT_NUMERIC);
 }
 
@@ -169,7 +171,8 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                                     </thead>
                                     <tbody>
                                     <?php foreach ($roles as $role_key => $role_data):
-                                        $current_limit = isset($role_limits[$role_key]) ? $role_limits[$role_key] / (1024 * 1024) : 0;
+                                        // Default to WordPress default limit if no custom role limit is set
+                                        $current_limit = isset($role_limits[$role_key]) ? $role_limits[$role_key] / (1024 * 1024) : $wp_default_limit;
                                         ?>
                                         <tr>
                                             <td><?php echo esc_html($role_key); ?></td>

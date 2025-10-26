@@ -5,7 +5,7 @@ Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 7.0
 Tested up to: 6.8
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,9 +15,9 @@ EasyMedia - Increase maximum upload file size limit to any value. Increase uploa
 == Description ==
 
 ### **Increases the upload file size limit to any value with one click**
-Plugin automatically detects upload limits set by WordPress and by the server / hosting provider, and displays them in an easy-to-understand dashboard.
+EasyMedia automatically detects your WordPress and server upload limits, displaying them in a simple dashboard. Instantly increase your upload size and easily upload large files like backups, videos, or ZIP archives directly to your WordPress media library — even if your hosting restricts upload limits.
 
-Access the plugin's settings from the main WP admin menu.
+Access the plugin's settings from the main WP admin menu. Media -> EasyMedia
 
 You can increase the maximum upload file size and WordPress maximum execution time. Some time extended maximum execution time is needed when uploading large attachments. With this plugin you can simply avoid this problem and manage your media uploads efficiently.
 
@@ -40,18 +40,26 @@ Take your media management to the next level with [EasyMedia Pro](http://codepop
 
 **Pro Features Include:**
 
-* **📊 Upload Logs & Tracking** - Monitor all file uploads with detailed logging including user, file name, size, type, and timestamp
-* **👥 User-Based Upload Limits** - Set individual upload limits for specific users that override global settings
-* **🎭 Role-Based Restrictions** - Configure different upload limits based on WordPress user roles (Administrator, Editor, Author, etc.)
-* **📁 Enhanced Media Library** - Display file sizes directly in media library columns and attachment details
-* **📈 Upload Statistics Dashboard** - View comprehensive statistics including top uploaders, recent uploads, and overall usage
-* **🔍 Advanced Reporting** - Export upload logs and generate detailed reports for analysis
-* **⚡ Auto-Install Dependency** - Automatically installs and configures the main plugin if needed
-* **🛡️ Better Security** - Track who uploads what and when for improved security and accountability
-* **💾 Database Management** - Clear old logs to manage database size efficiently
-* **🎯 Priority Support** - Get faster support and regular updates
+* **📊 Upload Logs & Tracking** - Monitor all file uploads with detailed logging including user, file name, size, type, and timestamp. With EasyMedia Pro upload logs module you can see how many source has for a single attachment. Some time WordPress site user got confused to detect how many blog post or page has used the picture. We provide the source list so you can easy manage and update it.
 
-[**Get EasyMedia Pro Now →**](http://codepopular.com/product/easymedia)
+* **👥 User-Based Upload Limits** - Set individual upload limits for specific users that override global settings. With this module you can specially set the disk limit per individual user. This way we can handle over upload issue from Editor and Author
+
+* **🎭 Role-Based Restrictions** - Configure different upload limits based on WordPress user roles (Administrator, Editor, Author, etc.) This module can help to define the upload limit per role which WordPress by default is not comes
+
+* **📁 Media Manager** - Display file sizes directly in media library columns and attachment details. This feature is acting as a File manage plugin where you can manager your WordPress site all files and folder.
+
+* **📈 Upload Statistics Dashboard** - View comprehensive statistics including top uploads, recent uploads, and overall usage. You can see graphical interface of your media library and top uploader list.
+
+* **🔍 Advanced Reporting** - Export upload logs and generate detailed reports for analysis
+
+* **⚡ Auto-Install Dependency** - Automatically installs and configures the main plugin if needed
+
+* **🛡️ Better Security** - Track who uploads what and when for improved security and accountability
+
+* **🎯 Priority Support** - Get faster support and regular updates. We focus one to one priority support.
+
+[**Get EasyMedia Pro Now →**](http://codepopular.com/product/easymedia) [**Get Read Documentation →**](https://codepopular.com/docs/easymedia)
+
 
 = Recommended Elementor Plugin =
 
@@ -82,7 +90,7 @@ Or if needed, install manually:
 
 == Changelog ==
 
-= 3.0.0 =
+= 3.0.1 =
 -------------
 * PHP 7.0 to 8.3 support
 * Pro Extension offer to extend features
@@ -186,7 +194,7 @@ Or if needed, install manually:
 
 = Does this plugin work with all servers and hosting providers? =
 
-Yes, it works with all servers. However, please note that server-adjusted limits can't be changed from a WordPress plugin. If the server set limit is 16MB you can't increase it to 128MB via WordPress. You have to email your hosting provider and ask them to increase the limit. Install the plugin and it'll tell you what the limits are and what to do.
+Yes, it works with all servers. However, please note that server-adjusted limits can't be changed from a WordPress plugin. If the server set limit is 16MB you can't increase it to 128MB via WordPress. But that case we chunk the large uploaded file in small peace as a refection upload time can be slower. But its possible to upload big file than your server set upload limit. Install the plugin and it'll tell you what the limits are and what to do.
 
 = Increase upload file size but still not working? =
 

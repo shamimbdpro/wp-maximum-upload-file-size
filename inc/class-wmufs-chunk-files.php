@@ -286,25 +286,29 @@ class WMUFS_File_Chunk{
      * @return integer
      */
     function get_upload_limit() {
-        $settings = get_option('wmufs_settings') ? get_option('wmufs_settings') : [];
+        $settings = get_option('wmufs_settings');
 
         // Ensure the settings structure is valid
         if ( ! is_array( $settings ) || ! isset( $settings['max_limits'] ) ) {
             return wp_max_upload_size();
         }
 
-        // Default limit fallback
+        // Get limit type (global or role_based)
+        $limit_type = isset($settings['limit_type']) ? $settings['limit_type'] : 'global';
+
+        // Default limit fallback - fix: max_limits['all'] is already in bytes
         $default_limit = isset( $settings['max_limits']['all'] ) ? (int) $settings['max_limits']['all'] : wp_max_upload_size();
 
-        //  Check if by-role limits are enabled
-        if ( $settings['limit_type'] === 'role_based'  && is_user_logged_in() ) {
+        // Check if by-role limits are enabled
+        if ( $limit_type === 'role_based' && is_user_logged_in() ) {
             $limit = 0;
             $user  = wp_get_current_user();
 
             if ( isset( $user->roles ) && is_array( $user->roles ) ) {
                 foreach ( $user->roles as $role ) {
-                    if ( isset( $settings['limits'][ $role ] ) ) {
-                        $role_limit = (int) $settings['limits'][ $role ];
+                    // Fix: max_limits[$role] is already in bytes, not ['bytes']
+                    if ( isset( $settings['max_limits'][ $role ] ) ) {
+                        $role_limit = (int) $settings['max_limits'][ $role ];
                         if ( $role_limit > $limit ) {
                             $limit = $role_limit;
                         }
