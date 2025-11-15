@@ -245,10 +245,6 @@ Or if needed, install manually:
 
 Yes, it works with all servers. However, please note that server-adjusted limits can't be changed from a WordPress plugin. If the server's set limit is 16MB, you can't increase it to 128MB via WordPress. However, in that case, we chunk the large uploaded file into smaller pieces as a reflection of the upload time, which can be slower. But its possible to upload a big file if your server set upload limit is higher. Install the plugin, and it'll inform you of the limits and the necessary actions.
 
-= Increase upload file size, but still not working? =
-
-If the minimum upload limit is set by the hosting provider, then it will not work. Ask your hosting provider to increase the upload size.
-
 = Increase maximum execution time, but not working? =
 
 Usually, we upload large files by chunking to a small size, but if your WordPress upload directory is protected, then we can't create a chunk directory. Please open a support ticket — our team will investigate and help resolve the issue.
