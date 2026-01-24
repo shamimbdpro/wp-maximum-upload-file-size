@@ -225,7 +225,7 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                             </div>
                             <div class="wmufs_faq_item">
                                 <strong>Q: Can I upload files larger than 2GB?</strong>
-                                <p>A: It depends on your PHP/server configuration. Many shared hosts do not allow uploads > 2GB.</p>
+                                <p>A: Yes! EasyMedia allows you to upload large files up to 10 GB. The plugin uses chunked upload technology to handle large files efficiently, even if your server has lower upload limits. Simply select your desired upload limit from the dropdown (up to 10 GB) and the plugin will handle the rest.</p>
                             </div>
                             <div class="wmufs_faq_item">
                                 <strong>Q: Where can I find my current server limits?</strong>

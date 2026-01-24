@@ -4,8 +4,8 @@ Tags: increase upload limit, increase file size limit, large file upload, easyme
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 7.0
-Tested up to: 6.8
-Stable tag: 3.0.3
+Tested up to: 6.9
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,10 @@ Or if needed, install manually:
 
 == Changelog ==
 
+= 3.0.4 =
+-------------
+* Latest Version (6.9) Compatible with WordPress
+
 
 = 3.0.3 =
 -------------
@@ -243,7 +247,7 @@ Or if needed, install manually:
 
 = Does this plugin work with all servers and hosting providers? =
 
-Yes, it works with all servers. However, please note that server-adjusted limits can't be changed from a WordPress plugin. If the server's set limit is 16MB, you can't increase it to 128MB via WordPress. However, in that case, we chunk the large uploaded file into smaller pieces as a reflection of the upload time, which can be slower. But its possible to upload a big file if your server set upload limit is higher. Install the plugin, and it'll inform you of the limits and the necessary actions.
+Yes, it works with all servers. However, please note that server-adjusted limits can't be changed from a WordPress plugin. If the server's set limit is 16MB, you can't increase it to 128MB via WordPress. However, in that case, we chunk the large uploaded file into smaller pieces as a reflection of the upload time, which can be slower. But its possible to upload a big file if your server set upload limit is higher. Install the plugin, and it'll inform you of the limits and the necessary actions. finally we upload file files even your site dose not allow it.
 
 = Increase maximum execution time, but not working? =
 

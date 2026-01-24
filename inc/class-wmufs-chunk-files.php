@@ -68,7 +68,7 @@ class WMUFS_File_Chunk{
         $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
 
         /** Get file name and path + name. */
-        $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : $_FILES['async-upload']['name'];
+        $fileName = isset($_REQUEST['name']) ? sanitize_file_name($_REQUEST['name']) : sanitize_file_name($_FILES['async-upload']['name']);
 
 
         $wmufs_temp_dir = apply_filters('wmufs_temp_dir', WP_CONTENT_DIR . '/wmufs-temp');
@@ -156,7 +156,7 @@ class WMUFS_File_Chunk{
                     echo esc_html( $id );
                 } else {
                     // Validate and sanitize the 'type' parameter.
-                    $type = $_REQUEST['type'];
+                    $type = isset($_REQUEST['type']) ? sanitize_key($_REQUEST['type']) : 'image';
                     // Apply the appropriate filter and escape the output.
                     echo esc_html( apply_filters( "async_upload_{$type}", $id ) );
                 }
@@ -353,7 +353,7 @@ class WMUFS_File_Chunk{
         }
 
         if ( isset( $_REQUEST['post_id'] ) ) {
-            $post_id = $_REQUEST['post_id'];
+            $post_id = absint( $_REQUEST['post_id'] );
 
             if ( ! current_user_can( 'edit_post', $post_id ) ) {
                 echo wp_json_encode(
