@@ -117,7 +117,7 @@ class MaxUploader_Admin {
             // Clear any transients (safe to call even if they don't exist)
             delete_transient('wmufs_settings_updated');
             delete_transient('codepopular_promo_data');
-            delete_transient('codepopular_blog_posts');
+            delete_transient('codepopular_blog_posts'); // legacy cache key
 
             // Also clear any Appsero tracking settings if they exist
             $appsero_options = array(
