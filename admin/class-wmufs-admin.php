@@ -152,7 +152,11 @@ class MaxUploader_Admin {
     }
 
 
-    static function wmufs_style_and_script() {
+    static function wmufs_style_and_script( $hook ) {
+        if ( 'media_page_easy_media' !== $hook ) {
+            return;
+        }
+
         wp_enqueue_style('wmufs-admin-style', WMUFS_PLUGIN_URL . 'assets/css/wmufs.css', array(), WMUFS_PLUGIN_VERSION);
 
         // Ensure jQuery is loaded
@@ -271,7 +275,39 @@ class MaxUploader_Admin {
 
         ?>
         <div class="wmufs-wrap">
-            <h2 class="nav-tab-wrapper">
+            <header class="wmufs-page-header">
+                <div class="wmufs-page-header__icon" aria-hidden="true">
+                    <span class="dashicons dashicons-cloud-upload"></span>
+                </div>
+                <div class="wmufs-page-header__text">
+                    <h1 class="wmufs-page-title"><?php esc_html_e( 'EasyMedia', 'wp-maximum-upload-file-size' ); ?></h1>
+                    <p class="wmufs-page-subtitle"><?php esc_html_e( 'Control upload size, PHP limits, and check system health.', 'wp-maximum-upload-file-size' ); ?></p>
+                </div>
+                <div class="wmufs-page-header__meta">
+                    <?php if ( WMUFS_Helper::is_premium_active() ) : ?>
+                        <?php
+                        $pro_version = WMUFS_Helper::get_pro_version();
+                        if ( $pro_version ) :
+                            ?>
+                            <span class="wmufs-version-badge wmufs-version-badge--pro">
+                                <span class="wmufs-version-badge__label"><?php esc_html_e( 'Pro', 'wp-maximum-upload-file-size' ); ?></span>
+                                <span class="wmufs-version-badge__number"><?php echo esc_html( 'v' . $pro_version ); ?></span>
+                            </span>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <?php $free_version = WMUFS_Helper::get_free_version(); ?>
+                        <?php if ( $free_version ) : ?>
+                            <span class="wmufs-version-badge wmufs-version-badge--free">
+                                <?php echo esc_html( sprintf( /* translators: %s: plugin version */ __( 'Free v%s', 'wp-maximum-upload-file-size' ), $free_version ) ); ?>
+                            </span>
+                        <?php endif; ?>
+                        <a class="wmufs-version-upgrade" href="<?php echo esc_url( WMUFS_Helper::get_upgrade_url() ); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php esc_html_e( 'Upgrade', 'wp-maximum-upload-file-size' ); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </header>
+            <nav class="wmufs-nav-tabs nav-tab-wrapper" aria-label="<?php esc_attr_e( 'EasyMedia sections', 'wp-maximum-upload-file-size' ); ?>">
                 <?php foreach ($tabs as $tab_key => $tab_label): ?>
                     <a href="#" data-tab="<?php echo esc_attr($tab_key); ?>" class="nav-tab max-uploader-tab-link <?php echo $active_tab === $tab_key ? 'nav-tab-active' : ''; ?>">
                         <?php if ($tab_key === 'general'): ?>
@@ -292,8 +328,8 @@ class MaxUploader_Admin {
                         <?php echo wp_kses_post($tab_label); ?>
                     </a>
                 <?php endforeach; ?>
-            </h2>
-            <div id="max-uploader-tab-content">
+            </nav>
+            <div id="max-uploader-tab-content" class="wmufs-tab-panels">
                 <?php include_once WMUFS_PLUGIN_PATH . 'inc/MaxUploaderSystemStatus.php'; ?>
 
                 <?php foreach ($tabs as $tab_key => $tab_label): ?>

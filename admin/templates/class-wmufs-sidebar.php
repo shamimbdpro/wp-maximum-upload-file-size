@@ -18,55 +18,25 @@
 </div>
 
 <!-- Pro feature list -->
-<?php if(!WMUFS_Helper::is_premium_active()){?>
-<div class="wmufs_card_mini wmufs_mb_20">
-    <div class="support-ticket">
-        <h2><?php echo esc_html__('✨ Update to Pro?', 'wp-maximum-upload-file-size'); ?></h2>
-        <div class="wmufs-pro-badge">
-            <span class="wmufs-badge-text"><?php esc_html_e('One-Time Payment', 'wp-maximum-upload-file-size'); ?></span>
-            <span class="wmufs-badge-subtext"><?php esc_html_e('No Recurring Fees', 'wp-maximum-upload-file-size'); ?></span>
-        </div>
-        <div class="easymedia-pro-feature-list">
-            <ul>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Advance Media Logs', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Trace Media Source Points', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Per-User Upload Quota Limits', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Allow custom file upload', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Restrict Upload by File Types', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Advanced Statistics Dashboard', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Advanced Media Manager', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-                <li>
-                    <span class="dashicons dashicons-yes-alt"></span>
-                    <span class="feature-text"><?php esc_html_e('Priority Support', 'wp-maximum-upload-file-size'); ?></span>
-                </li>
-            </ul>
-        </div>
-        <div class="support-buttons">
-            <a target="_blank" class="button button-primary wmufs-upgrade-btn" href="<?php echo esc_url_raw('https://codepopular.com/product/easymedia?utm_source=plugin&utm_medium=link&utm_campaign=wmufs_free_to_pro_upgrade');?>">
-                <span class="dashicons dashicons-cart"></span>&nbsp;<?php esc_html_e('Upgrade to Pro Now', 'wp-maximum-upload-file-size'); ?>
-            </a>
-        </div>
-    </div>
+<?php if ( ! WMUFS_Helper::is_premium_active() ) : ?>
+<div class="wmufs_card_mini wmufs_mb_20 wmufs-pro-sidebar">
+    <header class="wmufs-pro-sidebar__header">
+        <span class="wmufs-pro-sidebar__label"><?php esc_html_e( 'EasyMedia Pro', 'wp-maximum-upload-file-size' ); ?></span>
+        <p class="wmufs-pro-sidebar__lead"><?php esc_html_e( 'Extended logging, quotas, and media tools for growing sites.', 'wp-maximum-upload-file-size' ); ?></p>
+    </header>
+    <p class="wmufs-pro-sidebar__note"><?php esc_html_e( 'One-time license · No subscription', 'wp-maximum-upload-file-size' ); ?></p>
+    <ul class="wmufs-pro-sidebar__features">
+        <li><?php esc_html_e( 'Advanced media logs', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Trace media source points', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Per-user upload quotas', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Custom file types', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Upload restrictions by file type', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Statistics dashboard', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Advanced media manager', 'wp-maximum-upload-file-size' ); ?></li>
+        <li><?php esc_html_e( 'Priority support', 'wp-maximum-upload-file-size' ); ?></li>
+    </ul>
+    <a target="_blank" rel="noopener noreferrer" class="button button-primary wmufs-pro-sidebar__cta" href="<?php echo esc_url( WMUFS_Helper::get_upgrade_url() ); ?>">
+        <?php esc_html_e( 'View Pro details', 'wp-maximum-upload-file-size' ); ?>
+    </a>
 </div>
-<?php } ?>
+<?php endif; ?>

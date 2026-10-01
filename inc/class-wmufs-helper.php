@@ -30,6 +30,30 @@ class WMUFS_Helper {
     }
 
     /**
+     * Installed EasyMedia Pro version string, if the Pro plugin is loaded.
+     *
+     * @return string Semver or empty when Pro is not present.
+     */
+    public static function get_pro_version() {
+        if ( defined( 'WMUFS_PRO_VERSION' ) ) {
+            return (string) WMUFS_PRO_VERSION;
+        }
+        if ( defined( 'WMUFS_PRO_PLUGIN_VERSION' ) ) {
+            return (string) WMUFS_PRO_PLUGIN_VERSION;
+        }
+        return '';
+    }
+
+    /**
+     * Free EasyMedia plugin version.
+     *
+     * @return string
+     */
+    public static function get_free_version() {
+        return defined( 'WMUFS_PLUGIN_VERSION' ) ? (string) WMUFS_PLUGIN_VERSION : '';
+    }
+
+    /**
      * Get upgrade URL for a premium version
      *
      * Returns the URL where users can upgrade to premium

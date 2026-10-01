@@ -9,30 +9,31 @@
         <div class="wmufs_row" id="poststuff">
 
             <!-- Start Content Area -->
-            <div class="wmufs_admin_left wmufs_card wmufs-col-8">
+            <div class="wmufs_admin_left wmufs_card wmufs-col-8 wmufs-system-health">
 				<?php foreach ( $system_status as $group ) : ?>
-                    <h2><?php echo esc_html( $group['group'] ); ?></h2>
-
+                    <section class="wmufs-status-group wmufs-card">
+                        <h2 class="wmufs-status-group__title"><?php echo esc_html( $group['group'] ); ?></h2>
+                        <div class="wmufs-status-table-wrap">
                     <table class="wmufs-system-status">
                         <thead>
                         <tr>
-                            <th scope="col"><?php esc_html_e('Title','wp-maximum-upload-file-size');?></th>
-                            <th scope="col"><?php esc_html_e('Status', 'wp-maximum-upload-file-size');?></th>
-                            <th scope="col"><?php esc_html_e('Message', 'wp-maximum-upload-file-size');?></th>
+                            <th scope="col" class="wmufs-system-status__col-title"><?php esc_html_e('Title','wp-maximum-upload-file-size');?></th>
+                            <th scope="col" class="wmufs-system-status__col-status"><?php esc_html_e('Status', 'wp-maximum-upload-file-size');?></th>
+                            <th scope="col" class="wmufs-system-status__col-message"><?php esc_html_e('Message', 'wp-maximum-upload-file-size');?></th>
                         </tr>
                         </thead>
                         <tbody>
 						<?php foreach ( $group['status'] as $item ) : ?>
                             <tr>
-                                <td><?php echo esc_html( $item['title'] ); ?></td>
-                                <td>
+                                <td class="wmufs-system-status__col-title" data-label="<?php esc_attr_e( 'Title', 'wp-maximum-upload-file-size' ); ?>"><?php echo esc_html( $item['title'] ); ?></td>
+                                <td class="wmufs-system-status__col-status" data-label="<?php esc_attr_e( 'Status', 'wp-maximum-upload-file-size' ); ?>">
 									<?php if ( 1 == $item['status'] ) : ?>
-                                        <span class="dashicons dashicons-yes"></span>
+                                        <span class="wmufs-status-pill wmufs-status-pill--ok" title="<?php esc_attr_e( 'OK', 'wp-maximum-upload-file-size' ); ?>"><span class="dashicons dashicons-yes" aria-hidden="true"></span></span>
 									<?php else : ?>
-                                        <span class="dashicons dashicons-warning"></span>
+                                        <span class="wmufs-status-pill wmufs-status-pill--warn" title="<?php esc_attr_e( 'Needs attention', 'wp-maximum-upload-file-size' ); ?>"><span class="dashicons dashicons-warning" aria-hidden="true"></span></span>
 									<?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="wmufs-system-status__col-message" data-label="<?php esc_attr_e( 'Message', 'wp-maximum-upload-file-size' ); ?>">
 									<?php if ( 1 == $item['status'] ) : ?>
                                         <p class="wpifw_status_message">
 											<?php echo esc_html( $item['version'] ); ?>
@@ -47,6 +48,8 @@
 						<?php endforeach; ?>
                         </tbody>
                     </table>
+                        </div>
+                    </section>
 				<?php endforeach; ?>
             </div>
 

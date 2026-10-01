@@ -83,10 +83,11 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
 
 ?>
 
-<div class="wrap wmufs_mb_50">
-    <h1><span class="dashicons dashicons-admin-settings" style="font-size: inherit; line-height: unset;"></span>
+<div class="wrap wmufs_mb_50 wmufs-general-settings">
+    <h2 class="wmufs-section-title">
+        <span class="dashicons dashicons-admin-settings" aria-hidden="true"></span>
         <?php esc_html_e('Control Upload Limits', 'wp-maximum-upload-file-size'); ?>
-    </h1><br>
+    </h2>
 
     <div class="wmufs_admin_deashboard">
         <div class="wmufs_row" id="poststuff">
@@ -98,8 +99,8 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                         <h3 class="wmufs-card-title">Select Upload Limit Mode</h3>
 
                         <div class="wmufs-toggle-buttons">
-                            <button type="button" class="wmufs-toggle-btn <?php esc_html($wmufs_limit_type === 'global' ? 'active' : '')?>" data-target="#all-users-section">Global Limit</button>
-                            <button type="button" class="wmufs-toggle-btn <?php esc_html($wmufs_limit_type === 'role_based' ? 'active' : '')?>" data-target="#role-based-section">Role-Based Limit</button>
+                            <button type="button" class="wmufs-toggle-btn <?php echo $wmufs_limit_type === 'global' ? 'active' : ''; ?>" data-target="#all-users-section">Global Limit</button>
+                            <button type="button" class="wmufs-toggle-btn <?php echo $wmufs_limit_type === 'role_based' ? 'active' : ''; ?>" data-target="#role-based-section">Role-Based Limit</button>
                         </div>
 
                         <div id="all-users-section" class="wmufs-toggle-section">
@@ -196,12 +197,12 @@ $wmufs_limit_type = isset($max_uploader_settings['limit_type']) ? $max_uploader_
                     </div>
 
                     <!-- Restore Default Settings Section -->
-                    <div class="wmufs-card wmufs-toggle-card" style="margin-top: 20px;">
+                    <div class="wmufs-card wmufs-toggle-card wmufs-card--after">
                         <h3 class="wmufs-card-title"><?php esc_html_e('Reset Settings', 'wp-maximum-upload-file-size'); ?></h3>
                         <p><?php esc_html_e('Reset all plugin settings to their default values. This will clear all custom upload limits, execution time, and memory limit settings.', 'wp-maximum-upload-file-size'); ?></p>
                         <p class="submit">
-                            <button type="button" id="restore-default-settings" class="button button-secondary" style="background-color: #dc3232; color: white; border-color: #dc3232;">
-                                <span class="dashicons dashicons-undo" style="vertical-align: middle; margin-right: 5px;"></span>
+                            <button type="button" id="restore-default-settings" class="button button-secondary wmufs-btn-danger">
+                                <span class="dashicons dashicons-undo" aria-hidden="true"></span>
                                 <?php esc_html_e('Restore Default Settings', 'wp-maximum-upload-file-size'); ?>
                             </button>
                         </p>

@@ -5,7 +5,7 @@ Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 7.0
 Tested up to: 6.9
-Stable tag: 3.0.4
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,20 @@ Or if needed, install manually:
 
 
 == Changelog ==
+
+= 3.0.6 =
+-------------
+* Redesigned EasyMedia admin dashboard: header, segmented tabs, and cleaner settings layout
+* Improved System Status tables with grouped sections and readable columns
+* Refined sidebar Pro card and header version badges (Free / Pro + Upgrade)
+* Polished forms, toggles, FAQ blocks, and restore-settings styling
+* Updated CodePopular dashboard feed widget (GitHub promotion source, footer links)
+
+= 3.0.5 =
+-------------
+* Tested up to WordPress 6.9 (latest stable)
+* Verified compatibility with WordPress 6.9.x admin and media screens
+* General stability improvements for current WordPress releases
 
 = 3.0.4 =
 -------------
