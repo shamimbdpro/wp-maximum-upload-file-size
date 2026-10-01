@@ -1,0 +1,55 @@
+# Deploy EasyMedia to the WordPress.org plugin SVN when the release branch is updated.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SVN_USERNAME — your wordpress.org username
+#   SVN_PASSWORD — wordpress.org application password (Users → Application Passwords)
+#
+# Flow: merge or push to `release` → this workflow runs → trunk + tags/{version} on SVN.
+# Version is read from the plugin header; it must match readme.txt "Stable tag:".
+
+name: Deploy to WordPress.org
+
+on:
+  push:
+    branches:
+      - release
+  workflow_dispatch:
+
+concurrency:
+  group: wordpress-org-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to plugins.svn.wordpress.org
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate version before deploy
+        id: plugin-version
+        run: |
+          VERSION=$(grep -m1 '^ \* Version:' wp-maximum-upload-file-size.php | sed 's/.*Version: //' | tr -d ' ')
+          if [ -z "$VERSION" ]; then
+            echo "::error::Could not read Version from wp-maximum-upload-file-size.php"
+            exit 1
+          fi
+          STABLE=$(grep -m1 '^Stable tag:' readme.txt | awk '{print $3}')
+          if [ "$VERSION" != "$STABLE" ]; then
+            echo "::error::Plugin Version ($VERSION) must match readme Stable tag ($STABLE)"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Ready to deploy version $VERSION"
+
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: wp-maximum-upload-file-size
+          VERSION: ${{ steps.plugin-version.outputs.version }}

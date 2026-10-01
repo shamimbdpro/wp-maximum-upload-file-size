@@ -1,0 +1,10 @@
+# Files excluded from WordPress.org SVN deploy (see wp dist-archive / 10up deploy action).
+# .wordpress-org is copied to SVN assets/ by the deploy action, not into trunk.
+/.wordpress-org
+/.git
+/.github
+/.gitignore
+/.distignore
+/phpcs.xml
+/composer.json
+/composer.lock

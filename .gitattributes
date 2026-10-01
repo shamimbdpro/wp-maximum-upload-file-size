@@ -1,0 +1,9 @@
+# Fallback export rules if .distignore is removed (10up deploy action).
+/.wordpress-org export-ignore
+/.github export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.distignore export-ignore
+/phpcs.xml export-ignore
+/composer.json export-ignore
+/composer.lock export-ignore
