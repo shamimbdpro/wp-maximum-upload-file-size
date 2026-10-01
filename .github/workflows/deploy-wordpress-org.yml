@@ -25,8 +25,28 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    environment: wordpress-org
+
+    env:
+      SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+      SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
 
     steps:
+      - name: Verify WordPress.org SVN secrets
+        run: |
+          if [ -z "$SVN_USERNAME" ]; then
+            echo "::error::SVN_USERNAME is empty."
+            echo "Add Repository secrets: GitHub repo → Settings → Secrets and variables → Actions → Repository secrets"
+            echo "Names must be exactly: SVN_USERNAME and SVN_PASSWORD (WordPress.org username + application password)."
+            echo "If you stored secrets under Environments instead, uncomment 'environment: wordpress-org' (or your env name) on the deploy job in this workflow file."
+            exit 1
+          fi
+          if [ -z "$SVN_PASSWORD" ]; then
+            echo "::error::SVN_PASSWORD is empty. Same steps as SVN_USERNAME."
+            exit 1
+          fi
+          echo "SVN credentials are present (values are hidden in logs)."
+
       - name: Checkout repository
         uses: actions/checkout@v4
 

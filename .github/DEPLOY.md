@@ -4,9 +4,23 @@
 
 1. Confirm you are a **committer** on [wp-maximum-upload-file-size](https://wordpress.org/plugins/wp-maximum-upload-file-size/).
 2. Create a WordPress.org **application password**: [Profile → Application Passwords](https://profiles.wordpress.org/me/profile/edit/group/3/).
-3. In this GitHub repo, add **Actions secrets**:
-   - `SVN_USERNAME` — WordPress.org username (not email)
-   - `SVN_PASSWORD` — the application password (not your login password)
+3. Add secrets on environment **`wordpress-org`** (exact names, case-sensitive):
+   - **Settings → Environments → wordpress-org → Environment secrets → Add secret**
+   - `SVN_USERNAME` — WordPress.org **username** (login slug, not email)
+   - `SVN_PASSWORD` — [Application password](https://profiles.wordpress.org/me/profile/edit/group/3/) (spaces optional when pasting; use the generated password only)
+   - (Optional) You can use **Repository secrets** instead; then remove `environment: wordpress-org` from the workflow.
+
+### Troubleshooting “Set the SVN_USERNAME secret”
+
+| Cause | Fix |
+|--------|-----|
+| Secrets not created | Add **Repository secrets** as above (not only Variables). |
+| Wrong names | Must be `SVN_USERNAME` and `SVN_PASSWORD` — not `SVN_USER`, `WP_ORG_PASSWORD`, etc. |
+| Secrets only under **Environments** | In `.github/workflows/deploy-wordpress-org.yml`, uncomment `environment: wordpress-org` (or your env name) on the `deploy` job and put the same two secrets on that environment. |
+| Wrong repo / fork | Secrets must be on the repo that runs the workflow; forks do not inherit parent secrets. |
+| Org secret | Organization secret must allow access to this repository. |
+
+After fixing secrets, re-run: **Actions → Deploy to WordPress.org → Re-run all jobs**.
 
 ## Release workflow
 
