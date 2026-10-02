@@ -4,8 +4,8 @@ Tags: increase upload limit, increase file size limit, large file upload, easyme
 Donate link: https://ko-fi.com/codepopular
 Requires at least: 3.0
 Requires PHP: 7.0
-Tested up to: 6.9
-Stable tag: 3.0.6
+Tested up to: 7.1
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,12 @@ Or if needed, install manually:
 
 
 == Changelog ==
+
+= 3.0.7 =
+-------------
+* Tested up to WordPress 7.1 (latest stable)
+* Verified compatibility with WordPress 7.1.x dashboard, media, and admin screens
+* Fixed “Hide for 6 months” on the EasyMedia dashboard notice (AJAX script now loads on the Dashboard)
 
 = 3.0.6 =
 -------------

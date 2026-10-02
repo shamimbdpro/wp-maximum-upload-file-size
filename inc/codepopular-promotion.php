@@ -219,7 +219,7 @@ if ( ! function_exists( 'codepopular_dashboard_widget_render' ) ) {
 }
 
 // ✅ ADMIN NOTICE: Load only if the notice is not hidden
-if ( time() > get_option( 'wmufs_notice_disable_time' ) ) {
+if ( time() > (int) get_option( 'wmufs_notice_disable_time', 0 ) ) {
 	add_action( 'load-index.php', function () {
 		add_action( 'admin_notices', 'codepopular_wmufs_promotions' );
 	} );

@@ -1,5 +1,49 @@
 <?php
 
+/**
+ * Scripts for the EasyMedia dashboard admin notice (Hide for 6 months).
+ */
+add_action( 'admin_enqueue_scripts', 'wmufs_enqueue_dashboard_promo_notice_assets' );
+
+function wmufs_enqueue_dashboard_promo_notice_assets( $hook ) {
+	if ( 'index.php' !== $hook ) {
+		return;
+	}
+
+	if ( ! class_exists( 'WMUFS_Helper' ) || ! WMUFS_Helper::user_can_manage_options() ) {
+		return;
+	}
+
+	$hidden_until = (int) get_option( 'wmufs_notice_disable_time', 0 );
+	if ( time() <= $hidden_until ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'wmufs-promotion-notice',
+		WMUFS_PLUGIN_URL . 'assets/css/wmufs.css',
+		array(),
+		WMUFS_PLUGIN_VERSION
+	);
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script(
+		'wmufs-admin-notice',
+		WMUFS_PLUGIN_URL . 'assets/js/admin-notice.js',
+		array( 'jquery' ),
+		WMUFS_PLUGIN_VERSION,
+		true
+	);
+
+	wp_localize_script(
+		'wmufs-admin-notice',
+		'wmufs_admin_notice_ajax_object',
+		array(
+			'wmufs_admin_notice_ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'                       => wp_create_nonce( 'wmufs_notice_status' ),
+		)
+	);
+}
 
 add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_ajax_object_callback');
 
@@ -9,21 +53,21 @@ add_action('wp_ajax_wmufs_admin_notice_ajax_object_save', 'wmufs_admin_notice_aj
      * @return void
      */
      function wmufs_admin_notice_ajax_object_callback() {
-
-        $data = isset($_POST['data']) ? sanitize_text_field(wp_unslash($_POST['data'])) : array();
-
-        if ( $data ) {
-
-            // Check valid request form user.
-            check_ajax_referer('wmufs_notice_status');
-
-            update_option('wmufs_notice_disable_time', strtotime("+6 Months"));
-
-            $response['message'] = 'success';
-            wp_send_json_success($response);
+        if ( ! class_exists( 'WMUFS_Helper' ) || ! WMUFS_Helper::user_can_manage_options() ) {
+            wp_send_json_error( array( 'message' => 'Forbidden' ), 403 );
         }
 
-        wp_die();
+        check_ajax_referer( 'wmufs_notice_status' );
+
+        $data = isset( $_POST['data'] ) ? sanitize_text_field( wp_unslash( $_POST['data'] ) ) : '';
+
+        if ( '' === $data ) {
+            wp_send_json_error( array( 'message' => 'Invalid request' ), 400 );
+        }
+
+        update_option( 'wmufs_notice_disable_time', strtotime( '+6 months' ) );
+
+        wp_send_json_success( array( 'message' => 'success' ) );
     }
 
 
